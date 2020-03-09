@@ -1,0 +1,65 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/index/coursedetail/main",
+    "pages/index/mycoursedetail/main",
+    "pages/read/main",
+    "pages/read/searchpage/main",
+    "pages/mine/main",
+    "pages/mine/phone/main",
+    "pages/mine/eyes/main",
+    "pages/mine/about/main",
+    "pages/shouquan/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#dbdbdb",
+    "backgroundColor": "#fff",
+    "selectedColor": "#61D2FC",
+    "borderStyle": "white",
+
+    "list": [{
+      "text": "课程",
+      "pagePath": "pages/index/main",
+      "iconPath": "static/tabs/home-active.png",
+      "selectedIconPath": "static/tabs/home.png"
+    }, {
+      "text": "阅读",
+      "pagePath": "pages/read/main",
+      "iconPath": "static/tabs/learn.png",
+      "selectedIconPath": "static/tabs/learn-active.png"
+    },
+    {
+      "text": "我的",
+      "pagePath": "pages/mine/main",
+      "iconPath": "static/tabs/my.png",
+      "selectedIconPath": "static/tabs/my-active.png"
+    }
+  ],
+
+    "items": [{
+      "name": "课程",
+      "pagePath": "pages/index/main",
+      "icon": "static/tabs/home.png",
+      "activeIcon": "static/tabs/home-active.png"
+    }, {
+      "name": "阅读",
+      "pagePath": "pages/read/main",
+      "icon": "static/tabs/learn.png",
+      "activeIcon": "static/tabs/learn-active.png"
+    },
+    {
+      "text": "我的",
+      "pagePath": "pages/mine/main",
+      "iconPath": "static/tabs/my.png",
+      "selectedIconPath": "static/tabs/my-active.png"
+    }
+  ],
+    "position": "bottom"
+  }
+}

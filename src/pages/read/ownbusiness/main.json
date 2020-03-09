@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "i-input": "/static/iView/input/index"
+
+},
+  "navigationBarTitleText": "业务列表"
+}
