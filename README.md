@@ -1,6 +1,6 @@
 # tanlaos
 
-> 憨牛随身学小程序
+> 听书小程序
 
 ## Build Setup
 
