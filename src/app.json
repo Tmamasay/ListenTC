@@ -1,11 +1,11 @@
 {
   "pages": [
+    "pages/mine/main",
     "pages/index/main",
+    "pages/read/main",
     "pages/index/coursedetail/main",
     "pages/index/mycoursedetail/main",
-    "pages/read/main",
     "pages/read/searchpage/main",
-    "pages/mine/main",
     "pages/mine/phone/main",
     "pages/mine/eyes/main",
     "pages/mine/about/main",
@@ -24,18 +24,18 @@
     "borderStyle": "white",
 
     "list": [{
-      "text": "课程",
+      "text": "首页",
       "pagePath": "pages/index/main",
       "iconPath": "static/tabs/home-active.png",
       "selectedIconPath": "static/tabs/home.png"
     }, {
-      "text": "阅读",
+      "text": "书屋",
       "pagePath": "pages/read/main",
       "iconPath": "static/tabs/learn.png",
       "selectedIconPath": "static/tabs/learn-active.png"
     },
     {
-      "text": "我的",
+      "text": "学堂",
       "pagePath": "pages/mine/main",
       "iconPath": "static/tabs/my.png",
       "selectedIconPath": "static/tabs/my-active.png"

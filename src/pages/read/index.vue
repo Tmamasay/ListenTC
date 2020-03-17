@@ -1,6 +1,67 @@
 <template>
   <div class="readCont">
-    <search></search>
+    <div class="readBook">
+      <div class="bookTitle">
+        <p class="leftBook"></p>
+        <p class="leftBookName">读本</p>
+      </div>
+      <div class="bookCont">
+        <div class="bookImg">
+          <img src="" alt="" srcset="">
+        </div>
+         <p>让阅读点亮孩子的智慧人生</p>
+      </div>
+      <div class="bookLineTwo">
+        <div class="lineLeft">
+          <div class="leftImg">
+            <img src="" alt="" srcset="">
+          </div>
+          <p class="leftLine">我是小小演说家</p>
+        </div>
+        <div class="lineRight">
+            <div class="leftImg">
+            <img src="" alt="" srcset="">
+          </div>
+          <p class="leftLine">我是小小演说家</p></div>    
+      </div>
+    </div>
+    <!--教材-->
+    <div class="teachMatCont">
+       <div class="bookTitle">
+        <p class="leftBook"></p>
+        <p class="leftBookName">教材</p>
+      </div>
+      <div class="tabCont">
+         <i-tabs current="tab1" @change="handleChange" i-class="detailTabs">
+          <i-tab key="tab1" title="1~2年级"></i-tab>
+          <i-tab key="tab2" title="3~4年级"></i-tab>
+          <i-tab key="tab3" title="4~6年级"></i-tab>
+          <i-tab key="tab4" title="7~9年级"></i-tab>
+    </i-tabs>
+    </div>
+    <div class="bookListCont">
+      <div class="showBookList">
+      <div class="bookLine">
+      </div>
+      <div class="bookLine">
+      </div>
+      </div>
+      <div class="shaowBook"></div>
+      <div class="shaowBookTai"></div>
+    </div>
+    <div class="bookListCont">
+      <div class="showBookList">
+      <div class="bookLine">
+      </div>
+      <div class="bookLine">
+      </div>
+      </div>
+      <div class="shaowBook"></div>
+      <div class="shaowBookTai"></div>
+    </div>
+      
+    </div>
+    <!-- <search></search>
     <div class="read_contain" v-if="cateZxList.length">
       <i-tabs :current="current_scroll" scroll @change="handleChangeScroll">
       <i-tab   v-for="item in cateZxList" :key="item.id" :title="item.name"></i-tab>
@@ -9,7 +70,7 @@
       <hotnews v-if="zixuList.length" :zixuList="zixuList" :tabsign="1"></hotnews>
       <div class="none" v-else>暂无内容....</div>
       </div>
-   </div>
+   </div> -->
   </div>
   
 </template>
@@ -152,11 +213,147 @@ export default {
 };
 </script>
 
-<style>
+<style  scoped>
 .readCont{
   width: 100%;
+background:rgba(247,247,247,1);
+
 }
-.read_contain{
+.bookTitle{
+  width: 95%;
+  padding-top: 17px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items:center
+  
+}
+  .leftBook{
+     width: 4px;
+     height: 17px;
+     background-color: #F3D24E ;
+   }
+  .leftBookName{
+    /* width:79px;
+    height:38px; */
+    font-size:17px;
+    font-family:Microsoft YaHei;
+    font-weight:bold;
+    color:rgba(48,48,48,1);
+    line-height:30px;
+    margin-left: 9px;
+  }
+  .bookCont{
+    width:95%;
+    /* height:185px; */
+    height:225px;
+    margin: 16px auto 0px auto;
+    /* background:rgba(255,255,255,1); */
+    box-shadow:0px 0px 9px 2px rgba(33,22,19,0.06);
+    border-radius:10px;
+    /* background-color: aquamarine; */
+    overflow: hidden;
+  }
+  .bookImg{
+    width:100%;
+    height:185px;
+    background-color: aquamarine;
+  }
+  .bookImg img{
+    width: 100%;
+    height: 100%;
+  }
+  .bookCont p{
+    width:100%;
+    height:40px;
+    width:376px;
+    font-size:15px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(34,34,34,1);
+    line-height:40px;
+  }
+  .bookLineTwo{
+    width: 95%;
+    margin: 10px auto 10px auto;
+    display: flex;
+    justify-content: space-between;
+  }
+  .lineLeft{
+    width: 49%;
+    height: 129px;
+    background-color: cadetblue;
+    box-shadow:0px 0px 9px 2px rgba(33,22,19,0.06);
+    border-radius:5px;
+    overflow: hidden;
+  }
+  .lineRight{
+    width: 49%;
+    height: 129px;
+    background-color: cadetblue;
+    box-shadow:0px 0px 9px 2px rgba(33,22,19,0.06);
+    border-radius:5px;
+     overflow: hidden;
+  }
+  .leftImg{
+    width: 100%;
+    height: 90px;
+    
+  }
+    .leftImg img{
+      width: 100%;
+      height: 100%;
+    }
+  .leftLine{
+    width: 100%;
+    height: 39px;
+    line-height: 39px;
+    width:219px;
+    font-size:15px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(34,34,34,1);
+    background-color: #fff; 
+  }
+  .teachMatCont{
+    width: 100%;
+    margin: 0 auto;
+    background:rgba(255,255,255,1);
+  }
+  .showBookList{
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+
+  }
+  .bookLine{
+    width: 44%;
+    height: 215px;
+    background:rgba(171,171,184,1);
+    border-radius:5px;
+    margin-top: 24px;
+    margin-bottom: -4px;
+    z-index: 900;
+    
+  }
+  .shaowBook{
+    width: 95%;
+    margin: 0 auto;
+    height:13px;
+    background:rgba(235,235,235,1); 
+    transform: perspective(12px)  rotateX(0.7deg)
+    /* border-left: 20px solid transparent;
+    border-right: 20px solid transparent; */
+  }
+  .shaowBookTai{
+    width: 95%;
+    margin: 0 auto;
+    height:17px;
+    background:rgba(254,254,254,1);
+    box-shadow:0px 0px 6px 0px rgba(33,22,19,0.15);
+  }
+/* .read_contain{
    width:92%;
    margin: 35px auto 0px auto;
 }
@@ -171,5 +368,5 @@ export default {
 	color:rgba(184,182,196,1);
   text-align: center;
   padding-top: 50px;
- }
+ } */
 </style>
