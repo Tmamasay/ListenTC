@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/mine/eyes/main",
     "pages/mine/main",
     "pages/index/main",
     "pages/read/main",
@@ -7,7 +8,6 @@
     "pages/index/mycoursedetail/main",
     "pages/read/searchpage/main",
     "pages/mine/phone/main",
-    "pages/mine/eyes/main",
     "pages/mine/about/main",
     "pages/shouquan/main"
   ],
