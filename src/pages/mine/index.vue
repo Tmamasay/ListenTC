@@ -1,174 +1,79 @@
 <template>
   <div>
-    <div class="informationContTop">
-    <div class="avterCont">
-      <div class="avterImg">
-        <img src="" alt="" srcset="">
-      </div>  
-      <div class="informationCont">
-        <div class="infoname">WX-小阿离</div>
-        <p class="fans">关注 12  &nbsp;&nbsp;&nbsp;     粉丝 57</p>
-      </div>
-      </div>
-      <div class="powerLine">
-        <div class="leftBPow">
-          <div class="leftBpImg">
-            <img src="" alt="" srcset="">
-          </div>
-          <p class="powerLineTitle">书房</p>
-        </div>
-        <p class="lineS"></p>
-        <div class="leftBPow">
-           <div class="leftBpImg">
-            <img src="" alt="" srcset="">
-          </div>
-          <p class="powerLineTitle">收藏</p>
-        </div>
-      </div>
-       <div class="bookTitle">
+    <div class="mineTop">
+      <img src="" alt="">
+    </div>
+    <div class="bookTitle">
         <p class="leftBook"></p>
-        <p class="leftBookName">温故而知新</p>
+        <p class="leftBookName">精品课程推荐</p>
       </div>
-       <div class="bookListCont">
-      <div class="showBookList">
-      <div class="bookLine">
+      <!--1-->
+      <div class="bookTeacLine"  @tap="goPlay">
+        <div class="bookTeacImg">
+          <img src="" alt="" srcset="">
+        </div>
+        <div class="rightBt"> 
+        <p class="bookteacTitle">全国新课标卷 Ⅰ</p>
+        <p class="bookDetail">限时免费</p>
+        <div class="bookFllow">
+          <div class="bookLisImg">
+            <img src="" alt="" srcset="">
+          </div>
+         <p class="bookFllowPe">224</p>
+        </div>
+        </div>
       </div>
-      <div class="bookLine">
+       <!--2-->
+       <div class="bookTeacLine" @tap="goPlay">
+        <div class="bookTeacImg">
+          <img src="" alt="" srcset="">
+        </div>
+        <div class="rightBt"> 
+        <p class="bookteacTitle">全国新课标卷 Ⅰ</p>
+        <p class="bookDetail">限时免费</p>
+        <div class="bookFllow">
+          <div class="bookLisImg">
+            <img src="" alt="" srcset="">
+          </div>
+         <p class="bookFllowPe">224</p>
+        </div>
+        </div>
       </div>
-      <div class="bookLine">
-      </div>
-      </div>
-      <div class="shaowBook"></div>
-      <div class="shaowBookTai"></div>
-    </div>
-
-
-    </div>
-  
   </div>
 </template>
 
 <script>
-// import { formatTime } from '@/utils/index'
-
 export default {
-          components: {
-         
-          },
+  components: {},
 
-          data () {
-            return {
-              user_info:''
-            }
-          },
-          created () {
-            // let key_token=this.$store.getters.user.token
-          
-        },
-        onShow(){
-          if (mpvuePlatform === 'wx') {
-              console.log('------------------>')
-              this.user_info=mpvue.getStorageSync('user_info');
-        }
-        }
+  data() {
+    return {
+      user_info: ""
+    };
+  },
+  created() {
+    // let key_token=this.$store.getters.user.token
+  },
+  methods: {
+    goPlay(){
+      wx.navigateTo({
+            url: "/pages/mine/about/main" //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+          });
 
-}
+    }
+  },
+  onShow() {}
+};
 </script>
 
 <style scoped>
-.informationContTop{
-width:100%;
-height:150px;
-background:rgba(255,217,72,1);
-border-radius:0px 0px 20% 20%;
-}
-.avterCont{
-
-display: flex;
-justify-content: flex-start;
-align-items: center;
-padding-top:22px;
-
-
-}
-.avterImg{
-width:66px;
-height:66px;
-background:rgba(217,211,211,1);
-border-radius:50%;
-margin-left: 18px;
-}
-.avterImg img{
-  width: 100%;
-  height: 100%;
-}
-.informationCont{
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin-left: 13px;
-
-
-}
-.infoname{
-font-size:19px;
-font-family:Microsoft YaHei;
-font-weight:bold;
-color:rgba(0,0,0,1);
-margin-bottom: 9px;
-/* line-height:60px; */
-}
-.fans{
-  font-size:12px;
-font-family:Microsoft YaHei;
-font-weight:400;
-color:rgba(95,95,95,1);
-
-}
-.powerLine{
-  width:95%;
-height:50px;
-margin: 20px auto 0 auto;
-background:rgba(255,255,255,1);
-box-shadow:0px 0px 9px 2px rgba(33,22,19,0.2);
+.mineTop{
+  width:94%;
+height:70px;
+margin: 16px auto 0 auto;
+background-color: cornflowerblue;
+box-shadow:0px 0px 9px 2px rgba(33,22,19,0.1);
 border-radius:5px;
-display: flex;
-justify-content: space-around;
-align-items:center
-
-}
-.leftBPow{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-.leftBpImg{
-  width: 17px;
-  height: 19px;
-  background-color: burlywood;
-}
-.leftBpImg img{
-  width: 100%;
-  height: 100%;
-}
-.powerLineTitle{
- 
-font-size:15px;
-font-family:Microsoft YaHei;
-font-weight:400;
-color:rgba(34,34,34,1);
-margin-left: 7px;
-}
-.lineS{
-  width:1px;
-height:32px;
-border-left: 1px dashed #FFD94B;
-font-size:10px;
-font-family:SimSun;
-font-weight:400;
-/* background-color: #FFD94B; */
-color:rgba(210,210,210,1);
-line-height:42px;
 }
 .bookTitle{
   width: 95%;
@@ -194,37 +99,69 @@ line-height:42px;
     line-height:30px;
     margin-left: 9px;
   }
-  .showBookList{
-    width: 95%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
-
-  }
-  .bookLine{
-    width: 29%;
-    height: 140px;
-    background:rgba(171,171,184,1);
+  .bookTeacLine{
+    width:94%;
+    height:118px;
+    margin: 38px auto 0 auto;
+    background:rgba(255,255,255,1);
+    box-shadow:0px 0px 9px 2px rgba(33,22,19,0.1);
     border-radius:5px;
-    margin-top: 24px;
-    margin-bottom: -4px;
-    z-index: 900;
-    
+    position: relative;
   }
-  .shaowBook{
-    width: 95%;
-    margin: 0 auto;
-    height:13px;
-    background:rgba(235,235,235,1); 
-    transform: perspective(12px)  rotateX(0.7deg)
-    /* border-left: 20px solid transparent;
-    border-right: 20px solid transparent; */
+  .bookTeacImg{
+    width:85px;
+    height:114px;
+    background-color: blueviolet;
+    border-radius:5px;
+    position: absolute;
+    top:-18px;
+    left: 19px;
+    /* margin-top: -38px; */
   }
-  .shaowBookTai{
-    width: 95%;
-    margin: 0 auto;
-    height:17px;
-    background:rgba(254,254,254,1);
-    box-shadow:0px 0px 6px 0px rgba(33,22,19,0.15);
+  .bookTeacImg img{
+    width: 100%;
+    height: 100%;
+  }
+  .rightBt{
+    margin-left: 118px;
+   
+  }
+  .bookteacTitle{
+    /* width:319px;
+    height:30px; */
+    font-size:15px;
+    font-family:Microsoft YaHei;
+    font-weight:bold;
+    color:rgba(34,34,34,1);
+    line-height:30px;
+    padding-top:18px;
+  }
+  .bookDetail{
+    font-size:14px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(254,94,94,1);
+    line-height:30px;
+  }
+  .bookFllow{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .bookLisImg{
+    width: 12px;
+    height: 11px;
+    background-color: cadetblue;
+  }
+  .bookLisImg img{
+     width: 100%;
+     height: 100%;
+  }
+  .bookFllowPe{
+    font-size:12px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(145,145,145,1);
+    margin-left: 6px;
   }
 </style>

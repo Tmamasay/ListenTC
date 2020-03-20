@@ -1,15 +1,20 @@
 {
   "pages": [
-    "pages/mine/eyes/main",
+    
     "pages/mine/main",
+    "pages/mine/about/main",
+    "pages/index/setUp/main",
+    "pages/mine/eyes/main",
     "pages/index/main",
     "pages/read/main",
     "pages/index/coursedetail/main",
     "pages/index/mycoursedetail/main",
     "pages/read/searchpage/main",
     "pages/mine/phone/main",
-    "pages/mine/about/main",
     "pages/shouquan/main"
+  ],
+  "requiredBackgroundModes": [
+    "audio"
   ],
   "window": {
     "backgroundTextStyle": "light",

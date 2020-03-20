@@ -1,91 +1,37 @@
 <template>
   <div>
-    <div class="contain_about">
-      <p class="about_title">关于我们</p>
-      <div class="about_content">
-        <div class="about_con">
-          <div class="about_dec">
-            <p class="img_ab"></p>
-            <p>专注于趣味化教育</p>
-          </div>
-          <p
-            class="about_detail"
-          >专注于小学数学趣味化教育,他们好动、爱玩,注意力难以长时间的集中在学习上,自我控制力差.文章就如何吸引学生的注意,调动学生的积极性,培养他们的学习兴趣进行了探讨.实践证明,学生既然爱玩,那就可让他们在'玩'中不知不觉渗透学习数学,让数学课堂趣味化.</p>
+    <div class="topDetailImg"></div>
+    <p class="playTitle">向上吧 小书包</p>
+       <div class="vp-book-adPlayer">
+        <div class="adp-wrapper">
+            <div class="apd-progress">
+                <!-- <audio class="apd-pro-audio" src="{{music.src}}" action="{{audioAction}}" bindplay="audioPlayed" bindtimeupdate="audioTimeUpdated" controls></audio> -->
+                <!-- 之前用的是audio标签，但是为了能够满足退出当前页面或者关闭小程序，音频仍需播放的需求，改成了背景音频-->
+               <div class="apd-pro-start">{{music.start}}</div>
+               <div class="apd-pro-sliderContain">
+                <slider class="apd-pro-slider" :value="slideLen" @changing="stopSlider" @change="timeSliderChanged" selected-color="#FFDC4D" block-size="12" block-color="#FFDC4D" step="0.01"/>
+                </div>
+               <div class="apd-pro-leave">{{music.leave}}</div>
+                <!-- <div class="apd-pro-timer">  
+                </div> -->
+            </div>
+            <div class="apd-btn-box">
+                <!-- 列表图标-->
+                <img class="apd-btn-leave" src="../../../../static/images/play/incLeave.png" @tap="jumpAudioList">
+                <!-- 上一条图标-->
+                <img :class="{'apd-btn-left':hasPre, 'apd-btn-no':!hasPre}" @tap="playPer" src="../../../../static/images/play/incBack.png">
+                <!-- 暂停和播放图标-->
+                <img class="playIcon" v-show="!isPlay" src="../../../../static/images/play/incStop.png" alt="" srcset="" @tap="playMusic()">
+                <img class="playIcon" v-show="isPlay" src="../../../../static/images/play/play.png" alt="" srcset="" @tap="playMusic()">
+                <!-- <image class="apd-btn-player" bindtap="ppAudio" :src="{isPlay ? '../../../static/images/play/incStop.png' : '../../../static/images/play/play.png'}"></image> -->
+                <!-- 下一条图标-->
+                <img :class="{'apd-btn-right':hasNxt , 'apd-btn-no':!hasNxt}" @tap="playNxt" src="../../../../static/images/play/incGo.png">
+                <!-- 列表图标-->
+                <img class="apd-btn-list" src="../../../../static/images/play/incList.png" @tap="jumpAudioList">
+            </div>
         </div>
-      </div>
-      <!--咨询-->
-      <p class="about_title">课程咨询</p>
-      <div class="about_content">
-        <div class="about_con">
-          <p class="about_detail1">
-            <span>咨询微信</span>&nbsp;&nbsp;XU95520
-          </p>
-          <p class="about_detail1">
-            <span>工作时间</span>&nbsp;&nbsp;周一至周日&nbsp;9:00-19:00
-          </p>
-        </div>
-      </div>
-      <!--客服-->
-      <p class="about_title">联系客服</p>
-      <div class="about_content">
-        <div class="about_con">
-          <p class="about_detail1">
-            <span>客服电话</span>&nbsp;&nbsp;188883630318
-          </p>
-          <p class="about_detail1">
-            <span>工作时间</span>&nbsp;&nbsp;周一至周日&nbsp;9:00-22:00
-          </p>
-        </div>
-      </div>
-      <!--客服-->
-      <p class="about_title">联系客服</p>
-      <div class="about_content">
-        <div class="about_con">
-          <p class="about_detail1">
-            <span>客服电话</span>&nbsp;&nbsp;188883630318
-          </p>
-          <p class="about_detail1">
-            <span>工作时间</span>&nbsp;&nbsp;周一至周日&nbsp;9:00-22:00
-          </p>
-        </div>
-      </div>
-      <!--客服-->
-      <p class="about_title">联系客服</p>
-      <div class="about_content">
-        <div class="about_con">
-          <p class="about_detail1">
-            <span>客服电话</span>&nbsp;&nbsp;188883630318
-          </p>
-          <p class="about_detail1">
-            <span>工作时间</span>&nbsp;&nbsp;周一至周日&nbsp;9:00-22:00
-          </p>
-        </div>
-      </div>
-      <!--客服-->
-      <p class="about_title">联系客服</p>
-      <div class="about_content">
-        <div class="about_con">
-          <p class="about_detail1">
-            <span>客服电话</span>&nbsp;&nbsp;188883630318
-          </p>
-          <p class="about_detail1">
-            <span>工作时间</span>&nbsp;&nbsp;周一至周日&nbsp;9:00-22:00
-          </p>
-        </div>
-      </div>
-      <!--客服-->
-      <p class="about_title">联系客服</p>
-      <div class="about_content">
-        <div class="about_con">
-          <p class="about_detail1">
-            <span>客服电话</span>&nbsp;&nbsp;188883630318
-          </p>
-          <p class="about_detail1">
-            <span>工作时间</span>&nbsp;&nbsp;周一至周日&nbsp;9:00-22:00
-          </p>
-        </div>
-      </div>
-    </div>
+   
+     </div>
   </div>
 </template>
 
@@ -99,13 +45,126 @@ export default {
 
   data() {
     return {
-      user_info: ""
-    };
+      isTry: null,  // 是否是试听状态
+    idx: 0, // 当前音频（第一个-上一条按钮不能点击，最后一条，下一条按钮不能点击）
+    albumCode: '',  // 当前音频标识
+    opusName: '',  // 当前专辑名字
+    musicSrc: '',  
+    singler: '',  // 当前作者
+    audioMsg: {},  // 音频信息（作者，封面，名字--仅展示）
+    opusSalt: '',  // 当前音频id
+    isEnd: false, // 最后一条音频结束时控制
+    endVideoTime: '', // 最后一条音频时长
+    isPlay: false,  // 是否暂停音乐
+    isStop: false,  // 是否停止音乐
+    slideLen: 0, // 进度条初始值
+    music: {  // 音频信息--用来处理数据
+      start: '00:00',
+      leave:'04:00',
+      long: '',
+      length: 4
+    },
+    hasPre: true,  // 是否有上一条音频
+    hasNxt: true,  // 是否有下一条音频
+    musicList: [], // 用来存储音频列表，存储到本地，点击上一条、下一条音频时，不调用接口
+    perMusicMsg: {},  // 进入页面之后，就将上一条音频，下一条音频信息提取出来，方便直接点击按钮
+    nxtMusicMsg: {},  // 同上
+    isStopSlider: false,  // 是否停止滚动条随着音频播放改变长度  -- 防止拖动滚动条时发生回退现象！！！
+     appMusic:{}  ,
+     musicUrl:'https://sharefs.yun.kugou.com/202003201055/511111db9007f14dc66b2586cbf0216a/G001/M03/0E/11/oYYBAFS1lfaAKP1fAEfZI2urw2Y148.mp3'      //获取全局唯一的背景音频管理器
+    }
+   
+
+
   },
   created() {
+    //获取全局唯一的背景音频管理器
+    this.appMusic=wx.getBackgroundAudioManager();
     // let key_token=this.$store.getters.user.token
   },
+  onLoad(){
+    this.appMusic.startTime ='20'
+    this.appMusic.src = 'https://sharefs.yun.kugou.com/202003201055/511111db9007f14dc66b2586cbf0216a/G001/M03/0E/11/oYYBAFS1lfaAKP1fAEfZI2urw2Y148.mp3';
+    this.appMusic.title = '测试';
+      this.appMusic.coverImgUrl = 'https://kledu.oss-cn-beijing.aliyuncs.com/edu/courseSeriesImg/1577416324595.png';
+  },
   methods: {
+    // 音频播放条改变 - 手动滑动滚动条停止
+  timeSliderChanged: function (e) {
+     
+    // if (!this.data.music.length)
+    //   return;
+    var time = +this.music.length * (e.mp.detail.value / 100)*60;
+      
+      // console.log(dateformat(time,"mm:ss"))
+      debugger
+    // 音频跳转到指定位置
+    this.appMusic.seek(time)
+  },
+     // 音频实时信息  -->  
+  audioTimeUpdated: function (e) {
+    const startTime = e.currentTime
+    const leaveTime = e.duration - startTime
+    this.setData({
+      "music.start": util.formatM(startTime),
+      "music.leave": util.formatM(leaveTime)
+    })
+    if(!this.data.isStopSlider) {
+      const proLen = (e.currentTime / e.duration * 100).toFixed(2)
+      this.setData({
+        slideLen: proLen
+      })
+    }
+  },
+    //播放视频
+    playMusic(){
+      if(!this.isPlay){
+        this.appMusic.pause();
+        // this.isPlay=false
+      }else{
+          this.appMusic.play()
+          // this.isPlay=true
+      }
+      this.isPlay=!this.isPlay
+
+    },
+    
+    // //播放切换
+    // playIng(){
+    //   // this.isPlay=!this.isPlay
+    //     //监听音乐播放
+    //     debugger
+    //  this.appMusic.onPlay(() => {
+    //   console.log('音乐播放了');
+    //   this.isPlay=true
+    // }); 
+    // }, 
+
+    //   playPause(){
+    //      //监听音乐暂停
+    // this.appMusic.onPause(() => {
+    //   console.log('音乐暂停了');
+    //  this.isPlay=false
+    // })
+
+    //   },
+     
+   
+    // //监听音乐停止
+    // app.appMusic.onStop(() => {
+    //   console.log('音乐停止了')
+    //   app.globalData.isStop=true;
+    //   this.setData({
+    //     isStart: false
+    //   })
+    // })
+    // //监听到音乐播放完了
+    // app.appMusic.onEnded(()=>{
+    //   app.globalData.isStop = true;
+    //   this.setData({
+    //     isStart:false
+    //   })
+    // })
        _getRegisterInfo () {
       let pageNum = this.pageNum;
       let pageSize = this.pageSize;
@@ -127,73 +186,74 @@ export default {
 </script>
 
 <style>
-.contain_about {
+.topDetailImg{
+  width: 100%;
+height:256px; 
+background-color: coral;
+}
+.playTitle{
+  /* width:230px;
+height:36px; */
+font-size:18px;
+font-family:Microsoft YaHei;
+font-weight:bold;
+color:rgba(34,34,34,1);
+text-align: center;
+padding: 18px 0px;
+/* line-height: 36px; */
+}
+.apd-pro-sliderContain{
+  width: 85%;
+}
+.apd-progress{
   width: 95%;
   margin: 0 auto;
-}
-.about_content {
-  width: 95%;
-}
-.about_con {
-  width: 95%;
-  margin: 0 auto;
-  border-radius: 10px;
-  box-shadow: 2px 2px 2px 2px rgba(177, 177, 177, 0.16);
-  overflow: hidden;
-  margin-top: 5px;
-  margin-top: 10px;
-}
-.img_ab {
-  display: inline-block;
-  width: 5px;
-  height: 18px;
-  border-radius: 10px;
-  background-color: #61d2fc;
-  box-shadow: 2px 2px 2px 2px rgba(97, 210, 252, 0.1);
-  margin-top: 5px;
-  margin-right: 7px;
-}
-.about_title {
-  font-size: 18px;
-  font-family: PingFang SC;
-  font-weight: 700;
-  text-align: left;
-  color: #000;
-  margin-left: 2.5%;
-  margin-top: 20px;
-}
-.about_dec {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  font-size: 15px;
-  font-family: PingFang SC;
-  font-weight: 500;
-  text-align: left;
-  color: #000;
-  line-height: 30px;
-  padding: 5px 15px;
-  margin-top: 10px;
+  justify-content:space-around;
+  align-items: center;
+  
 }
-.about_detail1 {
-  font-size: 13px;
-  font-family: PingFang SC;
-  text-align: left;
-  color: #80848f;
-  padding: 5px 8px;
-  line-height: 23px;
+.apd-pro-start ,.apd-pro-leave{
+font-size:13px;
+font-family:Microsoft YaHei;
+font-weight:400;
+color:rgba(193,193,193,1);
 }
-.about_detail {
-  font-size: 13px;
-  font-family: PingFang SC;
-  text-align: center;
-  color: #80848f;
-  padding: 5px 8px;
-  line-height: 23px;
-  /* margin-top: 5px; */
+.apd-btn-box{
+  display: flex;
+  justify-content:space-around;
+  align-items: center;
+  width: 95%;
+  margin: 30px auto 0 auto;
 }
-.about_detail1 span {
-  font-size: 16px;
-  font-weight: 500;
+.apd-btn-left{
+  width:15px;
+ height:16px;
+}
+.apd-btn-no{
+  width:15px;
+ height:16px;
+}
+.apd-btn-right{
+    width:15px;
+ height:16px;
+}
+.apd-btn-no{
+  width:15px;
+ height:16px;
+}
+.apd-btn-leave{
+  width:15px;
+height:15px;
+}
+.apd-btn-list{
+  width:15px;
+height:15px;
+}
+.playIcon{
+  width:43px;
+height:43px;
+/* background:rgba(255,255,255,0);
+border-radius:50%; */
 }
 </style>
