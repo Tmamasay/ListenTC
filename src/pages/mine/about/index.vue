@@ -36,7 +36,8 @@
 </template>
 
 <script>
-// import { formatTime } from '@/utils/index'
+// import moment from 'moment' // 时间日期转换
+import { formatMusic,_changeTimeBySecond } from '@/utils/index'
 
 export default {
   components: {
@@ -58,9 +59,10 @@ export default {
     isPlay: false,  // 是否暂停音乐
     isStop: false,  // 是否停止音乐
     slideLen: 0, // 进度条初始值
+    changeTime:0,//变化时间
     music: {  // 音频信息--用来处理数据
       start: '00:00',
-      leave:'04:00',
+      leave:'04:30',
       long: '',
       length: 4
     },
@@ -83,21 +85,41 @@ export default {
     // let key_token=this.$store.getters.user.token
   },
   onLoad(){
+    const that=this
     this.appMusic.startTime ='20'
-    this.appMusic.src = 'https://sharefs.yun.kugou.com/202003201055/511111db9007f14dc66b2586cbf0216a/G001/M03/0E/11/oYYBAFS1lfaAKP1fAEfZI2urw2Y148.mp3';
+    this.appMusic.src = 'https://webfs.cloud.kugou.com/202003212120/a5a2a86ffa1d8e753870b40429197876/G198/M04/09/11/Bg4DAF5zVpKAAMWsADIDb4DipJg092.mp3';
     this.appMusic.title = '测试';
-      this.appMusic.coverImgUrl = 'https://kledu.oss-cn-beijing.aliyuncs.com/edu/courseSeriesImg/1577416324595.png';
+    this.appMusic.coverImgUrl = 'https://kledu.oss-cn-beijing.aliyuncs.com/edu/courseSeriesImg/1577416324595.png';
+  const setIter= setInterval(() => {
+      if(formatMusic(this.music.leave)==that.changeTime){
+        clearInterval(setIter)
+        return
+      }
+        that.changeTime=++that.changeTime
+       that.slideLen=(that.changeTime/formatMusic(this.music.leave))*100
+      that.music.start=_changeTimeBySecond(that.changeTime)
+      console.log(that.slideLen)
+       console.log(that.changeTime)
+      
+       
+    }, 1000);
   },
   methods: {
+    stopSlider(){
+      debugger
+    },
     // 音频播放条改变 - 手动滑动滚动条停止
   timeSliderChanged: function (e) {
      
     // if (!this.data.music.length)
     //   return;
-    var time = +this.music.length * (e.mp.detail.value / 100)*60;
-      
-      // console.log(dateformat(time,"mm:ss"))
-      debugger
+    var time = formatMusic(this.music.leave) * (e.mp.detail.value / 100);
+      console.log(e.mp.detail.value)
+      console.log(time)
+      this.music.start=_changeTimeBySecond(time)
+      console.log(_changeTimeBySecond(time))
+     
+      // debugger
     // 音频跳转到指定位置
     this.appMusic.seek(time)
   },
@@ -120,6 +142,11 @@ export default {
     playMusic(){
       if(!this.isPlay){
         this.appMusic.pause();
+        this.appMusic.onTimeUpdate(() => {  
+           
+    })
+    bgMusic.play() //播放音乐
+        this.onTimeUpdate
         // this.isPlay=false
       }else{
           this.appMusic.play()

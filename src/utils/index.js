@@ -1,27 +1,67 @@
+import moment from 'moment' // 时间日期转换
+
+
 function formatNumber (n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
 }
+/***
+ * 播放时间格式化 入参是04:30这种
+ * 
+ */
+export function formatMusic(str) {
+   const Arr=str.split(':')
+   const A=(+Arr[0])*60
+   const B=+Arr[1]
+  return A+B
+}
 
+/***
+ * 日期格式化
+ * 
+ */
+export function dateformat(dataStr, pattern) {
+  return moment(dataStr).format(pattern)
+}
 /***
  * 格式化时间
  * 
  */
-export function formatTime (date) {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
 
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-
-  const t1 = [year, month, day].map(formatNumber).join('/')
-  const t2 = [hour, minute, second].map(formatNumber).join(':')
-
-  return `${t1} ${t2}`
+export function _changeTimeBySecond(second) {
+  function _addZero(time) {
+    let str = time;
+    if (time < 10) {
+      str = '0' + time;
+    }
+    return str;
+  }
+  var hourTime = 0;
+  var minuteTime = 0;
+  var secondTime = 0;
+  if (second > 60) {  //如果秒数大于60
+    minuteTime = Math.floor(second / 60);
+    secondTime = Math.floor(second % 60);
+    if (minuteTime >= 60) {  //如果分钟大于60
+      hourTime = Math.floor(minuteTime / 60);
+      minuteTime = Math.floor(minuteTime % 60);
+    } else {
+      hourTime = 0;
+    }
+  } else {
+    hourTime = 0;
+    minuteTime = 0;
+    if (second == 60) {  //如果秒数等于60
+      minuteTime = 1;
+      secondTime = 0;
+    } else {
+      secondTime = second;
+    }
+  }
+  // var timeResult = _addZero(hourTime) + ':' +_addZero(minuteTime) + ':' + _addZero(secondTime);
+  var timeResult = _addZero(Math.round(minuteTime) ) + ':' + _addZero(Math.round(secondTime) );
+  return timeResult;
 }
-
 
 /***
  * 判断用户滑动
@@ -42,7 +82,7 @@ export  function unique (arr) {
 
 export default {
   formatNumber,
-  formatTime,
+  // formatTime,
   getTouchData,
   unique
 }
