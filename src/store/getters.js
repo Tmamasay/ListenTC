@@ -5,6 +5,7 @@ const getters = {
     cardid:state => state.user.card_id,
     userSt: state => state.user.userSt,
     formid:state => state.user.mblists,
+    isPlayMusicId:state => state.user.isPlayMusicId
 
 
 }

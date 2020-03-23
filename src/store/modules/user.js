@@ -12,7 +12,8 @@ const user = {
     card_id:0,//临时存取客户关联的名片id 
     baseurl:'https://hnedu2.mynatapp.cc/',//调试地址
     // baseurl:'http://192.168.0.81:8080/',//线上地址
-    mblists:[]//存放模板id
+    mblists:[],//存放模板id
+    isPlayMusicId:''//是否有正在播放的歌曲
     // baseurl:'http://bqa2nc.natappfree.cc/',
     // token:'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsInN1YiI6IjI2MTQ4IiwiYXVkIjoidXNlciIsImV4cCI6MTU1MjI3MjQ4MCwibmJmIjoxNTUxNjY3NjgwLCJpYXQiOjE1NTE2Njc2ODAsImp0aSI6IjEzMWM0MzgyLTM4ZTItNDI3Zi04OGFjLWQ1OTU1ODY5MjFjNCJ9.xe4mmHs34GLC3CCUjegk_kZL29egq4xj5hwn5iHEhLw',
     // name: '',
@@ -26,7 +27,9 @@ const user = {
     SET_TOKEN: (state, token) => {
       state.token = token
     },
-
+    SET_MUSICID: (state, isPlayMusicId) => { //保存当前播放id
+      state.isPlayMusicId = isPlayMusicId
+    },
     SET_POWER: (state, type) => {//用户是否绑定员工
       state.power = type
     },
@@ -58,6 +61,10 @@ const user = {
 
 
   actions: {
+    //存起播放id
+    putMusicId({commit},id){
+      commit('SET_MUSICID', id);
+    },
     //存取临时的id
     putCardId({commit},id){
       commit('SET_ID', id);

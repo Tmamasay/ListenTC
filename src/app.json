@@ -1,12 +1,13 @@
 {
   "pages": [
-    
+    "pages/read/catalog/main",
     "pages/mine/main",
     "pages/mine/about/main",
     "pages/index/setUp/main",
     "pages/mine/eyes/main",
     "pages/index/main",
     "pages/read/main",
+    "pages/read/introduce/main",
     "pages/index/coursedetail/main",
     "pages/index/mycoursedetail/main",
     "pages/read/searchpage/main",

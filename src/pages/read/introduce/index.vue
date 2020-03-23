@@ -1,4 +1,5 @@
 <template>
+<!--介绍-->
   <div class="topchai2">
     
   </div>
@@ -27,7 +28,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .denglu {
   background-color: #2d8cf0;
   color: #fff;
