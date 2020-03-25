@@ -1,7 +1,9 @@
 {
   "usingComponents": {
     "i-tabs": "/static/iView/tabs/index",
-    "i-tab": "/static/iView/tab/index"
+    "i-tab": "/static/iView/tab/index",
+    "i-icon": "/static/iView/icon/index"
+
 
 },
   "navigationBarTitleText": "关注"
