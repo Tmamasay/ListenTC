@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "i-icon": "/static/iView/icon/index",
+    "i-tabs": "/static/iView/tabs/index",
+    "i-tab": "/static/iView/tab/index"
+
+},
+  "navigationBarTitleText": "业务列表"
+}

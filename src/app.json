@@ -1,5 +1,7 @@
 {
-  "pages": [ 
+  "pages": [  
+    "pages/index/setUp/myCollection/main",
+    "pages/index/setUp/myStudy/main",
     "pages/index/setUp/messageCenter/main",
     "pages/index/setUp/settings/main",
     "pages/index/setUp/follow/main",
