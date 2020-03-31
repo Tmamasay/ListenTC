@@ -1,5 +1,6 @@
 {
   "pages": [  
+    "pages/index/main",
     "pages/index/setUp/myCollection/main",
     "pages/index/setUp/myStudy/main",
     "pages/index/setUp/messageCenter/main",
@@ -12,7 +13,6 @@
     "pages/mine/about/main",
     "pages/index/setUp/main",
     "pages/mine/eyes/main",
-    "pages/index/main",
     "pages/read/introduce/main",
     "pages/index/coursedetail/main",
     "pages/index/mycoursedetail/main",

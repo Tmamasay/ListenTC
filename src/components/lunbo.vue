@@ -1,6 +1,6 @@
 <template>
 	<div class="ga_swiper">
-		<swiper class="swiper" circular="true" indicator-dots="false" autoplay="false" interval="5000" duration="1000" :style="{height:height+'px'}">
+		<swiper class="swiper" circular="false" indicator-dots="true" indicator-color="rgba(255,255,255,0.8)" indicator-active-color="rgba(255,255,255,1)" autoplay="false" interval="5000" duration="1000" :style="{height:height+'px'}">
 			<block v-for="(item,index) in imgUrls" :key="index">
 				<swiper-item >
 					<!-- <navigator :url="'../../'+item.jumpUrl" open-type="navigate"> -->
@@ -25,7 +25,7 @@
                     'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
                     'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
 				],
-				height:'225'
+				height:'185'
 			}
 		},
 		mounted(){
