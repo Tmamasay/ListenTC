@@ -51,7 +51,7 @@
           class="title_text"
           style="background-image:url(../../../static/images/index/zuzi.png)"
         >活动专区</div>
-        <div class="more">
+        <div class="more" @click="gotoActionArea">
           更多
           <img src="../../../static/images/index/go_right.png" class="go_right inline" alt />
         </div>
@@ -360,7 +360,7 @@
           class="title_text"
           style="background-image:url(../../../static/images/index/zuzi.png)"
         >少年之声</div>
-        <div class="more">
+        <div class="more" @click="gotoVoiceofchildren">
           更多
           <img src="../../../static/images/index/go_right.png" class="go_right inline" alt />
         </div>
@@ -396,7 +396,19 @@ export default {
   data() {
     return {};
   },
-  computed: {}
+  computed: {},
+  methods: {
+    gotoActivityArea() {
+      wx.navigateTo({
+        url: `/pages/index/activity/main`
+      });
+    },
+    gotoVoiceofchildren() {
+      wx.navigateTo({
+        url: `/pages/index/voiceofchildren/main`
+      });
+    }
+  }
 };
 </script>
 

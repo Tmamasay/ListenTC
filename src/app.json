@@ -1,11 +1,14 @@
 {
   "pages": [  
+    "pages/index/voiceofchildrendetail/main",
     "pages/index/main",
+    "pages/index/voiceofchildren/main",
     "pages/index/setUp/myCollection/main",
     "pages/index/setUp/myStudy/main",
     "pages/index/setUp/messageCenter/main",
     "pages/index/setUp/settings/main",
     "pages/index/setUp/follow/main",
+    "pages/index/activity/main",
     "pages/read/main",
     "pages/index/setUp/personalData/main",
     "pages/read/catalog/main",
