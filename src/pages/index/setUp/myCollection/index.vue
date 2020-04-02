@@ -78,6 +78,18 @@ export default {
     
   },
   onShow() {
+    const that=this
+      wx.login({
+					success: function(res) {
+						console.log(res.code)
+						if(res.code) {
+                //登录获取token
+              that.$store.dispatch('LoginByWX',res.code).then(res=>{
+                debugger
+              })
+      		}
+					}
+				});
     
   },
   created() {

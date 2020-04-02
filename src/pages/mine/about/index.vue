@@ -124,7 +124,7 @@ export default {
       
       appMusic: {},
       musicUrl:
-        "https://sharefs.yun.kugou.com/202003201055/511111db9007f14dc66b2586cbf0216a/G001/M03/0E/11/oYYBAFS1lfaAKP1fAEfZI2urw2Y148.mp3" //获取全局唯一的背景音频管理器
+        "https://webfs.yun.kugou.com/202003311620/24ed7eb189d547a933192d501716f13d/G192/M02/1F/17/AA4DAF6AfcOAJXQOADk7JNu4Cac793.mp3" //获取全局唯一的背景音频管理器
     };
   },
   created() {

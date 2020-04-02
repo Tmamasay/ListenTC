@@ -4,7 +4,7 @@ import store from '@/store/index';
 //上传用户详细信息
 const upUserInfo= params=>{
     return fetch({
-        url:`${store.getters.baseurl}api/v1/user/saveHuUserWx`,
+        url:`${store.getters.baseurl}user/saveUserInfoWx`,
         method:'post',
         data:params,
          headers: {
@@ -16,8 +16,8 @@ const upUserInfo= params=>{
 //获取token 
 const gettoken_api= params=>{
     return fetch({
-        url:`${store.getters.baseurl}api/v1/user/wxLogin`,
-        method:'POST',
+        url:`${store.getters.baseurl}user/getToken?code=${params.code}`,
+        method:'get',
         data:params,
          headers: {
             'content-type': 'application/json;charset=UTF-8',

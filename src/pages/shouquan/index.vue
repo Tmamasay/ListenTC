@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { setUserinfo } from '@/utils/auth'
 export default {
   components: {
     // card
@@ -50,11 +51,12 @@ export default {
       }
       // debugger;
       //存放用户信息
-      this.$store.dispatch("GetUserInfo", e.target.userInfo);
+      // this.$store.dispatch("GetUserInfo", e.target.userInfo);
       // debugger
        //提交用户信息到服务器
+       setUserinfo(e.target.userInfo);
       this.$api.user
-        .putuserinfo(e.target.userInfo)
+        .upUserInfo(e.target.userInfo)
         .then(res => {
           console.log(res);
           if (+res.code === 1) {

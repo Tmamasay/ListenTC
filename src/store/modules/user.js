@@ -10,7 +10,7 @@ const user = {
     token: getToken(),
     power:'',//判断是否有权限进入名片 0未绑定员工 1绑定员工	
     card_id:0,//临时存取客户关联的名片id 
-    baseurl:'https://hnedu2.mynatapp.cc/',//调试地址
+    baseurl:'http://hnedu3.natapp1.cc/',//调试地址
     // baseurl:'http://192.168.0.81:8080/',//线上地址
     mblists:[],//存放模板id
     isPlayMusicId:''//是否有正在播放的歌曲
@@ -79,21 +79,21 @@ const user = {
       // debugger
       return new Promise((resolve, reject) => {
               //发起网络请求
-              const accountInfo = wx.getAccountInfoSync()
-              setAppToken(accountInfo.miniProgram.appId)
-              //debugger
+              // const accountInfo = wx.getAccountInfoSync()
+              // setAppToken(accountInfo.miniProgram.appId)
+              debugger
 							var options = {
 								"code": code
               };
-							user_api.gettoken_api( options).then((res) => {
+							user_api.gettoken_api(options).then((res) => {
 								console.log(res);
 								if(+res.code === 1) {
                   //保存token
-                //  debugger
+                 debugger
                   const data = res.data
 									console.log('新用户保存token和用户类型')
-                  commit('SET_TOKEN', data);//保存token
-                  setToken(res.data)//保存token到本地缓存
+                  commit('SET_TOKEN', data.openid);//保存token
+                  setToken(res.data.openid)//保存token到本地缓存
                   
                   resolve()
 								}
