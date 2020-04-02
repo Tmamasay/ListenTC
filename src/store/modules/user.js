@@ -1,4 +1,4 @@
-import  user_api from '@/api/user'
+import  chengx from '@/api/chengx'
 import { getToken, setToken, removeToken,setUserinfo,setAppToken } from '@/utils/auth'
 
 
@@ -10,7 +10,7 @@ const user = {
     token: getToken(),
     power:'',//判断是否有权限进入名片 0未绑定员工 1绑定员工	
     card_id:0,//临时存取客户关联的名片id 
-    baseurl:'http://www.oczhkj.com/',//调试地址
+    baseurl:'http://test.sdb.new-class.cn/',//调试地址
     // baseurl:'http://192.168.0.81:8080/',//线上地址
     mblists:[],//存放模板id
     isPlayMusicId:''//是否有正在播放的歌曲
@@ -75,17 +75,14 @@ const user = {
     },
 
     // 用户名登录，获取token
-    LoginByWX({ commit },code) {
+    LoginByWX({ commit },options) {
       // debugger
       return new Promise((resolve, reject) => {
               //发起网络请求
               // const accountInfo = wx.getAccountInfoSync()
               // setAppToken(accountInfo.miniProgram.appId)
-              debugger
-							var options = {
-								"code": code
-              };
-							user_api.gettoken_api(options).then((res) => {
+             
+							chengx.getToken(options).then((res) => {
 								console.log(res);
 								if(+res.code === 1) {
                   //保存token

@@ -7,7 +7,7 @@
       <div class="user_operation">
         <div class="selt">小学1-3年级</div>
 
-        <div class="mine_info">
+        <div class="mine_info" @click="isWxLogin" >
           <div class="user_img">
             <div class="message_num">8</div>
           </div>
@@ -389,6 +389,7 @@
 
 <script>
 import lunbo from "@/components/lunbo";
+import { getToken} from '@/utils/auth'
 export default {
   components: {
     lunbo //轮播
@@ -400,18 +401,24 @@ export default {
   methods: {
      //是否登陆过
     isWxLogin() {
-      const that = this;
-      wx.login({
-        success: function(res) {
-          console.log(res.code);
-          if (res.code) {
-            //登录获取token
-            that.$store.dispatch("LoginByWX", res.code).then(res => {
-              debugger;
-            });
-          }
-        }
-      });
+      if(!getToken()){
+        wx.navigateTo({
+            url: `/pages/shouquan/main`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            })
+
+      }
+      // const that = this;
+      // wx.login({
+      //   success: function(res) {
+      //     console.log(res.code);
+      //     if (res.code) {
+      //       //登录获取token
+      //       that.$store.dispatch("LoginByWX", res.code).then(res => {
+      //         debugger;
+      //       });
+      //     }
+      //   }
+      // });
     },
     gotoActivityArea() {
       wx.navigateTo({

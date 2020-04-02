@@ -30,31 +30,41 @@ export default {
     return {};
   },
   methods: {
-    subFormId(e){
-        const formid=e.mp.detail.formId
-        // this.$store.dispatch('putMoBanId',formid)
-              //提交模板id
-          // this.$api.mes.sendmobanmes().then((res)=>{
-
-          // }).catch(error=>{
-          //   	wx.showToast({
-    			// 				title: '请求失败',
-    			// 				icon: 'none',
-    			// 				duration: 1000
-    			// 			});
-          // })
-    },
     onGotUserInfo: function(e) {
       if (!e.target.userInfo) {
         console.log("用户拒绝授权");
         return false;
       }
-      // debugger;
-      //存放用户信息
-      // this.$store.dispatch("GetUserInfo", e.target.userInfo);
-      // debugger
-       //提交用户信息到服务器
+      //保存基本信息在本地
        setUserinfo(e.target.userInfo);
+      //d登录
+      wx.login({
+        success: function(res) {
+          console.log(res.code);
+          if (res.code) {
+            // //登录获取token
+            // that.$store.dispatch("LoginByWX", res.code).then(res => {
+            //   debugger;
+            // });
+             this.$api.chengx.getUserOpenId({
+            code:res.code
+            }).then(res => {
+              console.log(res);
+              
+            })
+            .catch(error => {
+              wx.showToast({
+                title: "网络异常",
+                icon: "none",
+                duration: 1000
+              });
+            });
+          }
+        }
+      });
+       //提交用户信息到服务器
+      
+
       this.$api.user
         .upUserInfo(e.target.userInfo)
         .then(res => {
