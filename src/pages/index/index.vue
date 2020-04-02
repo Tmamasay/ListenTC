@@ -398,6 +398,21 @@ export default {
   },
   computed: {},
   methods: {
+     //是否登陆过
+    isWxLogin() {
+      const that = this;
+      wx.login({
+        success: function(res) {
+          console.log(res.code);
+          if (res.code) {
+            //登录获取token
+            that.$store.dispatch("LoginByWX", res.code).then(res => {
+              debugger;
+            });
+          }
+        }
+      });
+    },
     gotoActivityArea() {
       wx.navigateTo({
         url: `/pages/index/activity/main`
