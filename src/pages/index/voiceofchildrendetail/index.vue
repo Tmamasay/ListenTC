@@ -69,55 +69,9 @@
             </div>
           </div>
         </div>
-      </template>
-      <div class="item">
-        <div class="item_img">
-          <img class="content_img" src="https://www.dummyimage.com/170x94" alt />
-          <div
-            class="left_top"
-            style="background-image:url(../../../../static/images/index/memo.png)"
-          >
-            <img class="herji" src="../../../../static/images/index/herji.png" alt />
-            2997
-          </div>
-          <img class="right_bottom" src="../../../../static/images/index/bf.png" alt />
-        </div>
-        <div class="item_content">
-          <div class="item_title">《沉醉在黄河故道的风沉醉在黄河故道的风</div>
-          <div class="flbb">
-            <div class="item_people">朗读者：王海峰</div>
-            <div class="dianzhan">
-              <img class="reddz" src="../../../../static/images/index/dianzhan.png" alt />
-              533
-            </div>
-          </div>
-        </div>
-      </template>
-      <div class="item">
-        <div class="item_img">
-          <img class="content_img" src="https://www.dummyimage.com/170x94" alt />
-          <div
-            class="left_top"
-            style="background-image:url(../../../../static/images/index/memo.png)"
-          >
-            <img class="herji" src="../../../../static/images/index/herji.png" alt />
-            2997
-          </div>
-          <img class="right_bottom" src="../../../../static/images/index/bf.png" alt />
-        </div>
-        <div class="item_content">
-          <div class="item_title">《沉醉在黄河故道的风沉醉在黄河故道的风</div>
-          <div class="flbb">
-            <div class="item_people">朗读者：王海峰</div>
-            <div class="dianzhan">
-              <img class="reddz" src="../../../../static/images/index/dianzhan.png" alt />
-              533
-            </div>
-          </div>
-        </div>
-      </template>
-    </template>
-  </template>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
