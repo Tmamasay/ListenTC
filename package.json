@@ -23,7 +23,7 @@
     "build": "node build/build.js wx"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "js-base64": "^2.5.2",
     "moment": "^2.24.0",
     "mpvue": "^2.0.0",
