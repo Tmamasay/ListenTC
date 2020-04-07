@@ -10,7 +10,7 @@ const user = {
     token: getToken(),
     power:'',//判断是否有权限进入名片 0未绑定员工 1绑定员工	
     card_id:0,//临时存取客户关联的名片id 
-    baseurl:'http://test.sdb.new-class.cn/',//调试地址
+    baseurl:'http://test.sdb.new-class.cn',//调试地址
     // baseurl:'http://192.168.0.81:8080/',//线上地址
     mblists:[],//存放模板id
     isPlayMusicId:''//是否有正在播放的歌曲
@@ -83,7 +83,8 @@ const user = {
               // setAppToken(accountInfo.miniProgram.appId)
              
 							chengx.getToken(options).then((res) => {
-								console.log(res);
+                console.log(res);
+                debugger
 								if(+res.code === 1) {
                   //保存token
                  debugger

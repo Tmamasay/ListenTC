@@ -1,4 +1,7 @@
 import moment from 'moment' // 时间日期转换
+import sha1 from 'sha1' // 
+import { Base64 } from 'js-base64';
+// var sha1 = require('sha1');
 
 
 function formatNumber (n) {
@@ -80,9 +83,17 @@ export  function unique (arr) {
   return Array.from(new Set(arr))
 }
 
+/***
+ * 加密算法(app)
+ * 
+ */
+export function ShaAccess(dataStr) {
+  return Base64.encode(sha1(`oczhkj123456${dataStr}`))
+}
+
 export default {
   formatNumber,
-  // formatTime,
+  ShaAccess,
   getTouchData,
   unique
 }

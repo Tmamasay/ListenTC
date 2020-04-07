@@ -1,4 +1,5 @@
 import fetch from '@/utils/fetch.js'
+import {ShaAccess} from '@/utils'
 import store from '@/store/index';
 //查询粉丝用户
 const getFans= params=>{
@@ -8,6 +9,7 @@ const getFans= params=>{
         data:params,
          headers: {
             'content-type': 'application/json;charset=UTF-8',
+            
             // 'Authorization':store.getters.token
          }
     })
@@ -20,6 +22,7 @@ const getToken= params=>{
         data:params,
          headers: {
             'content-type': 'application/json;charset=UTF-8',
+            'access':ShaAccess(`${store.getters.baseurl}/v1/appletSession`)
             // 'Authorization':store.getters.token
          }
     })
@@ -27,7 +30,7 @@ const getToken= params=>{
 //获取OpenId 
 const getUserOpenId= params=>{
     return fetch({
-        url:`https://api.weixin.qq.com/sns/jscode2session?appid=wx20087bccdc7397f2&secret=SECRET&js_code=${params.code}&grant_type=authorization_code`,
+        url:`https://api.weixin.qq.com/sns/jscode2session?appid=wx20087bccdc7397f2&secret=c0e5d67b6c3e341c458cd3fe3e607e3b&js_code=${params.code}&grant_type=authorization_code`,
         method:'get',
          headers: {
             'content-type': 'application/json;charset=UTF-8',

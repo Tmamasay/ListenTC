@@ -31,6 +31,7 @@ export default {
   },
   methods: {
     onGotUserInfo: function(e) {
+      const that=this
       if (!e.target.userInfo) {
         console.log("用户拒绝授权");
         return false;
@@ -42,14 +43,16 @@ export default {
         success: function(res) {
           console.log(res.code);
           if (res.code) {
-            // //登录获取token
-            // that.$store.dispatch("LoginByWX", res.code).then(res => {
-            //   debugger;
-            // });
-             this.$api.chengx.getUserOpenId({
+           
+             that.$api.chengx.getUserOpenId({
             code:res.code
             }).then(res => {
               console.log(res);
+              const options=Object.assign(e.target.userInfo,res)
+               // //登录获取token
+            that.$store.dispatch("LoginByWX", options).then(res => {
+              debugger;
+            });
               
             })
             .catch(error => {
