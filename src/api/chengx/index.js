@@ -17,12 +17,12 @@ const getFans= params=>{
 //获取token 
 const getToken= params=>{
     return fetch({
-        url:`${store.getters.baseurl}/v1/appletSession`,
+        url:`${store.getters.baseurl}/applet/v1/appletSession`,
         method:'post',
         data:params,
          headers: {
             'content-type': 'application/json;charset=UTF-8',
-            'access':ShaAccess(`${store.getters.baseurl}/v1/appletSession`)
+            'access':ShaAccess(`${store.getters.baseurl}/applet/v1/appletSession`)
             // 'Authorization':store.getters.token
          }
     })
