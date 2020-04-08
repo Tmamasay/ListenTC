@@ -20,8 +20,7 @@
     "pages/index/coursedetail/main",
     "pages/index/mycoursedetail/main",
     "pages/read/searchpage/main",
-    "pages/mine/phone/main",
-    "pages/shouquan/main"
+    "pages/mine/phone/main"
   ],
   "requiredBackgroundModes": [
     "audio"
