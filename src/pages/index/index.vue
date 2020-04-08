@@ -98,7 +98,7 @@
             <div
               class="header_bg"
               style="background-image:url(../../../../../static/images/index/first.png)"
-            ></div>
+            >1</div>
           </div>
           <div class="user_info">
             <div class="userinfo_top">
@@ -134,7 +134,7 @@
             <div
               class="header_bg"
               style="background-image:url(../../../../../static/images/index/second.png)"
-            ></div>
+            >2</div>
           </div>
           <div class="user_info">
             <div class="userinfo_top">
@@ -170,7 +170,7 @@
             <div
               class="header_bg"
               style="background-image:url(../../../../../static/images/index/third.png)"
-            ></div>
+            >3</div>
           </div>
           <div class="user_info">
             <div class="userinfo_top">
@@ -206,7 +206,7 @@
             <div
               class="header_bg"
               style="background-image:url(../../../../../static/images/index/fouth.png)"
-            ></div>
+            >4</div>
           </div>
           <div class="user_info">
             <div class="userinfo_top">
@@ -241,8 +241,8 @@
           <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
             <div
               class="header_bg"
-              style="background-image:url(../../../../../static/images/index/fifth.png)"
-            ></div>
+              style="background-image:url(../../../../../static/images/index/fouth.png)"
+            >5</div>
           </div>
           <div class="user_info">
             <div class="userinfo_top">
@@ -557,6 +557,7 @@ export default {
   line-height: 20px;
   font-weight: 400;
   color: rgba(61, 146, 241, 1);
+  padding-bottom: 60px;
 }
 .all_rank img {
   width: 20px;
@@ -636,6 +637,10 @@ export default {
   height: 60px;
   background: no-repeat center center;
   background-size: cover;
+  font-size: 10px;
+  color: #fff;
+  line-height: 104px;
+  text-align: center;
 }
 .area {
   font-size: 14px;
