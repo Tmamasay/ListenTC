@@ -21,7 +21,7 @@
 	},
 	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
-	"appid": "touristappid",
+	"appid": "wx20087bccdc7397f2",
 	"projectname": "tanlaos",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},

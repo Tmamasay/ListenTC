@@ -1,6 +1,7 @@
 {
   "pages": [  
     "pages/index/main",
+    "pages/index/activity/detail/main",
     "pages/index/voiceofchildrendetail/main",
     "pages/index/voiceofchildren/main",
     "pages/index/setUp/myCollection/main",

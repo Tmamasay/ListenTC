@@ -1,8 +1,7 @@
 {
   "usingComponents": {
     "i-tabs": "/static/iView/tabs/index",
-    "i-tab": "/static/iView/tab/index",
-    "i-input": "/static/iView/index/index"
+    "i-tab": "/static/iView/tab/index"
   },
   "navigationBarTitleText": ""
 }

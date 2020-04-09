@@ -90,12 +90,8 @@ const user = {
                 data:JSON.stringify({})
 
               }
-              debugger
-              // console.log(qs.stringify(params))
-              debugger
               chengx.getToken(params).then((res) => {
                 console.log(res);
-                debugger
 								if(+res.code === 1) {
                   //保存token
                  debugger

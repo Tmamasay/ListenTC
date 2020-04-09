@@ -2,7 +2,7 @@
   <div>
     <div class="contain">
       <div class="ueraver">
-        <img src="../../../static/images/shouquan/aver.png" mode="aspectFill" alt srcset>
+        <img src="../../../static/images/shouquan/aver.png" mode="aspectFill" alt srcset />
       </div>
       <div>
         <p class="t1">憨牛随身学</p>
@@ -11,8 +11,13 @@
       <div>
         <!-- <button class="denglu" @getuserinfo="onGotUserInfo" open-type="getUserInfo">授权微信用户信息</button> -->
         <form @submit="subFormId" report-submit="true">
-        <!-- <button type='primary' class="confirm" formType="submit" size='mini'>{{btnmsg}}</button> -->
-        <button formType="submit" class="denglu" @getuserinfo="onGotUserInfo" open-type="getUserInfo">授权微信用户信息</button>
+          <!-- <button type='primary' class="confirm" formType="submit" size='mini'>{{btnmsg}}</button> -->
+          <button
+            formType="submit"
+            class="denglu"
+            @getuserinfo="onGotUserInfo"
+            open-type="getUserInfo"
+          >授权微信用户信息</button>
         </form>
       </div>
     </div>
@@ -20,7 +25,7 @@
 </template>
 
 <script>
-import { setUserinfo } from '@/utils/auth'
+import { setUserinfo } from "@/utils/auth";
 export default {
   components: {
     // card
@@ -31,42 +36,41 @@ export default {
   },
   methods: {
     onGotUserInfo: function(e) {
-      const that=this
+      const that = this;
       if (!e.target.userInfo) {
         console.log("用户拒绝授权");
         return false;
       }
       //保存基本信息在本地
-       setUserinfo(e.target.userInfo);
+      setUserinfo(e.target.userInfo);
       //d登录
       wx.login({
         success: function(res) {
+          debugger;
           console.log(res.code);
           if (res.code) {
-           
-             that.$api.chengx.getUserOpenId({
-            code:res.code
-            }).then(res => {
-              console.log(res);
-              const options=Object.assign(e.target.userInfo,res)
-               // //登录获取token
-            that.$store.dispatch("LoginByWX", options).then(res => {
-              debugger;
-            });
-              
-            })
-            .catch(error => {
-              wx.showToast({
-                title: "网络异常",
-                icon: "none",
-                duration: 1000
+            that.$api.chengx
+              .getUserOpenId({
+                code: res.code
+              })
+              .then(code => {
+                console.log(code);
+                const options = Object.assign(e.target.userInfo, code);
+                // //登录获取token
+                that.$store.dispatch("LoginByWX", options).then(wx => {
+                });
+              })
+              .catch(error => {
+                wx.showToast({
+                  title: "网络异常",
+                  icon: "none",
+                  duration: 1000
+                });
               });
-            });
           }
         }
       });
-       //提交用户信息到服务器
-      
+      //提交用户信息到服务器
 
       this.$api.user
         .upUserInfo(e.target.userInfo)

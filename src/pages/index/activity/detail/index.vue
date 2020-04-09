@@ -248,12 +248,17 @@
       <img src="../../../../../static/images/index/more.png" alt />
       点击查看完整榜单
     </div>
+    <openapp></openapp>
   </div>
 </template>
 
 <script>
+
+import openapp from "@/components/openapp";
 export default {
-  components: {},
+  components: {
+    openapp //轮播
+  },
 
   data() {
     return {
@@ -269,7 +274,6 @@ export default {
 </script>
 
 <style>
-
 .all_rank {
   height: 120px;
   padding: 25px 25px 60px;
