@@ -9,9 +9,9 @@ export default function fetch(options) {
     var instance = axios.create({
       baseURL: store.getters.baseurl,
       timeout: 1000,
-      headers: {
-            'content-type': 'application/json;charset=UTF-8'
-      }
+      // headers: {
+      //       'content-type': 'application/json;charset=UTF-8'
+      // }
     });
      // http request 拦截器
     instance.interceptors.request.use(

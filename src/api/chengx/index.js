@@ -1,6 +1,7 @@
 import fetch from '@/utils/fetch.js'
 import {ShaAccess} from '@/utils'
 import store from '@/store/index';
+import qs from 'qs';
 //查询粉丝用户
 const getFans= params=>{
     return fetch({
@@ -19,10 +20,10 @@ const getToken= params=>{
     return fetch({
         url:`${store.getters.baseurl}/applet/v1/appletSession`,
         method:'post',
-        // data:new FormData(params) ,
+        // data:params,
         data:qs.stringify(params)  ,
          headers: {
-            'Content-Type': 'multipart/form-data',
+            'content-type': 'application/x-www-form-urlencoded',
             'access':ShaAccess(`${store.getters.baseurl}/applet/v1/appletSession`)
             // 'Authorization':store.getters.token
          }

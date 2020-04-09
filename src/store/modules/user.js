@@ -91,7 +91,7 @@ const user = {
 
               }
               debugger
-              // console.log(transformRequest(params))
+              // console.log(qs.stringify(params))
               debugger
               chengx.getToken(params).then((res) => {
                 console.log(res);
