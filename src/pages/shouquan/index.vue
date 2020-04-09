@@ -77,7 +77,11 @@ export default {
                 // const options = Object.assign(data, code);
                 // //登录获取token
                 
-                that.$store.dispatch("LoginByWX", options).then(wx => {
+                that.$store.dispatch("LoginByWX", options).then((res) => {
+                  debugger
+                  wx.navigateBack({
+                      delta: 2
+                    });
                 });
               }
               })
