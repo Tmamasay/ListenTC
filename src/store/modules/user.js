@@ -1,6 +1,6 @@
 import  chengx from '@/api/chengx'
 import { getToken, setToken, removeToken,setUserinfo,setAppToken } from '@/utils/auth'
-
+// import {transformRequest} from '@/utils'
 
 const user = {
   state: {
@@ -81,8 +81,19 @@ const user = {
               //发起网络请求
               // const accountInfo = wx.getAccountInfoSync()
               // setAppToken(accountInfo.miniProgram.appId)
-             
-							chengx.getToken(options).then((res) => {
+              
+              const params={
+                unionId:'ssssddddd',
+                openId:options.openid,
+                nickname:options.nickName,
+                headImageUrl:options.avatarUrl,
+                data:JSON.stringify({})
+
+              }
+              debugger
+              // console.log(transformRequest(params))
+              debugger
+              chengx.getToken(params).then((res) => {
                 console.log(res);
                 debugger
 								if(+res.code === 1) {

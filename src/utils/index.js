@@ -90,10 +90,23 @@ export  function unique (arr) {
 export function ShaAccess(dataStr) {
   return Base64.encode(sha1(`oczhkj123456${dataStr}`))
 }
-
+/***
+ * 表单序列化(app)
+ * 
+ */
+export function transformRequest(data) {
+  const formData = new FormData()
+  for (const key of Object.keys(data)) {
+    formData.append(key, data[key])
+  }
+  console.log(formData)
+  debugger
+  return formData
+}
 export default {
   formatNumber,
   ShaAccess,
   getTouchData,
-  unique
+  unique,
+  transformRequest
 }

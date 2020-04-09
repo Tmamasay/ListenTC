@@ -19,9 +19,10 @@ const getToken= params=>{
     return fetch({
         url:`${store.getters.baseurl}/applet/v1/appletSession`,
         method:'post',
-        data:params,
+        // data:new FormData(params) ,
+        data:qs.stringify(params)  ,
          headers: {
-            'content-type': 'application/json;charset=UTF-8',
+            'Content-Type': 'multipart/form-data',
             'access':ShaAccess(`${store.getters.baseurl}/applet/v1/appletSession`)
             // 'Authorization':store.getters.token
          }
