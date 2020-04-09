@@ -26,6 +26,7 @@
 
 <script>
 import { setUserinfo } from "@/utils/auth";
+import { WXBizDataCrypt } from "@/utils/WXBizDataCrypt";
 export default {
   components: {
     // card
@@ -54,11 +55,34 @@ export default {
                 code: res.code
               })
               .then(code => {
-                console.log(code);
-                const options = Object.assign(e.target.userInfo, code);
+                wx.getUserInfo({
+              success: function(res) {
+                var appId = 'wx20087bccdc7397f2'
+              var sessionKey = code.session_key
+              var encryptedData = res.encryptedData
+              var iv = res.iv
+              var pc = new WXBizDataCrypt(appId, sessionKey)
+              var data = pc.decryptData(encryptedData , iv)
+
+              console.log('解密后 data: ', data)       
+                 const options={
+                unionId:data.unionId,
+                openId:data.openId,
+                nickname:data.nickName,
+                headImageUrl:data.avatarUrl,
+                data:JSON.stringify({})
+
+              }
+                // debugger
+                // const options = Object.assign(data, code);
                 // //登录获取token
+                
                 that.$store.dispatch("LoginByWX", options).then(wx => {
                 });
+              }
+              })
+                
+                
               })
               .catch(error => {
                 wx.showToast({
@@ -70,31 +94,6 @@ export default {
           }
         }
       });
-      //提交用户信息到服务器
-
-      this.$api.user
-        .upUserInfo(e.target.userInfo)
-        .then(res => {
-          console.log(res);
-          if (+res.code === 1) {
-            wx.navigateBack({
-              delta: 2
-            });
-          } else {
-            wx.showToast({
-              title: res.message,
-              icon: "none",
-              duration: 1000
-            });
-          }
-        })
-        .catch(error => {
-          wx.showToast({
-            title: "网络异常",
-            icon: "none",
-            duration: 1000
-          });
-        });
     }
   },
 

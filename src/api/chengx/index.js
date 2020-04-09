@@ -23,7 +23,6 @@ const getToken= params=>{
         // data:params,
         data:qs.stringify(params)  ,
          headers: {
-            'content-type': 'application/x-www-form-urlencoded',
             'access':ShaAccess(`${store.getters.baseurl}/applet/v1/appletSession`)
             // 'Authorization':store.getters.token
          }

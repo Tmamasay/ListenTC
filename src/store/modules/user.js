@@ -1,6 +1,7 @@
 import  chengx from '@/api/chengx'
 import { getToken, setToken, removeToken,setUserinfo,setAppToken } from '@/utils/auth'
 // import {transformRequest} from '@/utils'
+import qs from 'qs';
 
 const user = {
   state: {
@@ -81,24 +82,18 @@ const user = {
               //发起网络请求
               // const accountInfo = wx.getAccountInfoSync()
               // setAppToken(accountInfo.miniProgram.appId)
-              
-              const params={
-                unionId:'ssssddddd',
-                openId:options.openid,
-                nickname:options.nickName,
-                headImageUrl:options.avatarUrl,
-                data:JSON.stringify({})
-
-              }
-              chengx.getToken(params).then((res) => {
+              // console.log(qs.stringify(params) )
+              // console.log('0987=============')
+          
+              chengx.getToken(options).then((res) => {
                 console.log(res);
-								if(+res.code === 1) {
+								if(+res.code === 200) {
                   //保存token
                  debugger
-                  const data = res.data
+                  const data = res.result
 									console.log('新用户保存token和用户类型')
-                  commit('SET_TOKEN', data.openid);//保存token
-                  setToken(res.data.openid)//保存token到本地缓存
+                  commit('SET_TOKEN', data.accessToken);//保存token
+                  setToken(data.accessToken)//保存token到本地缓存
                   
                   resolve()
 								}

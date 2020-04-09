@@ -8,8 +8,9 @@
         <div class="selt">小学1-3年级</div>
 
         <div class="mine_info" @click="isWxLogin" >
-          <div class="user_img">
+          <div class="user_img" >
             <div class="message_num">8</div>
+            <img :src="userInfo.avatarUrl" style="width:100%;height:100%" alt="" srcset="">
           </div>
           <div class="my">我的</div>
         </div>
@@ -389,15 +390,20 @@
 
 <script>
 import lunbo from "@/components/lunbo";
-import { getToken} from '@/utils/auth'
+import { getToken,getUserinfo} from '@/utils/auth'
 export default {
   components: {
     lunbo //轮播
   },
   data() {
-    return {};
+    return {
+      userInfo:{}
+    };
   },
   computed: {},
+  onShow(){
+          this.userInfo=getUserinfo()
+        },
   methods: {
      //是否登陆过
     isWxLogin() {
