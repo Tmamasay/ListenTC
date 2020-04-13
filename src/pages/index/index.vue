@@ -17,7 +17,7 @@
       </div>
 
       <div class="lunbo_contain">
-        <lunbo></lunbo>
+        <lunbo :imgUrls="imgUrls"></lunbo>
       </div>
 
       <div class="news">
@@ -52,14 +52,14 @@
           class="title_text"
           style="background-image:url(../../../static/images/index/zuzi.png)"
         >活动专区</div>
-        <div class="more" @click="gotoActionArea">
+        <div class="more" @click="gotoActivityArea">
           更多
           <img src="../../../static/images/index/go_right.png" class="go_right inline" alt />
         </div>
       </div>
 
       <div class="act_lunbo">
-        <lunbo></lunbo>
+        <lunbo :imgUrls="imgUrls"></lunbo>
       </div>
     </div>
     <!-- 活动排行榜 -->
@@ -398,7 +398,21 @@ export default {
   },
   data() {
     return {
-      userInfo: {}
+      userInfo: {},
+      imgUrls: [
+        {
+          imgUrl: "https://www.dummyimage.com/355x185",
+          jumpUrl: `/pages/index/activity/detail/main`
+        },
+        {
+          imgUrl: "https://www.dummyimage.com/355x185",
+          jumpUrl: `/pages/index/activity/detail/main`
+        },
+        {
+          imgUrl: "https://www.dummyimage.com/355x185",
+          jumpUrl: `/pages/index/activity/detail/main`
+        }
+      ]
     };
   },
   computed: {},
@@ -427,7 +441,6 @@ export default {
         lng: "123",
         lat: "123"
       };
-      ;
       this.$api.tangy.activityList(params).then(res => {
         console.log(res);
       });

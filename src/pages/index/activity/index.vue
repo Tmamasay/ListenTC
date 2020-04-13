@@ -6,35 +6,7 @@
       <span class="current_area">所有专区</span>
     </div>
     <div class="actlist">
-      <div class="act_item">
-        <img class="baoming" src="../../../../static/images/index/baoming.png" alt />
-        <img class="act_pic" src="https://www.dummyimage.com/355x85" alt />
-        <div class="act_content">
-          <div class="title">让阅读点亮孩子的智慧人生-【朗诵】</div>
-          <div class="act_detail">
-            <span>活动作品数：17</span>
-            <span>
-              报名人数：
-              <em>32</em>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="act_item">
-        <img class="baoming" src="../../../../static/images/index/baoming.png" alt />
-        <img class="act_pic" src="https://www.dummyimage.com/355x85" alt />
-        <div class="act_content">
-          <div class="title">让阅读点亮孩子的智慧人生-【朗诵】</div>
-          <div class="act_detail">
-            <span>活动作品数：17</span>
-            <span>
-              报名人数：
-              <em>32</em>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="act_item">
+      <div class="act_item" @click="showDetail">
         <img class="baoming" src="../../../../static/images/index/baoming.png" alt />
         <img class="act_pic" src="https://www.dummyimage.com/355x85" alt />
         <div class="act_content">
@@ -61,7 +33,13 @@ export default {
   },
   mounted() {},
   onLoad() {},
-  methods: {},
+  methods: {
+    showDetail() {
+        wx.navigateTo({
+          url: `/pages/index/activity/detail/main` //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+        });
+    }
+  },
 
   onShow() {}
 };
