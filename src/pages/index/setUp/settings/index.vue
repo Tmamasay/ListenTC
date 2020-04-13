@@ -11,7 +11,7 @@
     </div>
     </div>
     <div class="setContP" style="margin-top:10px">
-    <div class="setLine">
+    <div class="setLine" @click="gopages(1)">
       <p class="setL">消息中心</p>
       <div class="setRGo">
       <!-- <p class="setR">18883630318</p> -->
@@ -55,6 +55,13 @@ export default {
     };
   },
   methods: {
+     gopages(e){
+            if (+e===1) {
+               wx.navigateTo({
+            url: `/pages/index/setUp/messageCenter/main`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            })
+            }
+            }
     
   },
   onShow() {

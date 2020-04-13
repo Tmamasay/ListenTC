@@ -6,23 +6,24 @@
         <img src="" alt="" srcset="">
       </div>  
       <div class="informationCont">
-        <div class="infoname">WX-小阿离</div>
-        <p class="fans">关注 12  &nbsp;&nbsp;&nbsp;     粉丝 57</p>
+        <div class="infoname" @click="gopages(4)">WX-小阿离</div>
+        <p class="fans" @click="gopages(2)">关注 12  &nbsp;&nbsp;&nbsp;     粉丝 57</p>
       </div>
+      <p class="setInfo" @click="gopages(3)">设置</p>
       </div>
       <div class="powerLine">
         <div class="leftBPow">
           <div class="leftBpImg">
             <img src="" alt="" srcset="">
           </div>
-          <p class="powerLineTitle">书房</p>
+          <p class="powerLineTitle" @click="gopages(5)">书房</p>
         </div>
         <p class="lineS"></p>
         <div class="leftBPow">
            <div class="leftBpImg">
             <img src="" alt="" srcset="">
           </div>
-          <p class="powerLineTitle">收藏</p>
+          <p class="powerLineTitle" @click="gopages(1)">收藏</p>
         </div>
       </div>
        <div class="bookTitle">
@@ -64,6 +65,33 @@ export default {
           created () {
             // let key_token=this.$store.getters.user.token
           
+        },
+        methods:{
+          gopages(e){
+            if (+e===1) {
+               wx.navigateTo({
+            url: `/pages/index/setUp/myCollection/main`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            })
+            }else if(+e===2){
+              wx.navigateTo({
+            url: `/pages/index/setUp/follow/main`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            })
+            }else if(+e===3){
+          wx.navigateTo({
+            url: `/pages/index/setUp/settings/main`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            })
+            }else if(+e===4){
+          wx.navigateTo({
+            url: `/pages/index/setUp/personalData/main`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            })
+            }else if(+e===5){
+          wx.navigateTo({
+            url: `/pages/index/setUp/myStudy/main`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            })
+            }
+     
+    },
+
         },
         onShow(){
           if (mpvuePlatform === 'wx') {
@@ -226,5 +254,14 @@ line-height:42px;
     height:17px;
     background:rgba(254,254,254,1);
     box-shadow:0px 0px 6px 0px rgba(33,22,19,0.15);
+  }
+  .setInfo{
+    position: absolute;
+    right: 15px;
+    top:35px;
+    font-size:12px;
+font-family:Microsoft YaHei;
+font-weight:400;
+color:rgba(95,95,95,1);
   }
 </style>

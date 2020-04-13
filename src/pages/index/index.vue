@@ -446,10 +446,16 @@ export default {
       });
     },
     isWxLogin() {
-      if (!getToken()) {
+      // if (!getToken()) {
+      if (0) {
         wx.navigateTo({
           url: `/pages/shouquan/main` //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
         });
+      }else{
+        wx.navigateTo({
+          url: `/pages/index/setUp/main` //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+        });
+
       }
       // const that = this;
       // wx.login({

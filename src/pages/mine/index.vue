@@ -10,14 +10,14 @@
     <!--1-->
     <div class="bookTeacLine" @tap="goPlay">
       <div class="bookTeacImg">
-        <img src alt srcset />
+        <img src="https://www.dummyimage.com/85x114" alt srcset />
       </div>
       <div class="rightBt">
         <p class="bookteacTitle">全国新课标卷 Ⅰ</p>
         <p class="bookDetail">限时免费</p>
         <div class="bookFllow">
           <div class="bookLisImg">
-            <img src="https://www.dummyimage.com/85x114" alt srcset />
+            <img src alt srcset />
           </div>
           <p class="bookFllowPe">224</p>
         </div>
@@ -26,14 +26,14 @@
     <!--2-->
     <div class="bookTeacLine" @tap="goPlay">
       <div class="bookTeacImg">
-        <img src alt srcset />
+        <img src="https://www.dummyimage.com/85x114" alt srcset />
       </div>
       <div class="rightBt">
         <p class="bookteacTitle">全国新课标卷 Ⅰ</p>
         <p class="bookDetail">限时免费</p>
         <div class="bookFllow">
           <div class="bookLisImg">
-            <img src="https://www.dummyimage.com/85x114" alt srcset />
+            <img src alt srcset />
           </div>
           <p class="bookFllowPe">224</p>
         </div>
