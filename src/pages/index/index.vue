@@ -7,10 +7,10 @@
       <div class="user_operation">
         <div class="selt">小学1-3年级</div>
 
-        <div class="mine_info" @click="isWxLogin" >
-          <div class="user_img" >
+        <div class="mine_info" @click="isWxLogin">
+          <div class="user_img">
             <div class="message_num">8</div>
-            <img :src="userInfo.avatarUrl" style="width:100%;height:100%" alt="" srcset="">
+            <img :src="userInfo.avatarUrl" style="width:100%;height:100%" alt srcset />
           </div>
           <div class="my">我的</div>
         </div>
@@ -389,29 +389,54 @@
 </template>
 
 <script>
+import tangy from "@/api/tangy";
 import lunbo from "@/components/lunbo";
-import { getToken,getUserinfo} from '@/utils/auth'
+import { getToken, getUserinfo } from "@/utils/auth";
 export default {
   components: {
     lunbo //轮播
   },
   data() {
     return {
-      userInfo:{}
+      userInfo: {}
     };
   },
   computed: {},
-  onShow(){
-          this.userInfo=getUserinfo()
-        },
+  onShow() {
+    this.userInfo = getUserinfo();
+    this.getEveryDayRead();
+    this.getActivityList();
+  },
   methods: {
-     //是否登陆过
+    //是否登陆过
+    getEveryDayRead() {
+      const params = {
+        levelCode: "1",
+        userId: "1",
+        limit: 1
+      };
+      this.$api.tangy.everydayRead(params).then(res => {
+        console.log(res);
+      });
+    },
+    getActivityList() {
+      const params = {
+        levelCode: "1",
+        userId: "1",
+        limit: 1,
+        lng: "123",
+        lat: "123"
+      };
+      ;
+      this.$api.tangy.activityList(params).then(res => {
+        console.log(res);
+      });
+    },
     isWxLogin() {
-      if(!getToken()){
+      if (!getToken()) {
         wx.navigateTo({
-            url: `/pages/shouquan/main`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
-            })
-
+          url: `/pages/shouquan/main` //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+        });
       }
       // const that = this;
       // wx.login({
@@ -420,7 +445,7 @@ export default {
       //     if (res.code) {
       //       //登录获取token
       //       that.$store.dispatch("LoginByWX", res.code).then(res => {
-      //         debugger;
+      //         ;
       //       });
       //     }
       //   }

@@ -73,7 +73,7 @@ export default {
         .then(res => {
           if(+res.code===1){
             this.courseDetail=res.data
-            // debugger
+            // 
           }
           
         })

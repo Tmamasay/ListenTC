@@ -91,7 +91,7 @@ export default {
     handleChange(detail){
       console.log(detail.mp.detail.key)
       this.checkItem=detail.mp.detail.key
-      // debugger
+      // 
     }
     
   },

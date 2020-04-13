@@ -3,7 +3,7 @@
   <div class="activityDetailbox">
     <div class="act_header">
       <img class="act_img" src="https://www.dummyimage.com/375x195" alt />
-      <div class="rule">活动规则</div>
+      <div class="rule" @click="showRule=true">活动规则</div>
     </div>
     <div class="songbox">
       <div class="textbox">
@@ -61,7 +61,12 @@
         <i-tab key="tab4" title="中职组"></i-tab>
       </i-tabs>
     </div>
-
+    <div class="typelist">
+      <div class="type_item active">热门作品</div>
+      <div class="type_item">分数排行</div>
+      <div class="type_item">人气榜单</div>
+      <div class="type_item">最新作品</div>
+    </div>
     <div class="content">
       <div class="content_item">
         <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
@@ -248,12 +253,34 @@
       <img src="../../../../../static/images/index/more.png" alt />
       点击查看完整榜单
     </div>
+
+    <div class="rulebox" v-if="showRule">
+      <div class="tablecell">
+        <div class="rules">
+          <img class="ruletitle" src="../../../../../static/images/index/rules.png" alt />
+          <div class="rulecontent">
+            <div class="h1">活动时间：</div>
+            <div class="h5">
+              作品提交时间：
+              即日起~5月28日24时
+              统一评审时间：
+              5月29日-5月31日，我们将会进入下一阶段的名单。
+            </div>
+            <div class="h1">活动须知：</div>
+            <div class="h5">
+              1、请点击活动详情页面底部“立即报名”按钮，准确填写报名信息。
+              2、个人交流展示阶段，朗诵篇目均节选自
+            </div>
+          </div>
+        </div>
+        <img class="close" @click="showRule=false" src="../../../../../static/images/index/closeicon.png" alt />
+      </div>
+    </div>
     <openapp></openapp>
   </div>
 </template>
 
 <script>
-
 import openapp from "@/components/openapp";
 export default {
   components: {
@@ -262,7 +289,8 @@ export default {
 
   data() {
     return {
-      value5: ""
+      value5: "",
+      showRule: false
     };
   },
   mounted() {},
@@ -274,6 +302,90 @@ export default {
 </script>
 
 <style>
+.h1 {
+  margin: 10px auto;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+}
+.h5 {
+  margin: 10px auto;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(34, 34, 34, 1);
+  line-height: 24px;
+}
+.ruletitle {
+  display: block;
+  width: 220px;
+  height: 43px;
+  margin: 15px auto;
+}
+.rulecontent {
+  width: 100%;
+  height: calc(100% - 75px);
+  background-color: #fffcea;
+  box-sizing: border-box;
+  padding: 15px;
+  overflow: auto;
+}
+.close {
+  width: 30px;
+  height: 30px;
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+}
+.rules {
+  width: 300px;
+  height: 410px;
+  border-radius: 5px;
+  background-color: #fef7ca;
+  margin: auto;
+  box-sizing: border-box;
+  padding: 7.5px;
+}
+.rulebox {
+  position: fixed;
+  display: table;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+.tablecell {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.typelist {
+  margin-top: 15px;
+  display: flex;
+  height: 20px;
+  width: 100%;
+  justify-content: space-around;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+.type_item {
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #8e8e8e;
+  width: 75px;
+  height: 20px;
+  text-align: center;
+}
+.type_item.active {
+  color: #222222;
+  background-color: #ffd948;
+}
 .all_rank {
   height: 120px;
   padding: 25px 25px 60px;

@@ -56,7 +56,7 @@ export default {
         .then(res => {
           if(+res.code===1){
             isIdBuy=res.data
-            // debugger
+            // 
           }
           
         })

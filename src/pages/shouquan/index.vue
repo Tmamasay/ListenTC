@@ -47,7 +47,6 @@ export default {
       //d登录
       wx.login({
         success: function(res) {
-          debugger;
           console.log(res.code);
           if (res.code) {
             that.$api.chengx
@@ -56,37 +55,33 @@ export default {
               })
               .then(code => {
                 wx.getUserInfo({
-              success: function(res) {
-                var appId = 'wx20087bccdc7397f2'
-              var sessionKey = code.session_key
-              var encryptedData = res.encryptedData
-              var iv = res.iv
-              var pc = new WXBizDataCrypt(appId, sessionKey)
-              var data = pc.decryptData(encryptedData , iv)
+                  success: function(res) {
+                    var appId = "wx20087bccdc7397f2";
+                    var sessionKey = code.session_key;
+                    var encryptedData = res.encryptedData;
+                    var iv = res.iv;
+                    var pc = new WXBizDataCrypt(appId, sessionKey);
+                    var data = pc.decryptData(encryptedData, iv);
 
-              console.log('解密后 data: ', data)       
-                 const options={
-                unionId:data.unionId,
-                openId:data.openId,
-                nickname:data.nickName,
-                headImageUrl:data.avatarUrl,
-                data:JSON.stringify({})
+                    console.log("解密后 data: ", data);
+                    const options = {
+                      unionId: data.unionId,
+                      openId: data.openId,
+                      nickname: data.nickName,
+                      headImageUrl: data.avatarUrl,
+                      data: JSON.stringify({})
+                    };
+                    // 
+                    // const options = Object.assign(data, code);
+                    // //登录获取token
 
-              }
-                // debugger
-                // const options = Object.assign(data, code);
-                // //登录获取token
-                
-                that.$store.dispatch("LoginByWX", options).then((res) => {
-                  debugger
-                  wx.navigateBack({
-                      delta: 2
+                    that.$store.dispatch("LoginByWX", options).then(res => {
+                      wx.navigateBack({
+                        delta: 2
+                      });
                     });
+                  }
                 });
-              }
-              })
-                
-                
               })
               .catch(error => {
                 wx.showToast({

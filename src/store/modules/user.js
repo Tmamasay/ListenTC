@@ -77,7 +77,7 @@ const user = {
 
     // 用户名登录，获取token
     LoginByWX({ commit },options) {
-      // debugger
+      // 
       return new Promise((resolve, reject) => {
               //发起网络请求
               // const accountInfo = wx.getAccountInfoSync()
@@ -89,7 +89,7 @@ const user = {
                 console.log(res);
 								if(+res.code === 200) {
                   //保存token
-                 debugger
+                 
                   const data = res.result
 									console.log('新用户保存token和用户类型')
                   commit('SET_TOKEN', data.accessToken);//保存token
@@ -107,7 +107,7 @@ const user = {
     SetUserMes({ commit },e) {
       return new Promise((resolve, reject) => { 
         //提交用户信息到服务器
-        // debugger
+        // 
         user_api.upUserInfo(e.target.userInfo).then(res => {
           console.log(res);
           if (+res.code === 1) {

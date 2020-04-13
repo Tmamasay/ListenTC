@@ -147,7 +147,7 @@ export default {
    */
   // 禁止播放条随着音乐播放滚动
   stopSlider() {
-    // debugger
+    // 
      this.isStopSlider= true
 
   },
@@ -298,9 +298,9 @@ export default {
     // 音频播放条改变 - 手动滑动滚动条停止
     timeSliderChanged: function(e) {
       this.isStopSlider= false
-      debugger
+      
       var time=e.mp.detail.value
-      // debugger
+      // 
       // 音频跳转到指定位置
       this.appMusic.seek(time);
     },

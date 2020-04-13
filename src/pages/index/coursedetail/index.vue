@@ -173,7 +173,7 @@ export default {
       }
     });
 
-    // debugger;
+    // ;
     const id = this.$root.$mp.query.id;
     that.getCourseSeriesById(id);
     const obj = wx.createSelectorQuery();
@@ -212,7 +212,7 @@ export default {
         })
         .then(res => {
           if (+res.code === 1) {
-            // debugger;
+            // ;
             //获取支付参数
             that.$api.user
               .payWaitOrder({
@@ -220,7 +220,7 @@ export default {
                 price: res.data.price
               })
               .then(res => {
-                debugger;
+                ;
                 if (+res.code === 1) {
                 }
               })
@@ -251,7 +251,7 @@ export default {
           iv: e.target.iv
         })
         .then(res => {
-          //  debugger;
+          //  ;
           if (+res.code === 1) {
             const phoneNmber = JSON.parse(res.data.data.userTel);
             setUserPhone(phoneNmber.phoneNumber);
@@ -333,7 +333,7 @@ export default {
             this.evaConts.avatarUrl = res.data.avatarUrl;
             this.evaConts.content = res.data.content;
             this.evaConts.nickName = res.data.nickName;
-            // debugger
+            // 
           }
         })
         .catch(error => {
@@ -346,16 +346,16 @@ export default {
         });
     },
     upper() {
-      // debugger
+      // 
     },
     scroll(e) {
       console.log(e);
-      // debugger
+      // 
       const scrollTop = +e.mp.detail.scrollTop;
       const tab2 = this.kcHeight + this.jsHeight;
       console.log(tab2);
       console.log(scrollTop);
-      // debugger
+      // 
       if (scrollTop > this.kcHeight && scrollTop < tab2) {
         this.isshow = true;
         this.current = "tab2";
@@ -366,7 +366,7 @@ export default {
       } else if (scrollTop < 225) {
         this.isshow = false;
       }
-      // debugger
+      // 
     },
     lower() {}
   },

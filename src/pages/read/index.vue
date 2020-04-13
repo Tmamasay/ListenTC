@@ -149,7 +149,7 @@ export default {
             this.current_scroll = res.data[0].id;
             this.getInfoListById(res.data[0].id);
           }
-          // debugger
+          // 
         })
         .catch(error => {
           console.log(error);
@@ -168,7 +168,7 @@ export default {
         showCount: 5,
         id: id
       };
-      // debugger
+      // 
       that.$api.user
         .getAllInfoListById(_params)
         .then(res => {

@@ -100,7 +100,7 @@ export function transformRequest(data) {
     formData.append(key, data[key])
   }
   console.log(formData)
-  debugger
+  
   return formData
 }
 export default {

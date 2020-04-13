@@ -73,7 +73,7 @@ export default {
    handleChange(detail){
       console.log(detail.mp.detail.key)
       this.checkItem=detail.mp.detail.key
-      // debugger
+      // 
     }
     
   },
@@ -85,7 +85,7 @@ export default {
 						if(res.code) {
                 //登录获取token
               that.$store.dispatch('LoginByWX',res.code).then(res=>{
-                debugger
+                
               })
       		}
 					}
