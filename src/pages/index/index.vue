@@ -21,12 +21,53 @@
       </div>
 
       <div class="news">
-        <img class="bofang inline" src="../../../static/images/index/bofang.png" alt />
-        <div class="message_text inline">歌唱关于全国青少年“五好小公民”主题教…</div>
-        <div class="message_date inline fr">
-          11月22日
-          <img src="../../../static/images/index/go_right.png" class="go_right inline" alt />
-        </div>
+        <swiper
+          class="newswiper"
+          circular="false"
+          indicator-dots="true"
+          indicator-color="rgba(255,255,255,0.8)"
+          indicator-active-color="rgba(255,255,255,1)"
+          autoplay="false"
+          interval="5000"
+          duration="1000"
+          vertical="true"
+          style="height:25px"
+        >
+          <block>
+            <swiper-item @click="gotoMessage">
+              <img class="bofang inline" src="../../../static/images/index/bofang.png" alt />
+              <div class="message_text inline">歌唱关于全国青少年“五好小公民”主题教…</div>
+              <div class="message_date inline fr">
+                11月22日
+                <img
+                  src="../../../static/images/index/go_right.png"
+                  class="go_right inline"
+                  alt
+                />
+              </div>
+              <!-- <navigator :url="'../../'+item.jumpUrl" open-type="navigate"> -->
+              <!-- <navigator url='../../pages/index/chaihb/main' open-type="navigate"> -->
+              <!-- <navigator > -->
+              <!-- </navigator> -->
+            </swiper-item>
+            <swiper-item>
+              <img class="bofang inline" src="../../../static/images/index/bofang.png" alt />
+              <div class="message_text inline">歌唱关于全国青少年“五好小公民”主题教…</div>
+              <div class="message_date inline fr">
+                11月22日
+                <img
+                  src="../../../static/images/index/go_right.png"
+                  class="go_right inline"
+                  alt
+                />
+              </div>
+              <!-- <navigator :url="'../../'+item.jumpUrl" open-type="navigate"> -->
+              <!-- <navigator url='../../pages/index/chaihb/main' open-type="navigate"> -->
+              <!-- <navigator > -->
+              <!-- </navigator> -->
+            </swiper-item>
+          </block>
+        </swiper>
       </div>
     </div>
 
@@ -70,10 +111,6 @@
           class="title_text"
           style="background-image:url(../../../static/images/index/zuzi.png)"
         >活动排行榜</div>
-        <div class="more">
-          更多
-          <img src="../../../static/images/index/go_right.png" class="go_right inline" alt />
-        </div>
       </div>
 
       <div class="flexbox">
@@ -275,7 +312,7 @@
           </div>
         </div>
       </div>
-      <div class="all_rank">
+      <div class="all_rank" @click="gotoActivityDetail">
         <img src="../../../static/images/index/more.png" alt />
         点击查看完整榜单
       </div>
@@ -292,7 +329,7 @@
           style="background-image:url(../../../static/images/index/zuzi.png)"
         >读本推荐</div>
       </div>
-      <div class="books">
+      <div class="books" @click="gotoReadBook">
         <div class="first_book">
           <img class="left_pic" src="https://www.dummyimage.com/160x90" alt />
           <div class="ovl">
@@ -327,7 +364,7 @@
     </div>
 
     <!-- 读本推荐 -->
-
+    
     <div class="normalbox">
       <div class="titlebox">
         <div
@@ -340,7 +377,7 @@
         class="bookrack"
         style="background-image:url(../../../../../static/images/index/bookrack.png)"
       >
-        <img src="https://www.dummyimage.com/100x140" alt />
+        <img src="https://www.dummyimage.com/100x140" alt @click="gotoBookDetail" />
         <img src="https://www.dummyimage.com/100x140" alt />
         <img src="https://www.dummyimage.com/100x140" alt />
       </div>
@@ -454,11 +491,10 @@ export default {
         wx.navigateTo({
           url: `/pages/shouquan/main` //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
         });
-      }else{
+      } else {
         wx.navigateTo({
           url: `/pages/index/setUp/main` //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
         });
-
       }
       // const that = this;
       // wx.login({
@@ -478,9 +514,29 @@ export default {
         url: `/pages/index/activity/main`
       });
     },
+    gotoActivityDetail() {
+      wx.navigateTo({
+        url: `/pages/index/activity/detail/main`
+      });
+    },
     gotoVoiceofchildren() {
       wx.navigateTo({
         url: `/pages/index/voiceofchildren/main`
+      });
+    },
+    gotoReadBook() {
+      wx.navigateTo({
+        url: `/pages/read/catalog/main`
+      });
+    },
+    gotoBookDetail() {
+      wx.navigateTo({
+        url: `/pages/read/catalog/main`
+      });
+    },
+    gotoMessage(){
+      wx.navigateTo({
+        url: `/pages/index/setUp/messageCenter/main`
       });
     }
   }
