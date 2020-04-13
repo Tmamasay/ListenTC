@@ -41,10 +41,24 @@ const getUserOpenId = params => {
     }
   })
 }
+//学堂列表
+ const getCategoryCourse = params => {
+  return fetch({
+    url: `${store.getters.baseurl}/course/v1/category/course/1001001003?categoryId=${params.categoryId}`,
+    method: 'get',
+    // data:params,
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/course/v1/category/course/1001001003`)
+      // 'Authorization':store.getters.token
+    }
+  })
+}
 
 const chengx = {
   getFans, //查询粉丝用户
   getToken, //获取登录凭证
-  getUserOpenId //获取openid
+  getUserOpenId, //获取openid
+  getCategoryCourse//学堂列表
 }
 export default chengx

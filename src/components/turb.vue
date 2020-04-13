@@ -67,7 +67,7 @@ export default {
       console.log('第' + e.mp.detail.current + '张轮播图滑动结束')
       this.tz_data = this.imgUrls[e.mp.detail.current]
       console.log(this.tz_data)
-    },
+    }
   },
 
   created () {
