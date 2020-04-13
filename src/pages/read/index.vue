@@ -5,22 +5,22 @@
         <p class="leftBook"></p>
         <p class="leftBookName">读本</p>
       </div>
-      <div class="bookCont">
+      <div class="bookCont" @click="gopages">
         <div class="bookImg">
-          <img src alt srcset />
+          <img src="https://www.dummyimage.com/356x185" alt srcset />
         </div>
         <p>让阅读点亮孩子的智慧人生</p>
       </div>
       <div class="bookLineTwo">
-        <div class="lineLeft">
+        <div class="lineLeft" @click="gopages">
           <div class="leftImg">
-            <img src alt srcset />
+            <img src="https://www.dummyimage.com/174x90" alt srcset />
           </div>
           <p class="leftLine">我是小小演说家</p>
         </div>
-        <div class="lineRight">
+        <div class="lineRight" @click="gopages">
           <div class="leftImg">
-            <img src alt srcset />
+            <img src="https://www.dummyimage.com/174x90" alt srcset />
           </div>
           <p class="leftLine">我是小小演说家</p>
         </div>
@@ -42,16 +42,24 @@
       </div>
       <div class="bookListCont">
         <div class="showBookList">
-          <div class="bookLine"></div>
-          <div class="bookLine"></div>
+          <div class="bookLine">
+            <img src="https://www.dummyimage.com/156x215" alt="" srcset="">
+          </div>
+          <div class="bookLine">
+            <img src="https://www.dummyimage.com/156x215" alt="" srcset="">
+          </div>
         </div>
         <div class="shaowBook"></div>
         <div class="shaowBookTai"></div>
       </div>
       <div class="bookListCont">
         <div class="showBookList">
-          <div class="bookLine"></div>
-          <div class="bookLine"></div>
+          <div class="bookLine">
+            <img src="https://www.dummyimage.com/156x215" alt="" srcset="">
+          </div>
+          <div class="bookLine">
+            <img src="https://www.dummyimage.com/156x215" alt="" srcset="">
+          </div>
         </div>
         <div class="shaowBook"></div>
         <div class="shaowBookTai"></div>
@@ -113,6 +121,11 @@ export default {
   },
 
   methods: {
+    gopages(){
+      wx.navigateTo({
+            url: `/pages/read/catalog/main`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            })
+    },
     //切换资讯分类
     handleChangeScroll(e) {
       this.current_scroll = e.mp.detail.key;
@@ -317,6 +330,10 @@ export default {
   margin-top: 24px;
   margin-bottom: -4px;
   z-index: 900;
+}
+.bookLine  img{
+  width: 100%;
+  height: 100%;
 }
 .shaowBook {
   width: 95%;

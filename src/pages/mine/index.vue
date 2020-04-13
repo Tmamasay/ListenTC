@@ -17,7 +17,7 @@
         <p class="bookDetail">限时免费</p>
         <div class="bookFllow">
           <div class="bookLisImg">
-            <img src alt srcset />
+            <img src="https://www.dummyimage.com/85x114" alt srcset />
           </div>
           <p class="bookFllowPe">224</p>
         </div>
@@ -33,7 +33,7 @@
         <p class="bookDetail">限时免费</p>
         <div class="bookFllow">
           <div class="bookLisImg">
-            <img src alt srcset />
+            <img src="https://www.dummyimage.com/85x114" alt srcset />
           </div>
           <p class="bookFllowPe">224</p>
         </div>
