@@ -2,7 +2,7 @@
 <!--目录-->
   <div>
     <div class="readTopImg">
-      <!-- <img src="" alt="" srcset=""> -->
+      <img src="https://www.dummyimage.com/375x198" alt="" srcset="">
     </div>
     <div class="tabCont">
          <i-tabs :current="checkItem" @change="handleChange" i-class="detailTabs">
@@ -13,14 +13,21 @@
     <!--简介-->
     <div v-show="checkItem=='introduce'" class="introduce">
      <div class="introduceImg">
-       <img src="" alt="">
+       <img src="https://www.dummyimage.com/375x340" alt="">
      </div>
      <div class="contextIn">
         <div class="bookTitle">
         <p class="leftBook"></p>
-        <p class="leftBookName">精品课程推荐</p>
+        <p class="leftBookName">订阅须知</p>
         </div>
         <div class="contextCon">
+          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
+          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
+          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
+          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
+          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
+          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
+          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
           <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
         </div>
      </div>
