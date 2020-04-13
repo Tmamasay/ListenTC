@@ -381,7 +381,7 @@
         </div>
 
         <div class="yitem">
-          <img src="https://www.dummyimage.com/170x94" alt />
+          <img src="https://www.dummyimage.com/170x94" alt="1" />
         </div>
       </div>
     </div>
