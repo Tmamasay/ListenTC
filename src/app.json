@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/main",
+    "pages/index/setUp/changePhone/main",
     "pages/index/activity/essay/main",
     "pages/index/activity/detail/main",
     "pages/index/voiceofchildrendetail/main",

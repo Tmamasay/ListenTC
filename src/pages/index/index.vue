@@ -59,7 +59,8 @@
       </div>
 
       <div class="act_lunbo">
-        <lunbo :imgUrls="imgUrls"></lunbo>
+        
+        <turb :imgUrls="imgUrls"></turb>
       </div>
     </div>
     <!-- 活动排行榜 -->
@@ -391,10 +392,12 @@
 <script>
 import tangy from "@/api/tangy";
 import lunbo from "@/components/lunbo";
+import turb from "@/components/turb";
 import { getToken, getUserinfo } from "@/utils/auth";
 export default {
   components: {
-    lunbo //轮播
+    lunbo, //轮播
+    turb
   },
   data() {
     return {
