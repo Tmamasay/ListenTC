@@ -53,7 +53,7 @@ export default {
     };
   },
   created() {
-    this.getCategoryCourse()
+   
     // let key_token=this.$store.getters.user.token
   },
   methods: {
@@ -85,7 +85,9 @@ export default {
       });
     }
   },
-  onShow() {}
+  onShow() {
+    this.getCategoryCourse()
+  }
 };
 </script>
 

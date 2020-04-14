@@ -462,6 +462,7 @@ export default {
     this.getActivityList();
   },
   methods: {
+    
     //是否登陆过
     getEveryDayRead() {
       const params = {

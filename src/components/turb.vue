@@ -58,6 +58,11 @@ export default {
 
 
   methods: {
+      navjumps(url) {
+      wx.navigateTo({
+        url: url
+      });
+    },
     swiperChange (e) {
       console.log(e)
       console.log('第' + e.mp.detail.current + '张轮播图发生了滑动')
