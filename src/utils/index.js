@@ -1,4 +1,4 @@
-import moment from 'moment' // 时间日期转换
+// import moment from 'moment' // 时间日期转换
 import sha1 from 'sha1' // 
 import { Base64 } from 'js-base64';
 // var sha1 = require('sha1');
@@ -23,9 +23,9 @@ export function formatMusic(str) {
  * 日期格式化
  * 
  */
-export function dateformat(dataStr, pattern) {
-  return moment(dataStr).format(pattern)
-}
+// export function dateformat(dataStr, pattern) {
+//   return moment(dataStr).format(pattern)
+// }
 /***
  * 格式化时间
  * 

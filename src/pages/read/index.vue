@@ -79,12 +79,9 @@
 </template>
  
 <script>
-import search from "@/components/search";
-import hotnews from "@/components/hotnews";
+
 export default {
   components: {
-    search,
-    hotnews
   },
 
   data() {

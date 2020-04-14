@@ -43,11 +43,12 @@ const getUserOpenId = params => {
 }
 //学堂列表
  const getCategoryCourse = params => {
+   debugger
   return fetch({
-    url: `${store.getters.baseurl}/course/v1/category/course/1001001003?categoryId=${params.categoryId}`,
+    url: `${store.getters.baseurl}/course/v1/category/course/1001001003`,
     method: 'get',
     // data:params,
-    data: qs.stringify(params),
+    params,
     headers: {
       'access': ShaAccess(`${store.getters.baseurl}/course/v1/category/course/1001001003`)
       // 'Authorization':store.getters.token
