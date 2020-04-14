@@ -5,7 +5,7 @@
         <img src="../../../static/images/shouquan/aver.png" mode="aspectFill" alt srcset />
       </div>
       <div>
-        <p class="t1">憨牛随身学</p>
+        <p class="t1">诵读帮</p>
         <p class="t2">小程序需要获得您的微信授权才能正常使用</p>
       </div>
       <div>

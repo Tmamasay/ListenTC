@@ -76,6 +76,7 @@
       <div
         class="reading_box"
         style="background-image:url(../../../../../static/images/index/maohao.png)"
+        @click="gotoEverydayRead"
       >
         <div class="read_text">
           上帝给了人民无限的力量，
@@ -100,7 +101,6 @@
       </div>
 
       <div class="act_lunbo">
-        
         <turb :imgUrls="imgUrls"></turb>
       </div>
     </div>
@@ -123,12 +123,12 @@
       </div>
 
       <div class="tabCont">
-        <i-tabs current="tab1" @change="handleChange" i-class="detailTabs">
+        <!-- <i-tabs current="tab1" @change="handleChange" i-class="detailTabs">
           <i-tab key="tab1" title="小学组"></i-tab>
           <i-tab key="tab2" title="初中组"></i-tab>
           <i-tab key="tab3" title="高中组"></i-tab>
           <i-tab key="tab4" title="中职组"></i-tab>
-        </i-tabs>
+        </i-tabs> -->
       </div>
 
       <div class="content">
@@ -364,7 +364,7 @@
     </div>
 
     <!-- 读本推荐 -->
-    
+
     <div class="normalbox">
       <div class="titlebox">
         <div
@@ -460,23 +460,144 @@ export default {
     this.userInfo = getUserinfo();
     this.getEveryDayRead();
     this.getActivityList();
+    this.getSysInfo();
+    this.getActivityDetail();
+    this.getArea();
+    this.getActivityArea();
+    this.getActivityRank();
+    this.getMessage();
+    this.getReadBook();
+    this.getReadBookDetail();
+    this.getReadContentDetail();
   },
   methods: {
-    
-    //是否登陆过
+    //书屋教材详情
+    getReadContentDetail(){
+
+      const params = {
+        userId:456061438071431200,
+        bookId:43689569,
+      }
+      this.$api.tangy.readContentDetail(params).then(res=>{
+        console.log("书屋读本详情++++++++++++++++++++++++++++++++");
+        console.log(res);
+        
+      })
+    },
+    //书屋读本详情
+    getReadBookDetail(){
+      const params = {
+        userId:456061438071431200,
+        bookId:43689569,
+      }
+      this.$api.tangy.readBookDetail(params).then(res=>{
+        console.log("书屋读本详情++++++++++++++++++++++++++++++++");
+        console.log(res);
+        
+      })
+    },
+    //s书屋读本
+    getReadBook(){
+      const params = {
+        currentPage:1,
+        pageSize:10,
+        levelCode:1001001003,
+        categoryId:40080000,  //40080000 是读本  40090000教材
+      }
+      this.$api.tangy.readBook(params).then(res=>{
+        console.log("书屋读本++++++++++++++++++++++++++++++++");
+        console.log(res);
+        
+      })
+    },
+    //每日一读
     getEveryDayRead() {
       const params = {
-        levelCode: "1",
-        userId: "1",
+        levelCode: "1001001003",
+        userId: 456061438071431200,
         limit: 1
       };
       this.$api.tangy.everydayRead(params).then(res => {
+        console.log("每日一读++++++++++++++++++++++++++++++++");
         console.log(res);
       });
     },
+    //获取消息
+    getMessage(){
+      const params = {
+        currentPage:1,
+        pageSize:10,
+        userId:456061438071431200
+      }
+      this.$api.tangy.message(params).then(res=>{
+        console.log("获取消息++++++++++++++++++++++++++++++++");
+        console.log(res);
+      })
+    },
+    //活动榜单
+    getActivityRank() {
+      const params = {
+        currentPage: 1,
+        pageSize: 10,
+        activityId: 202003050007,
+        userId: 456061438071431200,
+        worksStage: 1,
+        groupCode: 1003001002,
+        listCode: 1004001001
+      };
+      this.$api.tangy.activityRank(params).then(res => {
+        console.log("活动榜单++++++++++++++++++++++++++++++++");
+        console.log(res);
+      });
+    },
+    //区域活动
+    getActivityArea() {
+      const params = {
+        currentPage: 1,
+        pageSize: 10,
+        areaId: "7953772"
+      };
+      this.$api.tangy.activityArea(params).then(res => {
+        console.log("区域活动++++++++++++++++++++++++++++++++");
+        console.log(res);
+      });
+    },
+    //获取活动详情
+    getActivityDetail() {
+      const params = {
+        activityId: 202003050007,
+        stage: 1,
+        userId: 456061438071431200
+      };
+      this.$api.tangy.activityDetail(params).then(res => {
+        console.log("获取活动详情++++++++++++++++++++++++++++++++");
+        console.log(res);
+      });
+    },
+    //获取大区
+    getArea() {
+      this.$api.tangy.area().then(res => {
+        console.log("获取大区++++++++++++++++++++++++++++++++");
+        console.log(res);
+      });
+    },
+    getSysInfo() {
+      wx.getSystemInfo({
+        success: function(res) {
+          console.log("设备信息++++++++++++++++++++++++++++++++");
+          console.log(res);
+        }
+      });
+    },
+    gotoEverydayRead() {
+      wx.navigateTo({
+        url: `/pages/index/everydayread/main` //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+      });
+    },
+    //获取活动列表
     getActivityList() {
       const params = {
-        levelCode: "1",
+        levelCode: "1001001003",
         userId: "1",
         limit: 1,
         lng: "123",
@@ -488,7 +609,7 @@ export default {
     },
     isWxLogin() {
       if (!getToken()) {
-      // if (0) {
+        // if (0) {
         wx.navigateTo({
           url: `/pages/shouquan/main` //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
         });
@@ -535,7 +656,7 @@ export default {
         url: `/pages/read/catalog/main`
       });
     },
-    gotoMessage(){
+    gotoMessage() {
       wx.navigateTo({
         url: `/pages/index/setUp/messageCenter/main`
       });

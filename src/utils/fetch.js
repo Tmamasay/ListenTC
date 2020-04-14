@@ -2,7 +2,10 @@
 'use strict'
 import axios from 'axios';
 import store from '@/store';
-import {getToken,getAppToken} from '@/utils/auth';
+import {
+  getToken,
+  getAppToken
+} from '@/utils/auth';
 export default function fetch(options) {
   return new Promise((resolve, reject) => {
     console.log('入口1')
@@ -13,7 +16,7 @@ export default function fetch(options) {
         'content-type': 'application/x-www-form-urlencoded'
       }
     });
-     // http request 拦截器
+    // http request 拦截器
     instance.interceptors.request.use(
 
       config => {
@@ -22,9 +25,8 @@ export default function fetch(options) {
         // config.headers['appToken'] = getAppToken()
         if (store.getters.token) {
           // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
-          
-          config.headers['accessToken'] = getToken()
-         }
+          config.headers['accessToken'] = getToken();
+        }
         return config
       },
       err => {
@@ -34,7 +36,7 @@ export default function fetch(options) {
       }
     )
 
-   // http response 拦截器
+    // http response 拦截器
     // instance.interceptors.response.use(
     //   response => {
     //     console.log('响应拦截')
@@ -97,13 +99,13 @@ export default function fetch(options) {
         console.log(error)
         // alert(JSON.stringify(error))
         if (error.response == null) {} else {
-        //   if (+error.response.status === 401) {} else {
-        //     // alert('没有权限获取数据')
-        //   }
+          //   if (+error.response.status === 401) {} else {
+          //     // alert('没有权限获取数据')
+          //   }
         }
         reject(error)
       })
-        console.log('请求结束--------------======>')
+    console.log('请求结束--------------======>')
 
   });
 }

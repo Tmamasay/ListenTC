@@ -327,7 +327,6 @@ export default {
     // 音频播放条改变 - 手动滑动滚动条停止
     timeSliderChanged: function(e) {
       this.isStopSlider = false;
-      debugger;
       var time = e.mp.detail.value;
       // debugger
       // 音频跳转到指定位置

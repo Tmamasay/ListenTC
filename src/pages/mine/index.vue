@@ -49,35 +49,33 @@ export default {
   data() {
     return {
       user_info: "",
-      CategoryCourseList:[]//学堂列表
+      CategoryCourseList: [] //学堂列表
     };
   },
   created() {
-   
+    this.getCategoryCourse();
     // let key_token=this.$store.getters.user.token
   },
   methods: {
     //获取列表
-    async getCategoryCourse(){
-      const options={
-        categoryId:2
-      }
-       await this.$api.chengx
-              .getCategoryCourse(options)
-              .then(res => {
-               if (+res.code===0) {
-                 this.CategoryCourseList=res.result.pageResults
-               debugger 
-               }
-              })
-              .catch(error => {
-                wx.showToast({
-                  title: "网络异常",
-                  icon: "none",
-                  duration: 1000
-                });
-              });
-
+    async getCategoryCourse() {
+      const options = {
+        categoryId: 2,
+      };
+      await this.$api.chengx
+        .getCategoryCourse(options)
+        .then(res => {
+          if (+res.code === 0) {
+            this.CategoryCourseList = res.result.pageResults;
+          }
+        })
+        .catch(error => {
+          wx.showToast({
+            title: "网络异常",
+            icon: "none",
+            duration: 1000
+          });
+        });
     },
     goPlay() {
       wx.navigateTo({
