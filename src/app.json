@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/everydayread/main",
     "pages/index/main",
     "pages/index/setUp/changePhone/main",
     "pages/index/activity/essay/main",
