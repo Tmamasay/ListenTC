@@ -16,7 +16,7 @@
           <!-- <navigator :url="'../../'+item.jumpUrl" open-type="navigate"> -->
           <!-- <navigator url='../../pages/index/chaihb/main' open-type="navigate"> -->
           <!-- <navigator > -->
-          <image :src="item.imgUrl" :style="{height:height+'px'}" @click="navjumps(item.jumpUrl)" />
+          <image :src="item.imageUrl" :style="{height:height+'px'}" @click="navjumps(item.jumpUrl)" />
           <!-- </navigator> -->
         </swiper-item>
       </block>
@@ -36,9 +36,9 @@ export default {
   onLoad() {},
   methods: {
     navjumps(url) {
-      wx.navigateTo({
-        url: url
-      });
+      // wx.navigateTo({
+      //   url: url
+      // });
     }
   }
 };

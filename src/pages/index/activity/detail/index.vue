@@ -2,15 +2,15 @@
 <template>
   <div class="activityDetailbox">
     <div class="act_header">
-      <img class="act_img" src="https://www.dummyimage.com/375x195" alt />
+      <img class="act_img" :src="activityDetailCont.imageUrl" alt />
       <div class="rule" @click="showRule=true">活动规则</div>
     </div>
     <div class="songbox">
       <div class="textbox">
-        <div class="title">让阅读点亮孩子的智慧人生-【朗诵】</div>
+        <div class="title">{{activityDetailCont.title}}</div>
         <div class="num">
           报名：
-          <span>32</span>
+          <span>{{activityDetailCont.applyNum}}</span>
         </div>
       </div>
     </div>
@@ -289,15 +289,33 @@ export default {
 
   data() {
     return {
+      activityDetailCont:{},//活动详情容器
       value5: "",
       showRule: false
     };
   },
   mounted() {},
   onLoad() {},
-  methods: {},
+   onShow() {
+    this.getActivityDetail(202003050007);
+  },
+  methods: {
+    //获取活动详情
+    getActivityDetail(activityId) {
+      const params = {
+        activityId:activityId ,
+        stage: 1,
+        userId: 456061438071431200
+      };
+      this.$api.tangy.activityDetail(params).then(res => {
+        console.log("获取活动详情++++++++++++++++++++++++++++++++");
+        // console.log(res);
+        this.activityDetailCont=res.result
+      });
+    }
+  }
 
-  onShow() {}
+ 
 };
 </script>
 

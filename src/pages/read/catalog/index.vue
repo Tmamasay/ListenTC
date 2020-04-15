@@ -2,7 +2,7 @@
 <!--目录-->
   <div>
     <div class="readTopImg">
-      <img src="https://www.dummyimage.com/375x198" alt="" srcset="">
+      <img :src="readBookDetail.imageUrl" alt="" srcset="">
     </div>
     <div class="tabCont">
          <i-tabs :current="checkItem" @change="handleChange" i-class="detailTabs">
@@ -12,24 +12,19 @@
     </div>
     <!--简介-->
     <div v-show="checkItem=='introduce'" class="introduce">
-     <div class="introduceImg">
-       <img src="https://www.dummyimage.com/375x340" alt="">
-     </div>
+     <!-- <div class="introduceImg"> -->
+       <scroll-view  scroll-y="true" class="introduceImg">
+       <img :src="item.imageUrl" alt="" v-for="item in readBookDetail.imageList" :key="item.imageId">
+       </scroll-view>
+     <!-- </div> -->
      <div class="contextIn">
         <div class="bookTitle">
         <p class="leftBook"></p>
         <p class="leftBookName">订阅须知</p>
         </div>
         <div class="contextCon">
-          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
-          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
-          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
-          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
-          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
-          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
-          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
-          <p>1、本22页面课程内容为一次性付费产品，付费成功后可永久聆听学习。</p>
-        </div>
+          <p>{{readBookDetail.subscribeIntro}}</p>
+           </div>
      </div>
     </div>
     <!--目录-->
@@ -90,7 +85,8 @@ export default {
 
   data() {
     return {
-      checkItem:'catalog'
+      checkItem:'catalog',
+      readBookDetail:{}
 
     };
   },
@@ -99,10 +95,24 @@ export default {
       console.log(detail.mp.detail.key)
       this.checkItem=detail.mp.detail.key
       // 
+    },
+      //书屋读本详情
+    getReadBookDetail(readId){
+      const params = {
+        userId:456061438071431200,
+        bookId:readId
+      }
+      this.$api.tangy.readBookDetail(params).then(res=>{
+        console.log("书屋读本详情++++++++++++++++++++++++++++++++");
+        console.log(res);
+        this.readBookDetail=res.result   
+      })
     }
     
   },
   onShow() {
+     const readId=this.$root.$mp.query.readId
+     this.getReadBookDetail(readId)
     
   },
   created() {
@@ -114,7 +124,12 @@ export default {
 .readTopImg{
   width: 100%;
   height: 198px;
-  background-color: cadetblue;
+  /* background-color: cadetblue; */
+}
+.readTopImg img{
+  width: 100%;
+  height: 100%;
+
 }
 .introduce{
   width: 100%;
@@ -127,7 +142,12 @@ export default {
 .introduceImg{
   width: 100%;
   height: 340px;
-  background-color: chocolate;
+  /* background-color: chocolate; */
+}
+.introduceImg img{
+  width: 100%;
+height: 100%;
+  /* background-color: chocolate; */
 }
 .bookTitle{
   width: 95%;

@@ -5,7 +5,9 @@
       style="background-image: url(../../../../../static/images/index/bg_top.png)"
     >
       <div class="user_operation">
-        <div class="selt">小学1-3年级</div>
+        <div class="selt" v-if="gradeList.length">
+        <seletline  :gradeLists="gradeList"></seletline>
+        </div>
 
         <div class="mine_info" @click="isWxLogin">
           <div class="user_img">
@@ -16,8 +18,8 @@
         </div>
       </div>
 
-      <div class="lunbo_contain">
-        <lunbo :imgUrls="imgUrls"></lunbo>
+      <div class="lunbo_contain" v-if="bannerActivityList.bannerList.length">
+        <lunbo :imgUrls="bannerActivityList.bannerList"></lunbo>
       </div>
 
       <div class="news">
@@ -77,12 +79,12 @@
         class="reading_box"
         style="background-image:url(../../../../../static/images/index/maohao.png)"
         @click="gotoEverydayRead"
+        v-if="everydayReadCont"
       >
         <div class="read_text">
-          上帝给了人民无限的力量，
-          但却给了人民无限的欲望。
+          {{everydayReadCont[0].content}}
         </div>
-        <div class="read_people">——大仲马</div>
+        <div class="read_people">——{{everydayReadCont[0].author}}</div>
         <img src="../../../static/images/index/every_day.png" alt class="read_img" />
       </div>
     </div>
@@ -101,7 +103,7 @@
       </div>
 
       <div class="act_lunbo">
-        <turb :imgUrls="imgUrls"></turb>
+        <turb :imgUrls="bannerActivityList.works"></turb>
       </div>
     </div>
     <!-- 活动排行榜 -->
@@ -131,8 +133,8 @@
         </i-tabs> -->
       </div>
 
-      <div class="content">
-        <div class="content_item">
+      <div class="content" >
+        <div class="content_item" v-for="(index,item) in activityRankCont" :key="item.reviewItemId">
           <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
             <div
               class="header_bg"
@@ -275,42 +277,7 @@
             </div>
           </div>
         </div>
-
-        <div class="content_item">
-          <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
-            <div
-              class="header_bg"
-              style="background-image:url(../../../../../static/images/index/fouth.png)"
-            >5</div>
-          </div>
-          <div class="user_info">
-            <div class="userinfo_top">
-              <div>
-                <div class="content_name">杨子轩《美丽的春天》</div>
-                <div class="content_school">杨紫璐小学</div>
-              </div>
-              <div class="operation">
-                <img src="../../../static/images/index/pic.png" alt />
-              </div>
-            </div>
-            <div class="userinfo_b">
-              <div class="point flexbox">
-                <div class="point_left">
-                  <span class="guankan">
-                    <img src="../../../static/images/index/guankan.png" alt /> 222
-                  </span>
-                  <span class="dianzhan">
-                    <img src="../../../static/images/index/dianzhan.png" alt /> 222
-                  </span>
-                </div>
-                <div class="point_right">
-                  专家评分：
-                  <span>198分</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
       </div>
       <div class="all_rank" @click="gotoActivityDetail">
         <img src="../../../static/images/index/more.png" alt />
@@ -429,15 +396,22 @@
 <script>
 import tangy from "@/api/tangy";
 import lunbo from "@/components/lunbo";
+import seletline from "@/components/select";
 import turb from "@/components/turb";
 import { getToken, getUserinfo } from "@/utils/auth";
 export default {
   components: {
     lunbo, //轮播
-    turb
+    turb,
+    seletline
   },
   data() {
     return {
+      everydayReadCont:null,//每日一读容器
+      activityRankCont:[],//排行榜
+      bannerActivityList:[],//banner图容器
+     courseRecommendList:[],//首页推荐课程
+      gradeList:[],
       userInfo: {},
       imgUrls: [
         {
@@ -458,58 +432,27 @@ export default {
   computed: {},
   onShow() {
     this.userInfo = getUserinfo();
+    this.getGrade() //年级
     this.getEveryDayRead();
     this.getActivityList();
     this.getSysInfo();
-    this.getActivityDetail();
+    this.courseRecommend();
     this.getArea();
     this.getActivityArea();
     this.getActivityRank();
     this.getMessage();
-    this.getReadBook();
-    this.getReadBookDetail();
-    this.getReadContentDetail();
+    
   },
   methods: {
-    //书屋教材详情
-    getReadContentDetail(){
-
-      const params = {
-        userId:456061438071431200,
-        bookId:43689569,
-      }
-      this.$api.tangy.readContentDetail(params).then(res=>{
-        console.log("书屋读本详情++++++++++++++++++++++++++++++++");
+      //所有年级api
+    getGrade(){
+      this.$api.chengx.getGrade().then(res=>{
+        console.log("年级列表++++++++++++++++++++++++++++++++");
         console.log(res);
-        
+        this.gradeList=res.result
       })
     },
-    //书屋读本详情
-    getReadBookDetail(){
-      const params = {
-        userId:456061438071431200,
-        bookId:43689569,
-      }
-      this.$api.tangy.readBookDetail(params).then(res=>{
-        console.log("书屋读本详情++++++++++++++++++++++++++++++++");
-        console.log(res);
-        
-      })
-    },
-    //s书屋读本
-    getReadBook(){
-      const params = {
-        currentPage:1,
-        pageSize:10,
-        levelCode:1001001003,
-        categoryId:40080000,  //40080000 是读本  40090000教材
-      }
-      this.$api.tangy.readBook(params).then(res=>{
-        console.log("书屋读本++++++++++++++++++++++++++++++++");
-        console.log(res);
-        
-      })
-    },
+    
     //每日一读
     getEveryDayRead() {
       const params = {
@@ -519,7 +462,17 @@ export default {
       };
       this.$api.tangy.everydayRead(params).then(res => {
         console.log("每日一读++++++++++++++++++++++++++++++++");
-        console.log(res);
+       this.everydayReadCont=res.result
+      });
+    },
+    //首页推荐课程
+    courseRecommend() {
+      const params = {
+        levelCode: "1001001003"
+      };
+      this.$api.tangy.courseRecommend(params).then(res => {
+        console.log("首页推荐课程++++++++++++++++++++++++++++++++");
+       this.courseRecommendList=res.result
       });
     },
     //获取消息
@@ -547,7 +500,8 @@ export default {
       };
       this.$api.tangy.activityRank(params).then(res => {
         console.log("活动榜单++++++++++++++++++++++++++++++++");
-        console.log(res);
+        // console.log(res);
+        this.activityRankCont=res.result.pageResults
       });
     },
     //区域活动
@@ -562,18 +516,7 @@ export default {
         console.log(res);
       });
     },
-    //获取活动详情
-    getActivityDetail() {
-      const params = {
-        activityId: 202003050007,
-        stage: 1,
-        userId: 456061438071431200
-      };
-      this.$api.tangy.activityDetail(params).then(res => {
-        console.log("获取活动详情++++++++++++++++++++++++++++++++");
-        console.log(res);
-      });
-    },
+    
     //获取大区
     getArea() {
       this.$api.tangy.area().then(res => {
@@ -594,7 +537,7 @@ export default {
         url: `/pages/index/everydayread/main` //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
       });
     },
-    //获取活动列表
+    //获取banner列表
     getActivityList() {
       const params = {
         levelCode: "1001001003",
@@ -604,7 +547,8 @@ export default {
         lat: "123"
       };
       this.$api.tangy.activityList(params).then(res => {
-        console.log(res);
+       console.log('获取banner列表+++++++++++++++++')
+       this.bannerActivityList=res.result
       });
     },
     isWxLogin() {
@@ -991,6 +935,7 @@ export default {
   font-family: Microsoft YaHei;
   font-weight: bold;
   color: rgba(67, 67, 67, 1);
+  z-index: 9999;
 }
 .go_right {
   width: 5px;

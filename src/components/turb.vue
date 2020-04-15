@@ -13,7 +13,7 @@
         <div v-for="(item,index) in imgUrls" :key="item">
           <swiper-item>
             <div class="img-wrapper">
-                <img mode="scaleToFill" :src="item.imgUrl" 
+                <img mode="scaleToFill" :src="item.userHeadImg" 
                 @click="navjumps(item.jumpUrl)"
                     class="slide-image" 
                     :style="{
@@ -59,9 +59,9 @@ export default {
 
   methods: {
       navjumps(url) {
-      wx.navigateTo({
-        url: url
-      });
+      // wx.navigateTo({
+      //   url: url
+      // });
     },
     swiperChange (e) {
       console.log(e)

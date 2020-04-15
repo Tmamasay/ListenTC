@@ -5,24 +5,24 @@
         <p class="leftBook"></p>
         <p class="leftBookName">读本</p>
       </div>
-      <div class="bookCont" @click="gopages">
+      <div class="bookCont" @click="gopages(readBookCont[0].bookId)" >
         <div class="bookImg">
-          <img src="https://www.dummyimage.com/356x185" alt srcset />
+          <img :src="readBookCont[0].coverImageUrl" alt srcset />
         </div>
-        <p>让阅读点亮孩子的智慧人生</p>
+        <p>{{readBookCont[0].title}}</p>
       </div>
       <div class="bookLineTwo">
-        <div class="lineLeft" @click="gopages">
+        <div class="lineLeft" @click="gopages(readBookCont[1].bookId)">
           <div class="leftImg">
-            <img src="https://www.dummyimage.com/174x90" alt srcset />
+            <img :src="readBookCont[1].coverImageUrl" alt srcset />
           </div>
-          <p class="leftLine">我是小小演说家</p>
+          <p class="leftLine">{{readBookCont[1].title}}</p>
         </div>
-        <div class="lineRight" @click="gopages">
+        <div class="lineRight" @click="gopages(readBookCont[1].bookId)">
           <div class="leftImg">
-            <img src="https://www.dummyimage.com/174x90" alt srcset />
+            <img :src="readBookCont[1].coverImageUrl" alt srcset />
           </div>
-          <p class="leftLine">我是小小演说家</p>
+          <p class="leftLine">{{readBookCont[1].title}}</p>
         </div>
       </div>
     </div>
@@ -41,28 +41,13 @@
         </i-tabs>
       </div>
       <div class="bookListCont">
-        <div class="showBookList">
-          <div class="bookLine">
-            <img src="https://www.dummyimage.com/156x215" alt="" srcset="">
+        <!-- <div class="showBookList"> -->
+          <div class="bookLine" v-for="item in readContent" :key="item.id">
+            <img :src="item.coverImageUrl" alt="" srcset="">
           </div>
-          <div class="bookLine">
-            <img src="https://www.dummyimage.com/156x215" alt="" srcset="">
-          </div>
-        </div>
-        <div class="shaowBook"></div>
-        <div class="shaowBookTai"></div>
-      </div>
-      <div class="bookListCont">
-        <div class="showBookList">
-          <div class="bookLine">
-            <img src="https://www.dummyimage.com/156x215" alt="" srcset="">
-          </div>
-          <div class="bookLine">
-            <img src="https://www.dummyimage.com/156x215" alt="" srcset="">
-          </div>
-        </div>
-        <div class="shaowBook"></div>
-        <div class="shaowBookTai"></div>
+        <!-- </div> -->
+        <!-- <div class="shaowBook"></div>
+        <div class="shaowBookTai"></div> -->
       </div>
     </div>
     <!-- <search></search>
@@ -86,7 +71,8 @@ export default {
 
   data() {
     return {
-      cateZxList: [], //资讯分类
+      readBookCont: [], //读本容器
+      readContent: [], //教材容器
       zixuList: [], //资讯列表
       current_scroll: ""
     };
@@ -116,11 +102,50 @@ export default {
     //   console.log(oldval);
     // }
   },
-
+   onShow() {
+    this.getReadBook(40080000);
+    this.getReadBook(40090000);
+    this.getReadBookDetail();
+    this.getReadContentDetail();
+    // wx.hideTabBar();
+  },
   methods: {
-    gopages(){
+    //书屋教材详情
+    getReadContentDetail(){
+      const params = {
+        userId:456061438071431200,
+        bookId:43689569,
+      }
+      this.$api.tangy.readContentDetail(params).then(res=>{
+        console.log("书屋教材详情++++++++++++++++++++++++++++++++");
+        console.log(res);
+        
+      })
+    },
+  
+    //s书屋读本
+    getReadBook(categoryId){
+      const params = {
+        currentPage:1,
+        pageSize:10,
+        levelCode:1001001003,
+        categoryId:categoryId,  //40080000 是读本  40090000教材
+      }
+      this.$api.tangy.readBook(params).then(res=>{
+        console.log("s书屋读本++++++++++++++++++++++++++++++++");
+        console.log(res);
+        if(categoryId==40080000){ //读本 
+          this.readBookCont=res.result.pageResults
+        }else if(categoryId==40090000){
+          this.readContent=res.result.pageResults
+        }
+        
+        
+      })
+    },
+    gopages(id){
       wx.navigateTo({
-            url: `/pages/read/catalog/main`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            url: `/pages/read/catalog/main?readId=${id}`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
             })
     },
     //切换资讯分类
@@ -202,9 +227,7 @@ export default {
     this.getAllCategory();
   },
   onUnload() {},
-  onShow() {
-    // wx.hideTabBar();
-  },
+ 
   created() {}
 };
 </script>
@@ -251,7 +274,7 @@ export default {
 .bookImg {
   width: 100%;
   height: 185px;
-  background-color: aquamarine;
+  /* background-color: aquamarine; */
 }
 .bookImg img {
   width: 100%;
@@ -313,11 +336,19 @@ export default {
   margin: 0 auto;
   background: rgba(255, 255, 255, 1);
 }
+.bookListCont{
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap-reverse;
+}
 .showBookList {
   width: 95%;
   margin: 0 auto;
   display: flex;
   justify-content: space-around;
+  
 }
 .bookLine {
   width: 44%;

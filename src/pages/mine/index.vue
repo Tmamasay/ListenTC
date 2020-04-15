@@ -53,14 +53,14 @@ export default {
     };
   },
   created() {
-    this.getCategoryCourse();
+    // this.getCategoryCourse();
     // let key_token=this.$store.getters.user.token
   },
   methods: {
     //获取列表
     async getCategoryCourse(){
       const options={
-        categoryId:1001001003
+        categoryId:7953948
       }
        await this.$api.chengx
               .getCategoryCourse(options)

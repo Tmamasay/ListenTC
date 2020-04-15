@@ -45,6 +45,19 @@ const activityDetail = (params) => {
     }
   })
 }
+//首页推荐课程
+const courseRecommend = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/genneral/v1/course/recommend/${params.levelCode}`,
+    method: 'get',
+    params,
+    headers: {
+      'access': ShaAccess( `${store.getters.baseurl}/genneral/v1/course/recommend/${params.levelCode}`)
+    }
+  })
+}
+
+
 
 const activityRank = (params) => {
   return fetch({
@@ -147,5 +160,7 @@ const tangy = {
   notice, 
   readBook, //书屋读本
   readBookDetail,//读本详情
+  readContentDetail,  //书屋教材详情
+  courseRecommend //首页推荐课程
 }
 export default tangy
