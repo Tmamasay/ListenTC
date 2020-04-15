@@ -58,26 +58,25 @@ export default {
   },
   methods: {
     //获取列表
-    async getCategoryCourse(){
-      const options={
-        categoryId:7953948
-      }
-       await this.$api.chengx
-              .getCategoryCourse(options)
-              .then(res => {
-               if (+res.code===0) {
-                 this.CategoryCourseList=res.result.pageResults
-               debugger 
-               }
-              })
-              .catch(error => {
-                wx.showToast({
-                  title: "网络异常",
-                  icon: "none",
-                  duration: 1000
-                });
-              });
-
+    async getCategoryCourse() {
+      const options = {
+        categoryId: 7953948
+      };
+      await this.$api.chengx
+        .getCategoryCourse(options)
+        .then(res => {
+          if (+res.code === 0) {
+            this.CategoryCourseList = res.result.pageResults;
+            debugger;
+          }
+        })
+        .catch(error => {
+          wx.showToast({
+            title: "网络异常",
+            icon: "none",
+            duration: 1000
+          });
+        });
     },
     goPlay() {
       wx.navigateTo({
@@ -86,7 +85,7 @@ export default {
     }
   },
   onShow() {
-    this.getCategoryCourse()
+    this.getCategoryCourse();
   }
 };
 </script>

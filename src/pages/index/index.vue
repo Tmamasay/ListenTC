@@ -5,8 +5,8 @@
       style="background-image: url(../../../../../static/images/index/bg_top.png)"
     >
       <div class="user_operation">
-        <div class="selt" v-if="gradeList.length">
-        <seletline  :gradeLists="gradeList"></seletline>
+        <div class="selt" v-if="gradeList&&gradeList.length>0">
+          <seletline :gradeLists="gradeList"></seletline>
         </div>
 
         <div class="mine_info" @click="isWxLogin">
@@ -18,7 +18,10 @@
         </div>
       </div>
 
-      <div class="lunbo_contain" v-if="bannerActivityList.bannerList.length">
+      <div
+        class="lunbo_contain"
+        v-if="bannerActivityList.bannerList&&bannerActivityList.bannerList.length"
+      >
         <lunbo :imgUrls="bannerActivityList.bannerList"></lunbo>
       </div>
 
@@ -81,9 +84,7 @@
         @click="gotoEverydayRead"
         v-if="everydayReadCont"
       >
-        <div class="read_text">
-          {{everydayReadCont[0].content}}
-        </div>
+        <div class="read_text">{{everydayReadCont[0].content}}</div>
         <div class="read_people">——{{everydayReadCont[0].author}}</div>
         <img src="../../../static/images/index/every_day.png" alt class="read_img" />
       </div>
@@ -130,10 +131,10 @@
           <i-tab key="tab2" title="初中组"></i-tab>
           <i-tab key="tab3" title="高中组"></i-tab>
           <i-tab key="tab4" title="中职组"></i-tab>
-        </i-tabs> -->
+        </i-tabs>-->
       </div>
 
-      <div class="content" >
+      <div class="content">
         <div class="content_item" v-for="(index,item) in activityRankCont" :key="item.reviewItemId">
           <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
             <div
@@ -277,7 +278,6 @@
             </div>
           </div>
         </div>
-        
       </div>
       <div class="all_rank" @click="gotoActivityDetail">
         <img src="../../../static/images/index/more.png" alt />
@@ -407,11 +407,11 @@ export default {
   },
   data() {
     return {
-      everydayReadCont:null,//每日一读容器
-      activityRankCont:[],//排行榜
-      bannerActivityList:[],//banner图容器
-     courseRecommendList:[],//首页推荐课程
-      gradeList:[],
+      everydayReadCont: null, //每日一读容器
+      activityRankCont: [], //排行榜
+      bannerActivityList: [], //banner图容器
+      courseRecommendList: [], //首页推荐课程
+      gradeList: [],
       userInfo: {},
       imgUrls: [
         {
@@ -432,7 +432,7 @@ export default {
   computed: {},
   onShow() {
     this.userInfo = getUserinfo();
-    this.getGrade() //年级
+    this.getGrade(); //年级
     this.getEveryDayRead();
     this.getActivityList();
     this.getSysInfo();
@@ -441,18 +441,17 @@ export default {
     this.getActivityArea();
     this.getActivityRank();
     this.getMessage();
-    
   },
   methods: {
-      //所有年级api
-    getGrade(){
-      this.$api.chengx.getGrade().then(res=>{
+    //所有年级api
+    getGrade() {
+      this.$api.chengx.getGrade().then(res => {
         console.log("年级列表++++++++++++++++++++++++++++++++");
         console.log(res);
-        this.gradeList=res.result
-      })
+        this.gradeList = res.result;
+      });
     },
-    
+
     //每日一读
     getEveryDayRead() {
       const params = {
@@ -462,7 +461,7 @@ export default {
       };
       this.$api.tangy.everydayRead(params).then(res => {
         console.log("每日一读++++++++++++++++++++++++++++++++");
-       this.everydayReadCont=res.result
+        this.everydayReadCont = res.result;
       });
     },
     //首页推荐课程
@@ -472,20 +471,20 @@ export default {
       };
       this.$api.tangy.courseRecommend(params).then(res => {
         console.log("首页推荐课程++++++++++++++++++++++++++++++++");
-       this.courseRecommendList=res.result
+        this.courseRecommendList = res.result;
       });
     },
     //获取消息
-    getMessage(){
+    getMessage() {
       const params = {
-        currentPage:1,
-        pageSize:10,
-        userId:456061438071431200
-      }
-      this.$api.tangy.message(params).then(res=>{
+        currentPage: 1,
+        pageSize: 10,
+        userId: 456061438071431200
+      };
+      this.$api.tangy.message(params).then(res => {
         console.log("获取消息++++++++++++++++++++++++++++++++");
         console.log(res);
-      })
+      });
     },
     //活动榜单
     getActivityRank() {
@@ -501,7 +500,7 @@ export default {
       this.$api.tangy.activityRank(params).then(res => {
         console.log("活动榜单++++++++++++++++++++++++++++++++");
         // console.log(res);
-        this.activityRankCont=res.result.pageResults
+        this.activityRankCont = res.result.pageResults;
       });
     },
     //区域活动
@@ -516,7 +515,7 @@ export default {
         console.log(res);
       });
     },
-    
+
     //获取大区
     getArea() {
       this.$api.tangy.area().then(res => {
@@ -547,8 +546,8 @@ export default {
         lat: "123"
       };
       this.$api.tangy.activityList(params).then(res => {
-       console.log('获取banner列表+++++++++++++++++')
-       this.bannerActivityList=res.result
+        console.log("获取banner列表+++++++++++++++++");
+        this.bannerActivityList = res.result;
       });
     },
     isWxLogin() {

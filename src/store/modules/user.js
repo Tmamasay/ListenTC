@@ -7,6 +7,7 @@ const user = {
   state: {
     userinfo:'',
     status: '',
+    userId:'',
     code: '',
     token: getToken(),
     power:'',//判断是否有权限进入名片 0未绑定员工 1绑定员工	
@@ -52,6 +53,9 @@ const user = {
     SET_ID: (state, id) => { //用户名
       state.card_id = id
     },
+    SET_USER_ID: (state, userId) => { //用户名
+      state.userId = userId
+    },
     // SET_AVATAR: (state, avatar) => { //用户头像
     //   state.avatar = avatar
     // },
@@ -79,22 +83,15 @@ const user = {
     LoginByWX({ commit },options) {
       // 
       return new Promise((resolve, reject) => {
-              //发起网络请求
-              // const accountInfo = wx.getAccountInfoSync()
-              // setAppToken(accountInfo.miniProgram.appId)
-              // console.log(qs.stringify(params) )
-              // console.log('0987=============')
-          
               chengx.getToken(options).then((res) => {
                 console.log(res);
 								if(+res.code === 200) {
                   //保存token
-                 
                   const data = res.result
 									console.log('新用户保存token和用户类型')
                   commit('SET_TOKEN', data.accessToken);//保存token
+                  commit('SET_USER_ID', data.userId);//保存用户id
                   setToken(data.accessToken)//保存token到本地缓存
-                  
                   resolve()
 								}
 							}).catch((error)=>{
