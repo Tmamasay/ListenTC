@@ -60,7 +60,7 @@ export default {
     //获取列表
     async getCategoryCourse(){
       const options={
-        categoryId:2
+        categoryId:1001001003
       }
        await this.$api.chengx
               .getCategoryCourse(options)
