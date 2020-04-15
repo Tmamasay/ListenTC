@@ -411,6 +411,7 @@ export default {
       activityRankCont: [], //排行榜
       bannerActivityList: [], //banner图容器
       courseRecommendList: [], //首页推荐课程
+      reviewRecommendList: [], //首页推荐课程
       gradeList: [],
       userInfo: {},
       imgUrls: [
@@ -437,6 +438,7 @@ export default {
     this.getActivityList();
     this.getSysInfo();
     this.courseRecommend();
+    this.reviewRecommend()
     this.getArea();
     this.getActivityArea();
     this.getActivityRank();
@@ -464,13 +466,23 @@ export default {
         this.everydayReadCont = res.result;
       });
     },
-    //首页推荐课程
+    //首页推荐课程 reviewRecommend
     courseRecommend() {
       const params = {
         levelCode: "1001001003"
       };
       this.$api.tangy.courseRecommend(params).then(res => {
         console.log("首页推荐课程++++++++++++++++++++++++++++++++");
+        this.courseRecommendList = res.result;
+      });
+    },
+    //首页少年之声 
+    reviewRecommend() {
+      const params = {
+        levelCode: "1001001003"
+      };
+      this.$api.tangy.reviewRecommend(params).then(res => {
+        console.log("首页少年之声++++++++++++++++++++++++++++++++");
         this.courseRecommendList = res.result;
       });
     },

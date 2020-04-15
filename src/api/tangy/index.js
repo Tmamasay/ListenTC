@@ -56,6 +56,17 @@ const courseRecommend = (params) => {
     }
   })
 }
+//首页少年之声
+const reviewRecommend = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/genneral/v1/review/recommend/${params.levelCode}`,
+    method: 'get',
+    params,
+    headers: {
+      'access': ShaAccess( `${store.getters.baseurl}/genneral/v1/review/recommend/${params.levelCode}`)
+    }
+  })
+}
 
 
 
@@ -161,6 +172,7 @@ const tangy = {
   readBook, //书屋读本
   readBookDetail,//读本详情
   readContentDetail,  //书屋教材详情
-  courseRecommend //首页推荐课程
+  courseRecommend ,//首页推荐课程
+  reviewRecommend//首页少年之声
 }
 export default tangy
