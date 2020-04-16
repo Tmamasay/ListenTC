@@ -302,10 +302,11 @@ export default {
   methods: {
     //获取活动详情
     getActivityDetail(activityId) {
+      const userId = this.$store.getters.userId;
       const params = {
         activityId:activityId ,
         stage: 1,
-        userId: 456061438071431200
+        userId 
       };
       this.$api.tangy.activityDetail(params).then(res => {
         console.log("获取活动详情++++++++++++++++++++++++++++++++");

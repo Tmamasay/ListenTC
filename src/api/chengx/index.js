@@ -12,7 +12,6 @@ const getFans = params => {
     data: params,
     headers: {
       'content-type': 'application/json;charset=UTF-8',
-
       // 'Authorization':store.getters.token
     }
   })

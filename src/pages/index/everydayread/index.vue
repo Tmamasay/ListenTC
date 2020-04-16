@@ -9,35 +9,38 @@
     >
       <block v-for="(item,index) in poetry" :key="index">
         <swiper-item>
-          <div class="swiper-item">
-            <div class="read-content">
-              <div class="share-audio">
-                <img class="share" src="../../../../static/images/index/inc-share.png" />
-                <img
-                  class="audio-play"
-                  src="../../../../static/images/index/inc-audio.png"
-                  @click="play"
-                  v-if="!audio"
-                />
-                <img
-                  class="audio-play"
-                  src="../../../../static/images/index/bofang.png"
-                  @click="play"
-                  v-else
-                />
+          <div class="prtbox" :class="{'hoverItem':hovers}">
+            <div class="swiper-item">
+              <div class="read-content">
+                <div class="share-audio">
+                  <img class="share" src="../../../../static/images/index/inc-share.png" />
+                  <img
+                    class="audio-play"
+                    src="../../../../static/images/index/inc-audio.png"
+                    @click="play"
+                    v-if="!audio"
+                  />
+                  <img
+                    class="audio-play"
+                    src="../../../../static/images/index/bofang.png"
+                    @click="play"
+                    v-else
+                  />
+                </div>
+                <div class="author">
+                  <img class="author-line" src="../../../../static/images/index/author-line.png" />
+                  {{item.author}}
+                </div>
+                <div class="poetry-box">
+                  <div class="poetry" v-html="item.content"></div>
+                </div>
+                <div class="date">{{item.date}}</div>
               </div>
-              <div class="author">
-                <img class="author-line" src="../../../../static/images/index/author-line.png" />
-                {{item.author}}
+              <div class="read-introduction">
+                <div class="introduction-btn" @click="hovers=!hovers">查看介绍</div>
               </div>
-              <div class="poetry-box">
-                <div class="poetry" v-html="item.content"></div>
-              </div>
-              <div class="date">{{item.date}}</div>
             </div>
-            <div class="read-introduction">
-              <div class="introduction-btn">查看介绍</div>
-            </div>
+            <div class="swiper-itme-after"  @click="hovers=!hovers"></div>
           </div>
         </swiper-item>
       </block>
@@ -58,6 +61,7 @@ export default {
       previousMargin: "10px",
       nextMargin: "10px",
       audio: false,
+      hovers: false,
       poetry: [
         {
           date: "三月八日",
@@ -86,6 +90,45 @@ export default {
 </script>
 
 <style>
+.prtbox {
+  width: 100%;
+  height: 100%;
+  perspective: 1200px;
+  position: relative;
+  transition: all 2s;
+  transform-style: preserve-3d;
+}
+.prtbox.hoverItem {
+  transition: all 2s;
+  transform: rotateY(180deg);
+}
+.swiper-itme-after {
+  border-radius: 5px;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  position: relative;
+  transform: rotateY(-180deg);
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+}
+
+.swiper-item {
+  height: 100%;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 5px 1px rgba(237, 237, 237, 0.06);
+  margin: 0 5px;
+  padding: 17px;
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  position: absolute;
+  transform: rotateY(0deg);
+  backface-visibility: hidden;
+}
 .main-container {
   overflow: scroll;
   background-color: #f7f7f7;
@@ -96,17 +139,6 @@ export default {
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-}
-.swiper-item {
-  height: 100%;
-  background-color: #ffffff;
-  box-shadow: 0px 0px 5px 1px rgba(237, 237, 237, 0.06);
-  border-radius: 5px;
-  margin: 0 5px;
-  padding: 17px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
 }
 .read-content {
   height: 80%;

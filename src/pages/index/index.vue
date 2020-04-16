@@ -643,8 +643,9 @@ export default {
   margin-bottom: 15px;
   padding: 0 10px;
   box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  gap: 15px;
   height: 165px;
   width: 100%;
   background: no-repeat bottom center;
@@ -981,14 +982,14 @@ export default {
   position: relative;
   background: center center no-repeat;
   background-size: cover;
-  padding-top: 30px;
+  padding-top: 20px;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 2px;
   font-family: Microsoft YaHei;
   font-weight: bold;
   color: rgba(67, 67, 67, 1);
-  line-height: 30px;
+  line-height: 24px;
 }
 .read_text {
   margin: 0 65px;

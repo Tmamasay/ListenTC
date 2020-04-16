@@ -51,10 +51,11 @@ export default {
   created() {},
   methods: {
     getMessage() {
+      const userId = this.$store.getters.userId;
       const params = {
         currentPage: 1,
         pageSize: 10,
-        userId: this.$store.getters.userId
+        userId
       };
       this.$api.tangy.message(params).then(res => {
         console.log("获取消息++++++++++++++++++++++++++++++++");
