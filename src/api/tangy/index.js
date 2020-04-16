@@ -48,22 +48,22 @@ const activityDetail = (params) => {
 //首页推荐课程
 const courseRecommend = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/genneral/v1/course/recommend/${params.levelCode}`,
+    url: `${store.getters.baseurl}/general/v1/course/recommend/${params.levelCode}`,
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess( `${store.getters.baseurl}/genneral/v1/course/recommend/${params.levelCode}`)
+      'access': ShaAccess( `${store.getters.baseurl}/general/v1/course/recommend/${params.levelCode}`)
     }
   })
 }
 //首页少年之声
 const reviewRecommend = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/genneral/v1/review/recommend/${params.levelCode}`,
+    url: `${store.getters.baseurl}/general/v1/review/recommend/${params.levelCode}`,
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess( `${store.getters.baseurl}/genneral/v1/review/recommend/${params.levelCode}`)
+      'access': ShaAccess( `${store.getters.baseurl}/general/v1/review/recommend/${params.levelCode}`)
     }
   })
 }

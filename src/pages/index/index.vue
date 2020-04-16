@@ -343,19 +343,20 @@
       <div
         class="bookrack"
         style="background-image:url(../../../../../static/images/index/bookrack.png)"
+       v-if="courseRecommendList.length"
       >
-        <img src="https://www.dummyimage.com/100x140" alt @click="gotoBookDetail" />
-        <img src="https://www.dummyimage.com/100x140" alt />
-        <img src="https://www.dummyimage.com/100x140" alt />
+        <img v-for="item in courseRecommendList" :src="item.imageUrl" :key="item.courseId" alt @click="gotoBookDetail" />
+        <!-- <img src="https://www.dummyimage.com/100x140" alt /> -->
+        <!-- <img src="https://www.dummyimage.com/100x140" alt /> -->
       </div>
-      <div
+      <!-- <div
         class="bookrack mb0"
         style="background-image:url(../../../../../static/images/index/bookrack.png)"
       >
         <img src="https://www.dummyimage.com/100x140" alt />
         <img src="https://www.dummyimage.com/100x140" alt />
         <img src="https://www.dummyimage.com/100x140" alt />
-      </div>
+      </div> -->
     </div>
 
     <!-- 少年之声 -->
@@ -372,12 +373,12 @@
         </div>
       </div>
 
-      <div class="young">
-        <div class="yitem">
-          <img src="https://www.dummyimage.com/170x94" alt />
+      <div class="young" v-if="reviewRecommendList.length">
+        <div class="yitem"  v-for="item in reviewRecommendList" :key="item.reviewItemId">
+          <img :src="item.imageUrl" alt />
         </div>
 
-        <div class="yitem">
+        <!-- <div class="yitem">
           <img src="https://www.dummyimage.com/170x94" alt />
         </div>
 
@@ -387,7 +388,7 @@
 
         <div class="yitem">
           <img src="https://www.dummyimage.com/170x94" alt="1" />
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -411,7 +412,7 @@ export default {
       activityRankCont: [], //排行榜
       bannerActivityList: [], //banner图容器
       courseRecommendList: [], //首页推荐课程
-      reviewRecommendList: [], //首页推荐课程
+      reviewRecommendList: [], //首页少年之声
       gradeList: [],
       userInfo: {},
       imgUrls: [
@@ -483,7 +484,7 @@ export default {
       };
       this.$api.tangy.reviewRecommend(params).then(res => {
         console.log("首页少年之声++++++++++++++++++++++++++++++++");
-        this.courseRecommendList = res.result;
+        this.reviewRecommendList = res.result;
       });
     },
     //获取消息
