@@ -343,9 +343,15 @@
       <div
         class="bookrack"
         style="background-image:url(../../../../../static/images/index/bookrack.png)"
-       v-if="courseRecommendList.length"
+        v-if="courseRecommendList&&courseRecommendList.length"
       >
-        <img v-for="item in courseRecommendList" :src="item.imageUrl" :key="item.courseId" alt @click="gotoBookDetail" />
+        <img
+          v-for="item in courseRecommendList"
+          :src="item.imageUrl"
+          :key="item.courseId"
+          alt
+          @click="gotoBookDetail"
+        />
         <!-- <img src="https://www.dummyimage.com/100x140" alt /> -->
         <!-- <img src="https://www.dummyimage.com/100x140" alt /> -->
       </div>
@@ -356,7 +362,7 @@
         <img src="https://www.dummyimage.com/100x140" alt />
         <img src="https://www.dummyimage.com/100x140" alt />
         <img src="https://www.dummyimage.com/100x140" alt />
-      </div> -->
+      </div>-->
     </div>
 
     <!-- 少年之声 -->
@@ -373,8 +379,8 @@
         </div>
       </div>
 
-      <div class="young" v-if="reviewRecommendList.length">
-        <div class="yitem"  v-for="item in reviewRecommendList" :key="item.reviewItemId">
+      <div class="young" v-if="reviewRecommendList&&reviewRecommendList.length">
+        <div class="yitem" v-for="item in reviewRecommendList" :key="item.reviewItemId">
           <img :src="item.imageUrl" alt />
         </div>
 
@@ -388,7 +394,7 @@
 
         <div class="yitem">
           <img src="https://www.dummyimage.com/170x94" alt="1" />
-        </div> -->
+        </div>-->
       </div>
     </div>
   </div>
@@ -439,7 +445,7 @@ export default {
     this.getActivityList();
     this.getSysInfo();
     this.courseRecommend();
-    this.reviewRecommend()
+    this.reviewRecommend();
     this.getArea();
     this.getActivityArea();
     this.getActivityRank();
@@ -477,7 +483,7 @@ export default {
         this.courseRecommendList = res.result;
       });
     },
-    //首页少年之声 
+    //首页少年之声
     reviewRecommend() {
       const params = {
         levelCode: "1001001003"

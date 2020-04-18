@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/index/everydayread/main",
     "pages/index/main",
+    "pages/index/everydayread/main",
     "pages/index/setUp/changePhone/main",
     "pages/index/activity/essay/main",
     "pages/index/activity/detail/main",

@@ -52,7 +52,7 @@ const courseRecommend = (params) => {
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess( `${store.getters.baseurl}/general/v1/course/recommend/${params.levelCode}`)
+      'access': ShaAccess(`${store.getters.baseurl}/general/v1/course/recommend/${params.levelCode}`)
     }
   })
 }
@@ -63,7 +63,7 @@ const reviewRecommend = (params) => {
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess( `${store.getters.baseurl}/general/v1/review/recommend/${params.levelCode}`)
+      'access': ShaAccess(`${store.getters.baseurl}/general/v1/review/recommend/${params.levelCode}`)
     }
   })
 }
@@ -137,7 +137,7 @@ const readBook = (params) => {
     }
   })
 }
-const readBookDetail = (params)=>{
+const readBookDetail = (params) => {
   return fetch({
     url: `${store.getters.baseurl}/read/v2/book/detail/${params.bookId}`,
     method: 'get',
@@ -147,13 +147,36 @@ const readBookDetail = (params)=>{
     }
   })
 }
-const readContentDetail = (params)=>{
+const readContentDetail = (params) => {
   return fetch({
     url: `${store.getters.baseurl}/read/v1.5/book/detail/${params.bookId}`,
     method: 'get',
     params: params,
     headers: {
       'access': ShaAccess(`${store.getters.baseurl}/read/v1.5/book/detail/${params.bookId}`)
+    }
+  })
+}
+
+
+const userInfo = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/user/v1/userInfo/${params.userId}`,
+    method: 'get',
+    params: params,
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/userInfo/${params.userId}`)
+    }
+  })
+}
+// general/v1/dictionary/level
+const saveUserInfo = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/user/v1/user/info/${params.userId}`,
+    method: 'post',
+    data: params,
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/user/info/${params.userId}`)
     }
   })
 }
@@ -168,11 +191,13 @@ const tangy = {
   activityArea, //区域活动
   activityRank, //活动榜单
   message, //消息接口
-  notice, 
+  notice,
   readBook, //书屋读本
-  readBookDetail,//读本详情
-  readContentDetail,  //书屋教材详情
-  courseRecommend ,//首页推荐课程
-  reviewRecommend//首页少年之声
+  readBookDetail, //读本详情
+  readContentDetail, //书屋教材详情
+  courseRecommend, //首页推荐课程
+  reviewRecommend, //首页少年之声
+  userInfo, //获取用户信息
+  saveUserInfo, // 保存用户信息
 }
 export default tangy

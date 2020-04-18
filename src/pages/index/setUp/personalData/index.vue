@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <p class="keepForm">保存</p>
+    <p class="keepForm" @click="saveUserInfo">保存</p>
   </div>
 </template>
 
@@ -57,11 +57,41 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      userInfo: {
+        name: "",
+        gender: "",
+        birthday: "",
+        levelCode: "",
+        locationId: "",
+        image: ""
+      }
+    };
   },
-  methods: {},
-  onShow() {},
-  created() {}
+  onShow() {
+    this.getUserInfo();
+  },
+  created() {},
+  methods: {
+    getUserInfo() {
+      this.$api.tangy
+        .userInfo({
+          userId: this.$store.getters.userId
+        })
+        .then(res => {
+          console.log(res);
+        });
+    },
+    saveUserInfo() {
+      this.$api.tangy
+        .saveUserInfo({
+          userId: this.$store.getters.userId
+        })
+        .then(res => {
+          console.log(res);
+        });
+    }
+  }
 };
 </script>
 
