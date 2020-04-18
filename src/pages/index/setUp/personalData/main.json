@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "i-icon": "/static/iView/icon/index"
+    "i-icon": "/static/iView/icon/index",
+    "i-action-sheet": "/static/iView/action-sheet/index"
 
 },
   "navigationBarTitleText": "个人资料"

@@ -1,5 +1,5 @@
 import  chengx from '@/api/chengx'
-import { getToken, setToken, removeToken,setUserinfo,setAppToken } from '@/utils/auth'
+import { getToken,setUserId, setToken, removeToken,setUserinfo,setAppToken } from '@/utils/auth'
 // import {transformRequest} from '@/utils'
 import qs from 'qs';
 
@@ -9,11 +9,12 @@ const user = {
     status: '',
     userId:'',
     code: '',
+    levelCode:'',
     token: getToken(),
     power:'',//判断是否有权限进入名片 0未绑定员工 1绑定员工	
     card_id:0,//临时存取客户关联的名片id 
-    baseurl:'http://test.sdb.new-class.cn',//调试地址
-    // baseurl:'http://192.168.0.81:8080/',//线上地址
+    // baseurl:'http://test.sdb.new-class.cn',//调试地址
+    baseurl:'http://192.168.5.205:8123',//线上地址
     mblists:[],//存放模板id
     isPlayMusicId:''//是否有正在播放的歌曲
     // baseurl:'http://bqa2nc.natappfree.cc/',
@@ -53,8 +54,11 @@ const user = {
     SET_ID: (state, id) => { //用户名
       state.card_id = id
     },
-    SET_USER_ID: (state, userId) => { //用户名
+    SET_USER_ID: (state, userId) => { //用id
       state.userId = userId
+    },
+    SET_LEVEL_CODE: (state, levelCode) => { //用户类型
+      state.levelCode = levelCode
     },
     // SET_AVATAR: (state, avatar) => { //用户头像
     //   state.avatar = avatar
@@ -92,6 +96,7 @@ const user = {
                   commit('SET_TOKEN', data.accessToken);//保存token
                   commit('SET_USER_ID', data.userId);//保存用户id
                   setToken(data.accessToken)//保存token到本地缓存
+                  setUserId(data.userId) //保存用户id到本地缓存
                   resolve()
 								}
 							}).catch((error)=>{

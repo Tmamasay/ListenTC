@@ -3,6 +3,8 @@ const Userinfo = 'user_info'
 const appToken = 'app_Token' //oem小程序标识
 const userPhone = 'userPhone' //手机号
 const searchKey = 'historyKey' //搜索关键字
+const levelCode = 'LevelCode' //年级等级
+const userId = 'userId' //年级等级
 
 //存取token到本地--->本地缓存
 export function getToken() {
@@ -75,5 +77,38 @@ export function setUserinfo(info) {
 }
 
 export function removeUserinfo() {
-  return wx.removeStorageSync(Userinfo)
+  return wx.removeStorageSync(levelCode)
 }
+//存取用户年级等级--->本地缓存
+export function getLevelCode() {
+  return wx.getStorageSync(levelCode)
+}
+
+export function setLevelCode(code) {
+  try {
+    return wx.setStorageSync(levelCode, code)
+  } catch (e) {
+    return this.setstorage(levelCode, code)
+  }
+}
+
+export function removeLevelCode() {
+  return wx.removeStorageSync(levelCode)
+}
+//存取用户UserID--->本地缓存
+export function getUserId() {
+  return wx.getStorageSync(userId)
+}
+
+export function setUserId(id) {
+  try {
+    return wx.setStorageSync(userId, id)
+  } catch (e) {
+    return this.setstorage(userId, id)
+  }
+}
+
+export function removeUserId() {
+  return wx.removeStorageSync(levelCode)
+}
+

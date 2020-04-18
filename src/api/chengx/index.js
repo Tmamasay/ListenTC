@@ -1,4 +1,5 @@
 import fetch from '@/utils/fetch.js'
+import { getLevelCode } from "@/utils/auth";
 import {
   ShaAccess
 } from '@/utils'
@@ -43,11 +44,11 @@ const getUserOpenId = params => {
 //学堂列表
  const getCategoryCourse = params => { 
   return fetch({
-    url: `${store.getters.baseurl}/course/v1/category/course/1001001003`,
+    url: `${store.getters.baseurl}/course/v1/category/course/${getLevelCode()}`,
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/course/v1/category/course/1001001003`)
+      'access': ShaAccess(`${store.getters.baseurl}/course/v1/category/course/${getLevelCode()}`)
       // 'Authorization':store.getters.token
     }
   })
@@ -55,11 +56,11 @@ const getUserOpenId = params => {
 //年级
 const getGrade = params => {
   return fetch({
-    url: `${store.getters.baseurl}/general/v1/grade`,
+    url: `${store.getters.baseurl}/general/v2.1/module/type/attribute`,
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/general/v1/grade`)
+      'access': ShaAccess(`${store.getters.baseurl}/general/v2.1/module/type/attribute`)
       // 'Authorization':store.getters.token
     }
   })

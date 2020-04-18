@@ -1,4 +1,5 @@
 import fetch from '@/utils/fetch.js'
+import { getLevelCode } from "@/utils/auth";
 import {
   ShaAccess
 } from '@/utils'
@@ -15,10 +16,10 @@ const sendmobanmes = params => {
 
 const activityList = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/general/v2/banner/activity/${params.levelCode}?lng=${params.lng}&lat=${params.lat}&userId=${params.userId}`,
+    url: `${store.getters.baseurl}/general/v2/banner/activity/${getLevelCode()}?lng=${params.lng}&lat=${params.lat}&userId=${params.userId}`,
     method: 'get',
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/general/v2/banner/activity/${params.levelCode}`)
+      'access': ShaAccess(`${store.getters.baseurl}/general/v2/banner/activity/${getLevelCode()}`)
     }
   })
 }
@@ -48,22 +49,22 @@ const activityDetail = (params) => {
 //首页推荐课程
 const courseRecommend = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/general/v1/course/recommend/${params.levelCode}`,
+    url: `${store.getters.baseurl}/general/v1/course/recommend/${getLevelCode()}`,
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/general/v1/course/recommend/${params.levelCode}`)
+      'access': ShaAccess(`${store.getters.baseurl}/general/v1/course/recommend/${getLevelCode()}`)
     }
   })
 }
 //首页少年之声
 const reviewRecommend = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/general/v1/review/recommend/${params.levelCode}`,
+    url: `${store.getters.baseurl}/general/v1/review/recommend/${getLevelCode()}`,
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/general/v1/review/recommend/${params.levelCode}`)
+      'access': ShaAccess(`${store.getters.baseurl}/general/v1/review/recommend/${getLevelCode()}`)
     }
   })
 }
@@ -129,11 +130,11 @@ const notice = (params) => {
 
 const readBook = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/read/v2/book/${params.categoryId}/${params.levelCode}`,
+    url: `${store.getters.baseurl}/read/v2/book/${params.categoryId}/${getLevelCode()}`,
     method: 'get',
     params: params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/read/v2/book/${params.categoryId}/${params.levelCode}`)
+      'access': ShaAccess(`${store.getters.baseurl}/read/v2/book/${params.categoryId}/${getLevelCode()}`)
     }
   })
 }
@@ -181,6 +182,59 @@ const saveUserInfo = (params) => {
   })
 }
 
+//获取用户类型
+const getAttribute = ()=>{
+  return fetch({
+    url: `${store.getters.baseurl}/general/v2.1/module/type/attribute`,
+    method: 'get',
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/general/v2.1/module/type/attribute`)
+    }
+  })
+}
+
+
+//获取短信验证码
+const verificationCode = (params)=>{
+  return fetch({
+    url: `${store.getters.baseurl}/applet/v1/verificationCode`,
+    method: 'get',
+    params,
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/applet/v1/verificationCode`)
+    }
+  })
+}
+
+//保存用户手机
+const saveUserPhone = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/applet/v1/mobile/${params.userId}`,
+    method: 'post',
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/applet/v1/mobile/${params.userId}`)
+    }
+  })
+}
+
+const getHistory = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/course/v2/course/history/${params.userId}`,
+    method: 'get',
+    params,
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/course/v2/course/history/${params.userId}`)
+    }
+  })
+}
+
+const  getAreaJson = ()=>{
+  return fetch({
+    url: `http://192.168.5.205:8124/json/province.json`,
+    method: 'get',
+  })
+}
 
 const tangy = {
   sendmobanmes, //推送模板消息
@@ -199,5 +253,10 @@ const tangy = {
   reviewRecommend, //首页少年之声
   userInfo, //获取用户信息
   saveUserInfo, // 保存用户信息
+  getHistory,//查询历史课程
+  getAreaJson,
+  getAttribute, // 获取用户类型
+  verificationCode, //获取手机验证码
+  saveUserPhone, //用户绑定手机号
 }
 export default tangy

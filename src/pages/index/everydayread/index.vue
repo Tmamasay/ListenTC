@@ -40,7 +40,51 @@
                 <div class="introduction-btn" @click="hovers=!hovers">查看介绍</div>
               </div>
             </div>
-            <div class="swiper-itme-after"  @click="hovers=!hovers"></div>
+            <div class="swiper-itme-after" @click="hovers=!hovers">
+              <div class="read-content-back">
+                <div class="stars-audio">
+                  <div class="stars">
+                    <img
+                      class="stars-img"
+                      src="../../../../static/images/index/star.png"
+                      alt
+                      v-for="(star,st) in item.level"
+                      :key="st"
+                    />
+                    <img
+                      class="stars-img"
+                      src="../../../../static/images/index/star-grey.png"
+                      alt
+                      v-for="(grey,idx) in (item.maxLevel - item.level)"
+                      :key="idx"
+                    />
+                  </div>
+                  <div class="audio-container">
+                    <img
+                      class="audio-play"
+                      src="../../../../static/images/index/inc-audio.png"
+                      @click.stop="play"
+                      v-if="!audio"
+                    />
+                    <img
+                      class="audio-play"
+                      src="../../../../static/images/index/bofang.png"
+                      @click.stop="play"
+                      v-else
+                    />
+                  </div>
+                </div>
+                <div class="detail-container">
+                  <div class="title">{{item.title}}</div>
+                  <div class="author">{{item.author}}</div>
+                  <div class="main-content" v-html="item.content"></div>
+                </div>
+              </div>
+              <div class="read-introduction">
+                <div class="fun-btn" :class="{'active-btn':isFull}" @click.stop="isFull = true">全文</div>
+                <div class="fun-btn" :class="{'active-btn':!isFull}" @click.stop="isFull = false">介绍</div>
+              </div>
+            </div>
           </div>
         </swiper-item>
       </block>
@@ -64,18 +108,40 @@ export default {
       hovers: false,
       poetry: [
         {
-          date: "三月八日",
+          audioUrl: "",
+          author: "卓别林",
           content: "时间是一个伟大的作者，<br />它会给每个人写出完美的结局来。",
-          author: "卓别林"
+          contentId: 0,
+          createTime: 0,
+          level: 3,
+          maxLevel: 6,
+          recommendDate: "三月八日",
+          recordAudioUrl: "",
+          recordId: 0,
+          resourceUrl: "",
+          title: "世说新语"
         }
-      ]
+      ],
+      back: false,
+      front: true,
+      isFull: false,
+      greyStar: 0
     };
   },
-  created() {},
+  created() {
+    this.getEveryDayRead();
+  },
   onLoad() {},
   methods: {
     play() {
       this.audio = !this.audio;
+    },
+    reversal() {
+      this.back = !this.back;
+      this.front = !this.front;
+    },
+    getEveryDayRead() {
+      this.greyStar = this.poetry.maxLevel - this.poetry.level;
     }
   },
   onReachBottom() {
@@ -110,7 +176,9 @@ export default {
   transform: rotateY(-180deg);
   width: 100%;
   height: 100%;
-  background-color: #000;
+  background-color: #fff;
+  padding: 17px;
+  box-sizing: border-box;
 }
 
 .swiper-item {
@@ -145,6 +213,12 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: row;
+}
+.read-content-back {
+  height: 80%;
+  width: 100%;
+  /* display: flex;
+  flex-direction: columns; */
 }
 .share-audio {
   width: 28px;
@@ -223,5 +297,58 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.fun-btn {
+  width: 80px;
+  height: 30px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-family: "Microsoft YaHei";
+  color: rgb(67, 67, 67);
+}
+.active-btn {
+  background-color: rgb(255, 217, 72);
+}
+.stars {
+  display: flex;
+  flex-direction: row;
+}
+.stars-img {
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+}
+.stars-audio {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 20px;
+}
+.stars-audio .audio-play {
+  margin-top: 0;
+}
+.audio-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.detail-container {
+  padding-top: 71px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.detail-container .author {
+  width: 100%;
+  margin: 18px auto 25px;
+}
+.main-content {
+  line-height: 24px;
+  letter-spacing: 1px;
 }
 </style>

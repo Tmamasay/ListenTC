@@ -7,5 +7,6 @@ const getters = {
   formid: state => state.user.mblists,
   isPlayMusicId: state => state.user.isPlayMusicId,
   userId: state => state.user.userId,
+  levelCode: state => state.user.levelCode,
 }
 export default getters

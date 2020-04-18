@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { setLevelCode,getLevelCode } from "@/utils/auth";
 export default {
    props: ["gradeLists"],
   data () {
@@ -21,7 +22,7 @@ export default {
         {name:"列表3"},
         {name:"列表4"}
       ],
-      xz_value:"下拉列表"
+      xz_value:getLevelCode()||'请选择'
     }
   },
 
@@ -34,6 +35,8 @@ export default {
     },
     xuanzhi(e){
       this.xz_value = e.name;
+      setLevelCode(e.value)
+      this.$emit('getLevelCode')
       this.isShow = false
       console.log(e);
     }

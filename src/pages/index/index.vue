@@ -6,7 +6,7 @@
     >
       <div class="user_operation">
         <div class="selt" v-if="gradeList&&gradeList.length>0">
-          <seletline :gradeLists="gradeList"></seletline>
+          <seletline :gradeLists="gradeList" @getLevelCode="getLevelCode"></seletline>
         </div>
 
         <div class="mine_info" @click="isWxLogin">
@@ -18,10 +18,7 @@
         </div>
       </div>
 
-      <div
-        class="lunbo_contain"
-        v-if="bannerActivityList.bannerList&&bannerActivityList.bannerList.length"
-      >
+      <div class="lunbo_contain" v-if="bannerActivityList&&bannerActivityList.bannerList">
         <lunbo :imgUrls="bannerActivityList.bannerList"></lunbo>
       </div>
 
@@ -103,7 +100,7 @@
         </div>
       </div>
 
-      <div class="act_lunbo">
+      <div class="act_lunbo" v-if="bannerActivityList&&bannerActivityList.works">
         <turb :imgUrls="bannerActivityList.works"></turb>
       </div>
     </div>
@@ -343,7 +340,7 @@
       <div
         class="bookrack"
         style="background-image:url(../../../../../static/images/index/bookrack.png)"
-        v-if="courseRecommendList&&courseRecommendList.length"
+       v-if="courseRecommendList&&courseRecommendList.length"
       >
         <img
           v-for="item in courseRecommendList"
@@ -380,7 +377,7 @@
       </div>
 
       <div class="young" v-if="reviewRecommendList&&reviewRecommendList.length">
-        <div class="yitem" v-for="item in reviewRecommendList" :key="item.reviewItemId">
+        <div class="yitem"  v-for="item in reviewRecommendList" :key="item.reviewItemId">
           <img :src="item.imageUrl" alt />
         </div>
 
@@ -405,7 +402,7 @@ import tangy from "@/api/tangy";
 import lunbo from "@/components/lunbo";
 import seletline from "@/components/select";
 import turb from "@/components/turb";
-import { getToken, getUserinfo } from "@/utils/auth";
+import { getToken, getUserinfo, getLevelCode } from "@/utils/auth";
 export default {
   components: {
     lunbo, //轮播
@@ -414,6 +411,7 @@ export default {
   },
   data() {
     return {
+      levelCode: getLevelCode() || "", //年级
       everydayReadCont: null, //每日一读容器
       activityRankCont: [], //排行榜
       bannerActivityList: [], //banner图容器
@@ -437,34 +435,53 @@ export default {
       ]
     };
   },
+  watch: {
+    levelCode: function(newval, oldval) {
+      if (newval) {
+        this.getEveryDayRead();
+        this.getActivityList();
+        this.getSysInfo();
+        this.courseRecommend();
+        this.reviewRecommend();
+        this.getArea();
+        this.getActivityArea();
+        this.getActivityRank();
+        this.getMessage();
+      }
+    }
+  },
   computed: {},
   onShow() {
     this.userInfo = getUserinfo();
-    this.getGrade(); //年级
-    this.getEveryDayRead();
-    this.getActivityList();
-    this.getSysInfo();
-    this.courseRecommend();
-    this.reviewRecommend();
-    this.getArea();
-    this.getActivityArea();
-    this.getActivityRank();
-    this.getMessage();
+    if (this.userInfo) {
+      this.getAttribute(); //年级
+      // if(getLevelCode()){
+
+      // }
+    }
   },
   methods: {
-    //所有年级api
-    getGrade() {
-      this.$api.chengx.getGrade().then(res => {
-        console.log("年级列表++++++++++++++++++++++++++++++++");
-        console.log(res);
-        this.gradeList = res.result;
+    getLevelCode() {
+      this.levelCode = getLevelCode();
+    },
+    // //所有年级api
+    // getGrade() {
+    //   this.$api.chengx.getGrade().then(res => {
+    //     this.gradeList = res.result.levelList;
+    //     console.log(this.gradeList);
+    //     console.log("年级列表++++++++++++++++++++++++++++++++");
+    //   });
+    // },
+    getAttribute() {
+      this.$api.tangy.getAttribute().then(res => {
+        this.gradeList = res.result.levelList || [];
       });
     },
 
     //每日一读
     getEveryDayRead() {
       const params = {
-        levelCode: "1001001003",
+        levelCode: this.$store.getters.levelCode,
         userId: 456061438071431200,
         limit: 1
       };
@@ -476,7 +493,7 @@ export default {
     //首页推荐课程 reviewRecommend
     courseRecommend() {
       const params = {
-        levelCode: "1001001003"
+        levelCode: this.$store.getters.levelCode
       };
       this.$api.tangy.courseRecommend(params).then(res => {
         console.log("首页推荐课程++++++++++++++++++++++++++++++++");
@@ -486,7 +503,7 @@ export default {
     //首页少年之声
     reviewRecommend() {
       const params = {
-        levelCode: "1001001003"
+        levelCode: this.$store.getters.levelCode
       };
       this.$api.tangy.reviewRecommend(params).then(res => {
         console.log("首页少年之声++++++++++++++++++++++++++++++++");
@@ -558,7 +575,7 @@ export default {
     //获取banner列表
     getActivityList() {
       const params = {
-        levelCode: "1001001003",
+        levelCode: this.$store.getters.levelCode,
         userId: "1",
         limit: 1,
         lng: "123",

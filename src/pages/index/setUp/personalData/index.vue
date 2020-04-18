@@ -18,14 +18,22 @@
         <p>性别</p>
         <div class="rightName">
           女
-          <i-icon type="enter" size="15" color="#BBB8B9" />
+          <i-icon type="enter" @click="openGender" size="15" color="#BBB8B9" />
         </div>
       </div>
       <div class="personalLineB2">
         <p>生日</p>
         <div class="rightName">
-          9月10日
-          <i-icon type="enter" size="15" color="#BBB8B9" />
+          {{userInfo.birthday}}
+          <picker
+            mode="date"
+            v-model="userInfo.birthday"
+            start="2015-09-01"
+            end="2017-09-01"
+            @change="bindDateChange"
+          >
+            <i-icon type="enter" size="15" color="#BBB8B9" />
+          </picker>
         </div>
       </div>
     </div>
@@ -41,11 +49,26 @@
         <p>城市</p>
         <div class="rightName">
           重庆
-          <i-icon type="enter" size="15" color="#BBB8B9" />
+          <picker
+            mode="region"
+            @change="bindRegionChange"
+            v-model="locationId"
+            :range="areaRange"
+            :customItem="customItem"
+          >
+            <i-icon type="enter" size="15" color="#BBB8B9" />
+          </picker>
         </div>
       </div>
     </div>
     <p class="keepForm" @click="saveUserInfo">保存</p>
+
+    <i-action-sheet
+      :visible="genderType"
+      :actions="actions1"
+      @cancel="cancelGender"
+      @click="saveGender"
+    />
   </div>
 </template>
 
@@ -58,21 +81,68 @@ export default {
 
   data() {
     return {
+      date: "",
+      genderType: false,
+      actions1: [
+        {
+          name: "男",
+          value:"男"
+        },
+        {
+          name: "女",
+          value:"女"
+        }
+      ],
       userInfo: {
         name: "",
         gender: "",
         birthday: "",
         levelCode: "",
-        locationId: "",
+        locationId: [],
         image: ""
-      }
+      },
+      areaRange: [],
+      region: ["广东省", "广州市", "海珠区"],
+      customItem: "全部"
     };
   },
   onShow() {
+    // this.getLocation()
     this.getUserInfo();
+    this.getArea();
   },
   created() {},
   methods: {
+    openGender() {
+      this.genderType = true;
+    },
+    cancelGender() {
+      this.genderType = false;
+    },
+    saveGender(e) {
+
+      
+    },
+    getArea() {
+      this.$api.tangy.getAreaJson().then(res => {
+        this.range = res.result;
+        console.log(res);
+      });
+    },
+    bindRegionChange(e) {
+      console.log(e);
+    },
+    getLocation() {
+      wx.getLocation({
+        type: "wgs84",
+        success(res) {
+          const latitude = res.latitude;
+          const longitude = res.longitude;
+          const speed = res.speed;
+          const accuracy = res.accuracy;
+        }
+      });
+    },
     getUserInfo() {
       this.$api.tangy
         .userInfo({
@@ -90,6 +160,9 @@ export default {
         .then(res => {
           console.log(res);
         });
+    },
+    bindDateChange(e) {
+      this.userInfo.birthday = e.target.value;
     }
   }
 };
