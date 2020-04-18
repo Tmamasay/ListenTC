@@ -1,5 +1,5 @@
 import  chengx from '@/api/chengx'
-import { getToken, setToken, removeToken,setUserinfo,setAppToken } from '@/utils/auth'
+import { getToken,setUserId, setToken, removeToken,setUserinfo,setAppToken } from '@/utils/auth'
 // import {transformRequest} from '@/utils'
 import qs from 'qs';
 
@@ -92,6 +92,7 @@ const user = {
                   commit('SET_TOKEN', data.accessToken);//保存token
                   commit('SET_USER_ID', data.userId);//保存用户id
                   setToken(data.accessToken)//保存token到本地缓存
+                  setUserId(data.userId) //保存用户id到本地缓存
                   resolve()
 								}
 							}).catch((error)=>{

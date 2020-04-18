@@ -1,4 +1,5 @@
 import fetch from '@/utils/fetch.js'
+import { getLevelCode } from "@/utils/auth";
 import {
   ShaAccess
 } from '@/utils'
@@ -15,10 +16,10 @@ const sendmobanmes = params => {
 
 const activityList = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/general/v2/banner/activity/${params.levelCode}?lng=${params.lng}&lat=${params.lat}&userId=${params.userId}`,
+    url: `${store.getters.baseurl}/general/v2/banner/activity/${getLevelCode()}?lng=${params.lng}&lat=${params.lat}&userId=${params.userId}`,
     method: 'get',
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/general/v2/banner/activity/${params.levelCode}`)
+      'access': ShaAccess(`${store.getters.baseurl}/general/v2/banner/activity/${getLevelCode()}`)
     }
   })
 }
@@ -48,22 +49,22 @@ const activityDetail = (params) => {
 //首页推荐课程
 const courseRecommend = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/general/v1/course/recommend/${params.levelCode}`,
+    url: `${store.getters.baseurl}/general/v1/course/recommend/${getLevelCode()}`,
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess( `${store.getters.baseurl}/general/v1/course/recommend/${params.levelCode}`)
+      'access': ShaAccess( `${store.getters.baseurl}/general/v1/course/recommend/${getLevelCode()}`)
     }
   })
 }
 //首页少年之声
 const reviewRecommend = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/general/v1/review/recommend/${params.levelCode}`,
+    url: `${store.getters.baseurl}/general/v1/review/recommend/${getLevelCode()}`,
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess( `${store.getters.baseurl}/general/v1/review/recommend/${params.levelCode}`)
+      'access': ShaAccess( `${store.getters.baseurl}/general/v1/review/recommend/${getLevelCode()}`)
     }
   })
 }
@@ -129,11 +130,11 @@ const notice = (params) => {
 
 const readBook = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/read/v2/book/${params.categoryId}/${params.levelCode}`,
+    url: `${store.getters.baseurl}/read/v2/book/${params.categoryId}/${getLevelCode()}`,
     method: 'get',
     params: params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/read/v2/book/${params.categoryId}/${params.levelCode}`)
+      'access': ShaAccess(`${store.getters.baseurl}/read/v2/book/${params.categoryId}/${getLevelCode()}`)
     }
   })
 }

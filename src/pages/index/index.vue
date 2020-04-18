@@ -6,7 +6,7 @@
     >
       <div class="user_operation">
         <div class="selt" v-if="gradeList&&gradeList.length>0">
-          <seletline :gradeLists="gradeList"></seletline>
+          <seletline :gradeLists="gradeList" @getLevelCode="getLevelCode"></seletline>
         </div>
 
         <div class="mine_info" @click="isWxLogin">
@@ -20,7 +20,7 @@
 
       <div
         class="lunbo_contain"
-        v-if="bannerActivityList.bannerList&&bannerActivityList.bannerList.length"
+        v-if="bannerActivityList&&bannerActivityList.bannerList"
       >
         <lunbo :imgUrls="bannerActivityList.bannerList"></lunbo>
       </div>
@@ -103,7 +103,7 @@
         </div>
       </div>
 
-      <div class="act_lunbo">
+      <div class="act_lunbo" v-if="bannerActivityList&&bannerActivityList.works">
         <turb :imgUrls="bannerActivityList.works"></turb>
       </div>
     </div>
@@ -343,7 +343,7 @@
       <div
         class="bookrack"
         style="background-image:url(../../../../../static/images/index/bookrack.png)"
-       v-if="courseRecommendList.length"
+       v-if="courseRecommendList&&courseRecommendList.length"
       >
         <img v-for="item in courseRecommendList" :src="item.imageUrl" :key="item.courseId" alt @click="gotoBookDetail" />
         <!-- <img src="https://www.dummyimage.com/100x140" alt /> -->
@@ -373,7 +373,7 @@
         </div>
       </div>
 
-      <div class="young" v-if="reviewRecommendList.length">
+      <div class="young" v-if="reviewRecommendList&&reviewRecommendList.length">
         <div class="yitem"  v-for="item in reviewRecommendList" :key="item.reviewItemId">
           <img :src="item.imageUrl" alt />
         </div>
@@ -399,7 +399,7 @@ import tangy from "@/api/tangy";
 import lunbo from "@/components/lunbo";
 import seletline from "@/components/select";
 import turb from "@/components/turb";
-import { getToken, getUserinfo } from "@/utils/auth";
+import { getToken, getUserinfo,getLevelCode } from "@/utils/auth";
 export default {
   components: {
     lunbo, //轮播
@@ -408,6 +408,7 @@ export default {
   },
   data() {
     return {
+      levelCode:getLevelCode()||"",//年级
       everydayReadCont: null, //每日一读容器
       activityRankCont: [], //排行榜
       bannerActivityList: [], //banner图容器
@@ -431,27 +432,47 @@ export default {
       ]
     };
   },
+  watch:{
+    levelCode: function(newval, oldval) {
+      if (newval) {
+       this.getEveryDayRead();
+          this.getActivityList();
+          this.getSysInfo();
+          this.courseRecommend();
+          this.reviewRecommend()
+          this.getArea();
+          this.getActivityArea();
+          this.getActivityRank();
+          this.getMessage();
+    }
+
+  }
+  },
   computed: {},
   onShow() {
     this.userInfo = getUserinfo();
-    this.getGrade(); //年级
-    this.getEveryDayRead();
-    this.getActivityList();
-    this.getSysInfo();
-    this.courseRecommend();
-    this.reviewRecommend()
-    this.getArea();
-    this.getActivityArea();
-    this.getActivityRank();
-    this.getMessage();
+    if(this.userInfo){
+      this.getGrade(); //年级
+      // if(getLevelCode()){
+         
+    
+      // }
+    
+   
+    }
+    
   },
   methods: {
+    getLevelCode(){
+      this.levelCode=getLevelCode()
+
+    },
     //所有年级api
     getGrade() {
       this.$api.chengx.getGrade().then(res => {
-        console.log("年级列表++++++++++++++++++++++++++++++++");
-        console.log(res);
-        this.gradeList = res.result;
+        this.gradeList = res.result.levelList;
+        console.log(this.gradeList)
+         console.log("年级列表++++++++++++++++++++++++++++++++");
       });
     },
 
