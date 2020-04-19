@@ -13,8 +13,8 @@ const user = {
     token: getToken(),
     power:'',//判断是否有权限进入名片 0未绑定员工 1绑定员工	
     card_id:0,//临时存取客户关联的名片id 
-    // baseurl:'http://test.sdb.new-class.cn',//调试地址
-    baseurl:'http://192.168.5.205:8123',//线上地址
+    baseurl:'http://test.sdb.new-class.cn',//调试地址
+    // baseurl:'http://192.168.5.205:8123',//线上地址
     mblists:[],//存放模板id
     isPlayMusicId:''//是否有正在播放的歌曲
     // baseurl:'http://bqa2nc.natappfree.cc/',

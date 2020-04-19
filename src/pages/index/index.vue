@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="lunbo_contain" v-if="bannerActivityList&&bannerActivityList.bannerList">
+      <div class="lunbo_contain" v-if="bannerActivityList">
         <lunbo :imgUrls="bannerActivityList.bannerList"></lunbo>
       </div>
 
@@ -79,7 +79,7 @@
         class="reading_box"
         style="background-image:url(../../../../../static/images/index/maohao.png)"
         @click="gotoEverydayRead"
-        v-if="everydayReadCont"
+        v-if="everydayReadCont&&everydayReadCont.length"
       >
         <div class="read_text">{{everydayReadCont[0].content}}</div>
         <div class="read_people">——{{everydayReadCont[0].author}}</div>
@@ -100,7 +100,7 @@
         </div>
       </div>
 
-      <div class="act_lunbo" v-if="bannerActivityList&&bannerActivityList.works">
+      <div class="act_lunbo" v-if="bannerActivityList">
         <turb :imgUrls="bannerActivityList.works"></turb>
       </div>
     </div>
@@ -414,7 +414,7 @@ export default {
       levelCode: getLevelCode() || "", //年级
       everydayReadCont: null, //每日一读容器
       activityRankCont: [], //排行榜
-      bannerActivityList: [], //banner图容器
+      bannerActivityList:null, //banner图容器
       courseRecommendList: [], //首页推荐课程
       reviewRecommendList: [], //首页少年之声
       gradeList: [],
@@ -461,7 +461,7 @@ export default {
     }
   },
   methods: {
-    getLevelCode() {
+     getLevelCode() {
       this.levelCode = getLevelCode();
     },
     // //所有年级api
@@ -472,58 +472,58 @@ export default {
     //     console.log("年级列表++++++++++++++++++++++++++++++++");
     //   });
     // },
-    getAttribute() {
-      this.$api.tangy.getAttribute().then(res => {
+    async getAttribute() {
+        await this.$api.tangy.getAttribute().then(res => {
         this.gradeList = res.result.levelList || [];
       });
     },
 
     //每日一读
-    getEveryDayRead() {
+   async getEveryDayRead() {
       const params = {
         levelCode: this.$store.getters.levelCode,
         userId: 456061438071431200,
         limit: 1
       };
-      this.$api.tangy.everydayRead(params).then(res => {
+     await this.$api.tangy.everydayRead(params).then(res => {
         console.log("每日一读++++++++++++++++++++++++++++++++");
         this.everydayReadCont = res.result;
       });
     },
     //首页推荐课程 reviewRecommend
-    courseRecommend() {
+    async courseRecommend() {
       const params = {
         levelCode: this.$store.getters.levelCode
       };
-      this.$api.tangy.courseRecommend(params).then(res => {
+     await this.$api.tangy.courseRecommend(params).then(res => {
         console.log("首页推荐课程++++++++++++++++++++++++++++++++");
         this.courseRecommendList = res.result;
       });
     },
     //首页少年之声
-    reviewRecommend() {
+  async reviewRecommend() {
       const params = {
         levelCode: this.$store.getters.levelCode
       };
-      this.$api.tangy.reviewRecommend(params).then(res => {
+     await this.$api.tangy.reviewRecommend(params).then(res => {
         console.log("首页少年之声++++++++++++++++++++++++++++++++");
         this.reviewRecommendList = res.result;
       });
     },
     //获取消息
-    getMessage() {
+   async getMessage() {
       const params = {
         currentPage: 1,
         pageSize: 10,
         userId: 456061438071431200
       };
-      this.$api.tangy.message(params).then(res => {
+    await this.$api.tangy.message(params).then(res => {
         console.log("获取消息++++++++++++++++++++++++++++++++");
         console.log(res);
       });
     },
     //活动榜单
-    getActivityRank() {
+   async getActivityRank() {
       const params = {
         currentPage: 1,
         pageSize: 10,
@@ -533,28 +533,28 @@ export default {
         groupCode: 1003001002,
         listCode: 1004001001
       };
-      this.$api.tangy.activityRank(params).then(res => {
+    await  this.$api.tangy.activityRank(params).then(res => {
         console.log("活动榜单++++++++++++++++++++++++++++++++");
         // console.log(res);
         this.activityRankCont = res.result.pageResults;
       });
     },
     //区域活动
-    getActivityArea() {
+  async  getActivityArea() {
       const params = {
         currentPage: 1,
         pageSize: 10,
         areaId: "7953772"
       };
-      this.$api.tangy.activityArea(params).then(res => {
+    await this.$api.tangy.activityArea(params).then(res => {
         console.log("区域活动++++++++++++++++++++++++++++++++");
         console.log(res);
       });
     },
 
     //获取大区
-    getArea() {
-      this.$api.tangy.area().then(res => {
+   async getArea() {
+     await this.$api.tangy.area().then(res => {
         console.log("获取大区++++++++++++++++++++++++++++++++");
         console.log(res);
       });
@@ -573,7 +573,7 @@ export default {
       });
     },
     //获取banner列表
-    getActivityList() {
+   async getActivityList() {
       const params = {
         levelCode: this.$store.getters.levelCode,
         userId: "1",
@@ -581,7 +581,7 @@ export default {
         lng: "123",
         lat: "123"
       };
-      this.$api.tangy.activityList(params).then(res => {
+     await this.$api.tangy.activityList(params).then(res => {
         console.log("获取banner列表+++++++++++++++++");
         this.bannerActivityList = res.result;
       });
