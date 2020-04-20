@@ -54,13 +54,13 @@ const getUserOpenId = params => {
   })
 }
 //年级
-const getGrade = params => {
+const getClazz = params => {
   return fetch({
-    url: `${store.getters.baseurl}/general/v2.1/module/type/attribute`,
+    url: `${store.getters.baseurl}/general/v1/grade`,
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/general/v2.1/module/type/attribute`)
+      'access': ShaAccess(`${store.getters.baseurl}/general/v1/grade`)
       // 'Authorization':store.getters.token
     }
   })
@@ -71,6 +71,6 @@ const chengx = {
   getToken, //获取登录凭证
   getUserOpenId, //获取openid
   getCategoryCourse,//学堂列表
-  getGrade//查询年级api
+  getClazz//查询年级api
 }
 export default chengx

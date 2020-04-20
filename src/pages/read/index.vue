@@ -33,11 +33,11 @@
         <p class="leftBookName">教材</p>
       </div>
       <div class="tabCont">
-        <i-tabs current="tab1" @change="handleChange" i-class="detailTabs">
-          <i-tab key="tab1" title="1~2年级"></i-tab>
-          <i-tab key="tab2" title="3~4年级"></i-tab>
+        <i-tabs :current="tabKey" @change="handleChange" i-class="detailTabs" :scroll="true">
+          <i-tab :key="item.gradeId" :title="item.name" v-for="item in classList" ></i-tab>
+          <!-- <i-tab key="tab2" title="3~4年级"></i-tab>
           <i-tab key="tab3" title="4~6年级"></i-tab>
-          <i-tab key="tab4" title="7~9年级"></i-tab>
+          <i-tab key="tab4" title="7~9年级"></i-tab> -->
         </i-tabs>
       </div>
       <div class="bookListCont">
@@ -75,7 +75,9 @@ export default {
       readBookCont: [], //读本容器
       readContent: [], //教材容器
       zixuList: [], //资讯列表
-      current_scroll: ""
+      current_scroll: "",
+      classList:[],//年级列表
+      tabKey:'7953946'
     };
   },
   watch: {
@@ -106,11 +108,16 @@ export default {
    onShow() {
     this.getReadBook(40080000);
     this.getReadBook(40090000);
+    this.getClazz(); //年级
     // this.getReadBookDetail();
     // wx.hideTabBar();
   },
   methods: {
- 
+    handleChange(detail){
+      console.log(detail.mp.detail.key)
+      this.tabKey=detail.mp.detail.key
+      // 
+    },
   
     //s书屋读本
     async getReadBook(categoryId){
@@ -141,6 +148,12 @@ export default {
          wx.navigateTo({
             url: `/pages/read/catalog/main?bookId=${id}`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
             })
+    },
+    //年级
+     async getClazz() {
+      await this.$api.chengx.getClazz().then(res => {
+        this.classList = res.result || [];
+      });
     },
     //切换资讯分类
     handleChangeScroll(e) {
@@ -351,6 +364,7 @@ export default {
   background: rgba(254, 254, 254, 1);
   box-shadow: 0px 0px 6px 0px rgba(33, 22, 19, 0.15);
 }
+
 /* .read_contain{
    width:92%;
    margin: 35px auto 0px auto;

@@ -74,6 +74,7 @@
 
 <script>
 // import footbutt from '@/components/footbut.vue'
+import { getUserinfo,getUserId } from "@/utils/auth";
 export default {
   components: {
     // footbutt
@@ -147,7 +148,7 @@ export default {
     getUserInfo() {
       this.$api.tangy
         .userInfo({
-          userId: this.$store.getters.userId
+          userId: getUserId()
         })
         .then(res => {
           console.log(res);

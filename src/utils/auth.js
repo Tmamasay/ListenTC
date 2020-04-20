@@ -6,7 +6,7 @@ const searchKey = 'historyKey' //搜索关键字
 const levelCode = 'LevelCode' //年级等级
 const userId = 'userId' //年级等级
 const musicInfo='MusicInfo' //music信息
-const musicList='musicList' //music信息
+const musicList='musicList' //music数组容器
 const sysType = 'sysType' //手机类型
 const actCode = 'actCode' //活动code
 
@@ -81,7 +81,7 @@ export function setUserinfo(info) {
 }
 
 export function removeUserinfo() {
-  return wx.removeStorageSync(levelCode)
+  return wx.removeStorageSync(Userinfo)
 }
 //存取用户年级等级--->本地缓存
 export function getLevelCode() {
@@ -111,7 +111,7 @@ export function setUserId(id) {
     return this.setstorage(userId, id)
   }
 }
-//存取用户UserID--->本地缓存
+//存取用户SysType--->本地缓存
 export function getSysType() {
   return wx.getStorageSync(sysType)
 }
