@@ -115,8 +115,8 @@
 
       <div class="flexbox">
         <div class="area">
-          <div class="selt" v-if="gradeList&&gradeList.length>0">
-            <areaselect :gradeLists="gradeList" @getLevelCode="getLevelCode"></areaselect>
+          <div class="selt" v-if="areaList&&areaList.length>0">
+            <areaselect :areaLists="areaList" @getActCode="getActCode"></areaselect>
           </div>
         </div>
         <div class="tab">
@@ -418,7 +418,13 @@ import lunbo from "@/components/lunbo";
 import seletline from "@/components/select";
 import areaselect from "@/components/areaselect";
 import turb from "@/components/turb";
-import { getToken, getUserinfo, getUserId, getLevelCode } from "@/utils/auth";
+import {
+  getToken,
+  getUserinfo,
+  getUserId,
+  getLevelCode,
+  getActCode
+} from "@/utils/auth";
 export default {
   components: {
     lunbo, //轮播
@@ -435,6 +441,7 @@ export default {
       courseRecommendList: [], //首页推荐课程
       reviewRecommendList: [], //首页少年之声
       gradeList: [],
+      actCode: getActCode() || "",
       areaList: [],
       userInfo: {},
       showlevelCode: true,
@@ -455,25 +462,38 @@ export default {
     };
   },
   watch: {
-    levelCode: function(newval, oldval) {
-      if (newval) {
-        this.getEveryDayRead();
-        this.getActivityList();
-        this.getSysInfo();
-        this.courseRecommend();
-        this.reviewRecommend();
-        this.getArea();
-        this.getActivityArea();
-        this.getActivityRank();
-        this.getMessage();
-      }
-    }
+    // levelCode: function(newval, oldval) {
+    //   if (newval) {
+    //     this.getEveryDayRead();
+    //     this.getActivityList();
+    //     this.getSysInfo();
+    //     this.courseRecommend();
+    //     this.reviewRecommend();
+    //     this.getArea();
+    //     this.getActivityArea();
+    //     this.getActivityRank();
+    //     this.getMessage();
+    //     this.getActivityDetail();
+    //   }
+    // }
   },
   computed: {},
   onShow() {
     this.userInfo = getUserinfo();
     if (this.userInfo) {
       this.getAttribute(); //年级
+    }
+    if (this.levelCode !== "") {
+      this.getEveryDayRead();
+      this.getActivityList();
+      this.getSysInfo();
+      this.courseRecommend();
+      this.reviewRecommend();
+      this.getArea();
+      this.getActivityArea();
+      this.getActivityRank();
+      this.getMessage();
+      this.getActivityDetail();
     }
   },
   methods: {
@@ -483,12 +503,26 @@ export default {
     getLevelCode() {
       this.levelCode = getLevelCode();
     },
+    getActCode() {
+      this.actCode = getActCode();
+    },
     async getAttribute() {
       await this.$api.tangy.getAttribute().then(res => {
         this.gradeList = res.result.levelList || [];
       });
     },
-
+    getActivityDetail(activityId) {
+      const params = {
+        activityId: getActCode(),
+        stage: 1,
+        userId: getUserId()
+      };
+      this.$api.tangy.activityDetail(params).then(res => {
+        console.log("获取活动详情++++++++++++++++++++++++++++++++");
+        // console.log(res);
+        this.activityDetailCont = res.result;
+      });
+    },
     //每日一读
     async getEveryDayRead() {
       const params = {
@@ -563,7 +597,7 @@ export default {
     //获取大区
     async getArea() {
       await this.$api.tangy.area().then(res => {
-        this.areaList = res.result
+        this.areaList = res.result;
         console.log("获取大区++++++++++++++++++++++++++++++++");
         console.log(res);
       });

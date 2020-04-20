@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { setLevelCode, getLevelCode } from "@/utils/auth";
+import { setActCode, getActCode } from "@/utils/auth";
 export default {
   props: ["areaLists"],
   data() {
@@ -40,14 +40,14 @@ export default {
     },
     xuanzhi(e) {
       this.xz_value = e.name;
-      setLevelCode(e.value);
-      this.$emit("getLevelCode");
+      setActCode(e.value);
+      this.$emit("getActCode");
       this.isShow = false;
       console.log(e);
     },
     initData() {
       this.areaLists.forEach(e => {
-        if (e.value === getLevelCode()) {
+        if (e.value === getActCode()) {
           this.xz_value = e.name;
         }
       });

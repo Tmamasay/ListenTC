@@ -8,6 +8,7 @@ const userId = 'userId' //年级等级
 const musicInfo='MusicInfo' //music信息
 const musicList='musicList' //music信息
 const sysType = 'sysType' //手机类型
+const actCode = 'actCode' //活动code
 
 //存取token到本地--->本地缓存
 export function getToken() {
@@ -159,4 +160,17 @@ export function setMusicList(list) {
 
 export function removeMusicList() {
   return wx.removeStorageSync(musicList)
+}
+
+//存取用户活动code--->本地缓存
+export function getActCode() {
+  return wx.getStorageSync(actCode)
+}
+
+export function setActCode(code) {
+  try {
+    return wx.setStorageSync(actCode, code)
+  } catch (e) {
+    return this.setstorage(actCode, code)
+  }
 }
