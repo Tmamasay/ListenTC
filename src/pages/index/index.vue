@@ -5,7 +5,9 @@
       style="background-image: url(../../../../../static/images/index/bg_top.png)"
     >
       <div class="user_operation">
-        <div class="selt" @click="showlevelCode=true">年级</div>
+        <div class="selt" v-if="gradeList&&gradeList.length>0">
+          <seletline :gradeLists="gradeList" @getLevelCode="getLevelCode"></seletline>
+        </div>
 
         <div class="mine_info" @click="isWxLogin">
           <div class="user_img">
@@ -112,7 +114,11 @@
       </div>
 
       <div class="flexbox">
-        <div class="area">重庆专区</div>
+        <div class="area">
+          <div class="selt" v-if="gradeList&&gradeList.length>0">
+            <areaselect :gradeLists="gradeList" @getLevelCode="getLevelCode"></areaselect>
+          </div>
+        </div>
         <div class="tab">
           <button class="active">朗读</button>
           <button>演讲</button>
@@ -402,7 +408,7 @@
           <li>全部</li>
         </ul>
       </div>
-    </div> -->
+    </div>-->
   </div>
 </template>
 
@@ -410,13 +416,15 @@
 import tangy from "@/api/tangy";
 import lunbo from "@/components/lunbo";
 import seletline from "@/components/select";
+import areaselect from "@/components/areaselect";
 import turb from "@/components/turb";
 import { getToken, getUserinfo, getUserId, getLevelCode } from "@/utils/auth";
 export default {
   components: {
     lunbo, //轮播
     turb,
-    seletline
+    seletline,
+    areaselect
   },
   data() {
     return {
@@ -427,6 +435,7 @@ export default {
       courseRecommendList: [], //首页推荐课程
       reviewRecommendList: [], //首页少年之声
       gradeList: [],
+      areaList: [],
       userInfo: {},
       showlevelCode: true,
       imgUrls: [
@@ -468,16 +477,6 @@ export default {
     }
   },
   methods: {
-    // //游客模式
-    // getVisitor() {
-    //   this.$api.tangy
-    //     .getVisitor({
-    //       equipmentNo: ""
-    //     })
-    //     .then(res => {
-    //       console.log(res);
-    //     });
-    // },
     closelevelCode() {
       this.showlevelCode = false;
     },
@@ -498,7 +497,6 @@ export default {
         limit: 10
       };
       await this.$api.tangy.everydayRead(params).then(res => {
-        console.log("每日一读++++++++++++++++++++++++++++++++");
         this.everydayReadCont = res.result;
       });
     },
@@ -508,7 +506,6 @@ export default {
         levelCode: getLevelCode()
       };
       await this.$api.tangy.courseRecommend(params).then(res => {
-        console.log("首页推荐课程++++++++++++++++++++++++++++++++");
         this.courseRecommendList = res.result;
       });
     },
@@ -518,7 +515,6 @@ export default {
         levelCode: getLevelCode()
       };
       await this.$api.tangy.reviewRecommend(params).then(res => {
-        console.log("首页少年之声++++++++++++++++++++++++++++++++");
         this.reviewRecommendList = res.result;
       });
     },
@@ -567,6 +563,7 @@ export default {
     //获取大区
     async getArea() {
       await this.$api.tangy.area().then(res => {
+        this.areaList = res.result
         console.log("获取大区++++++++++++++++++++++++++++++++");
         console.log(res);
       });
@@ -657,7 +654,7 @@ export default {
 </script>
 
 <style scoped>
-.cover{
+.cover {
   position: fixed;
   top: 0;
   left: 0;
@@ -665,7 +662,7 @@ export default {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 .leftbox {
   float: left;

@@ -78,13 +78,13 @@ export default {
                         console.log("设备信息++++++++++++++++++++++++++++++++");
                         console.log(res);
                         setSysType(res.system);
-                        that.getVisitor(oId);
-                        //登录获取token
-                        // that.$store.dispatch("LoginByWX", options).then(res => {
-                        //   wx.navigateBack({
-                        //     delta: 2
-                        //   });
-                        // });
+                        // that.getVisitor(oId);
+                        // 登录获取token
+                        that.$store.dispatch("LoginByWX", options).then(res => {
+                          wx.navigateBack({
+                            delta: 2
+                          });
+                        });
                       }
                     });
                   }

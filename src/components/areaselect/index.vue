@@ -4,17 +4,11 @@
       {{xz_value}}
       <span class="sjx"></span>
     </div>
-    <!-- <div  v-if="isShow">
-        <scroll-view  scroll-y="true" class="list">
-        <p v-for="(item,index) in gradeLists" :key="index" @click="xuanzhi(item)">{{item.name}}</p>
-        </scroll-view>
-        
-    </div>-->
     <i-drawer mode="left" i-class="motai" :visible="isShow" :mask-closable="true">
       <view class="demo-container">
         <!-- 禁止单击遮罩关闭
         <i-button bind:click="toggleLeft2" type="primary">关闭</i-button>-->
-        <p v-for="(item,index) in gradeLists" :key="index" @click="xuanzhi(item)">{{item.name}}</p>
+        <p v-for="(item,index) in areaLists" :key="index" @click="xuanzhi(item)">{{item.name}}</p>
       </view>
     </i-drawer>
   </div>
@@ -23,7 +17,7 @@
 <script>
 import { setLevelCode, getLevelCode } from "@/utils/auth";
 export default {
-  props: ["gradeLists"],
+  props: ["areaLists"],
   data() {
     return {
       isShow: false,
@@ -52,7 +46,7 @@ export default {
       console.log(e);
     },
     initData() {
-      this.gradeLists.forEach(e => {
+      this.areaLists.forEach(e => {
         if (e.value === getLevelCode()) {
           this.xz_value = e.name;
         }
