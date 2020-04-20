@@ -5,10 +5,11 @@ const userPhone = 'userPhone' //手机号
 const searchKey = 'historyKey' //搜索关键字
 const levelCode = 'LevelCode' //年级等级
 const userId = 'userId' //年级等级
-const musicInfo='MusicInfo' //music信息
-const musicList='musicList' //music数组容器
+const musicInfo = 'MusicInfo' //music信息
+const musicList = 'musicList' //music信息
 const sysType = 'sysType' //手机类型
 const actCode = 'actCode' //活动code
+const activityId = 'activityId' //当前活动id
 
 //存取token到本地--->本地缓存
 export function getToken() {
@@ -172,5 +173,19 @@ export function setActCode(code) {
     return wx.setStorageSync(actCode, code)
   } catch (e) {
     return this.setstorage(actCode, code)
+  }
+}
+
+
+//存取用户活动id--->本地缓存
+export function getActivityId() {
+  return wx.getStorageSync(activityId)
+}
+
+export function setActivityId(id) {
+  try {
+    return wx.setStorageSync(activityId, id)
+  } catch (e) {
+    return this.setstorage(activityId, id)
   }
 }

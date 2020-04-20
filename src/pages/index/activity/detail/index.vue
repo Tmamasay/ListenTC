@@ -16,36 +16,14 @@
     </div>
 
     <div class="stepbox">
-      <div class="step1">
-        <div class="steptextbox active">
-          <div class="cont">个人展示</div>
-          <div class="date">3月22日-3月28日</div>
+      <div class="step" v-for="(item, index) in activityDetailCont.stageList" :key="index">
+        <div :class="['steptextbox', {'active':item.start}]">
+          <div class="cont">{{item.title}}</div>
+          <div class="date">{{dateFormatUtil(item.beginTime)}}-{{dateFormatUtil(item.endTime)}}</div>
         </div>
         <div class="stepline">
-          <div class="line active"></div>
-          <div class="stepNum active">1</div>
-          <div class="line"></div>
-        </div>
-      </div>
-      <div class="step2">
-        <div class="steptextbox">
-          <div class="cont">个人展示</div>
-          <div class="date">3月22日-3月28日</div>
-        </div>
-        <div class="stepline">
-          <div class="line"></div>
-          <div class="stepNum">2</div>
-          <div class="line"></div>
-        </div>
-      </div>
-      <div class="step3">
-        <div class="steptextbox">
-          <div class="cont">个人展示</div>
-          <div class="date">3月22日-3月28日</div>
-        </div>
-        <div class="stepline">
-          <div class="line"></div>
-          <div class="stepNum">3</div>
+          <div :class="['line', {'active':item.start}]"></div>
+          <div :class="['stepNum', {'active':item.start}]">{{item.stage}}</div>
           <div class="line"></div>
         </div>
       </div>
@@ -54,32 +32,52 @@
       <input type="text" placeholder="请输入作者姓名查询" />
     </div>
     <div class="tabCont">
-      <i-tabs current="tab1" i-class="detailTabs">
-        <i-tab key="tab1" title="小学组"></i-tab>
-        <i-tab key="tab2" title="初中组"></i-tab>
-        <i-tab key="tab3" title="高中组"></i-tab>
-        <i-tab key="tab4" title="中职组"></i-tab>
+      <i-tabs :current="currenttab" @change="handleChange" i-class="detailTabs">
+        <i-tab
+          v-for="item in activityDetailCont.groupList"
+          :key="item.groupCode"
+          :title="item.groupName"
+        ></i-tab>
       </i-tabs>
     </div>
     <div class="typelist">
-      <div class="type_item active">热门作品</div>
-      <div class="type_item">分数排行</div>
-      <div class="type_item">人气榜单</div>
-      <div class="type_item">最新作品</div>
+      <div
+        :class="['type_item', {'active':  item.listCode===listCode}]"
+        v-for="item in listCodeList"
+        :key="item.listCode"
+        @click="showListCode(item.listCode)"
+      >{{item.listName}}</div>
     </div>
     <div class="content">
-      <div class="content_item">
-        <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
+      <div class="content_item" v-for="(item,index) in activityRankCont" :key="index">
+        <div class="header_item" :style="{backgroundImage:'url('+item.imageUrl+')'}">
           <div
+            v-if="item.ranking===1"
             class="header_bg"
             style="background-image:url(../../../../../static/images/index/first.png)"
-          >1</div>
+          >{{ item.ranking }}</div>
+          <div
+            v-else-if="item.ranking===2"
+            class="header_bg"
+            style="background-image:url(../../../../../static/images/index/second.png)"
+          >{{ item.ranking }}</div>
+          <div
+            v-else-if="item.ranking===3"
+            class="header_bg"
+            style="background-image:url(../../../../../static/images/index/third.png)"
+          >{{ item.ranking }}</div>
+          <div
+            v-else
+            class="header_bg"
+            style="background-image:url(../../../../../static/images/index/fouth.png)"
+          >{{ item.ranking }}</div>
         </div>
+
         <div class="user_info">
           <div class="userinfo_top">
             <div>
-              <div class="content_name">杨子轩《美丽的春天》</div>
-              <div class="content_school">杨紫璐小学</div>
+              <div class="content_name">{{item.author}}《{{item.title}}》</div>
+              <div class="content_school">{{item.schoolName}}</div>
             </div>
             <div class="operation">
               <img src="../../../../../static/images/index/bofangyuying.png" alt />
@@ -89,159 +87,17 @@
             <div class="point flexbox">
               <div class="point_left">
                 <span class="guankan">
-                  <img src="../../../../../static/images/index/guankan.png" alt /> 222
+                  <img src="../../../../../static/images/index/guankan.png" alt />
+                  {{item.listenNum}}
                 </span>
                 <span class="dianzhan">
-                  <img src="../../../../../static/images/index/dianzhan.png" alt /> 222
+                  <img src="../../../../../static/images/index/dianzhan.png" alt />
+                  {{item.likeNum}}
                 </span>
               </div>
               <div class="point_right">
                 专家评分：
-                <span>198分</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="content_item">
-        <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
-          <div
-            class="header_bg"
-            style="background-image:url(../../../../../static/images/index/second.png)"
-          >2</div>
-        </div>
-        <div class="user_info">
-          <div class="userinfo_top">
-            <div>
-              <div class="content_name">杨子轩《美丽的春天》</div>
-              <div class="content_school">杨紫璐小学</div>
-            </div>
-            <div class="operation">
-              <img src="../../../../../static/images/index/dabofang.png" alt />
-            </div>
-          </div>
-          <div class="userinfo_b">
-            <div class="point flexbox">
-              <div class="point_left">
-                <span class="guankan">
-                  <img src="../../../../../static/images/index/guankan.png" alt /> 222
-                </span>
-                <span class="dianzhan">
-                  <img src="../../../../../static/images/index/dianzhan.png" alt /> 222
-                </span>
-              </div>
-              <div class="point_right">
-                专家评分：
-                <span>198分</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="content_item">
-        <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
-          <div
-            class="header_bg"
-            style="background-image:url(../../../../../static/images/index/third.png)"
-          >3</div>
-        </div>
-        <div class="user_info">
-          <div class="userinfo_top">
-            <div>
-              <div class="content_name">杨子轩《美丽的春天》</div>
-              <div class="content_school">杨紫璐小学</div>
-            </div>
-            <div class="operation">
-              <img src="../../../../../static/images/index/pic.png" alt />
-            </div>
-          </div>
-          <div class="userinfo_b">
-            <div class="point flexbox">
-              <div class="point_left">
-                <span class="guankan">
-                  <img src="../../../../../static/images/index/guankan.png" alt /> 222
-                </span>
-                <span class="dianzhan">
-                  <img src="../../../../../static/images/index/dianzhan.png" alt /> 222
-                </span>
-              </div>
-              <div class="point_right">
-                专家评分：
-                <span>198分</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="content_item">
-        <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
-          <div
-            class="header_bg"
-            style="background-image:url(../../../../../static/images/index/fouth.png)"
-          >4</div>
-        </div>
-        <div class="user_info">
-          <div class="userinfo_top">
-            <div>
-              <div class="content_name">杨子轩《美丽的春天》</div>
-              <div class="content_school">杨紫璐小学</div>
-            </div>
-            <div class="operation">
-              <img src="../../../../../static/images/index/pic.png" alt />
-            </div>
-          </div>
-          <div class="userinfo_b">
-            <div class="point flexbox">
-              <div class="point_left">
-                <span class="guankan">
-                  <img src="../../../../../static/images/index/guankan.png" alt /> 222
-                </span>
-                <span class="dianzhan">
-                  <img src="../../../../../static/images/index/dianzhan.png" alt /> 222
-                </span>
-              </div>
-              <div class="point_right">
-                专家评分：
-                <span>198分</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="content_item">
-        <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
-          <div
-            class="header_bg"
-            style="background-image:url(../../../../../static/images/index/fouth.png)"
-          >5</div>
-        </div>
-        <div class="user_info">
-          <div class="userinfo_top">
-            <div>
-              <div class="content_name">杨子轩《美丽的春天》</div>
-              <div class="content_school">杨紫璐小学</div>
-            </div>
-            <div class="operation">
-              <img src="../../../../../static/images/index/pic.png" alt />
-            </div>
-          </div>
-          <div class="userinfo_b">
-            <div class="point flexbox">
-              <div class="point_left">
-                <span class="guankan">
-                  <img src="../../../../../static/images/index/guankan.png" alt /> 222
-                </span>
-                <span class="dianzhan">
-                  <img src="../../../../../static/images/index/dianzhan.png" alt /> 222
-                </span>
-              </div>
-              <div class="point_right">
-                专家评分：
-                <span>198分</span>
+                <span>{{item.score}}分</span>
               </div>
             </div>
           </div>
@@ -249,7 +105,7 @@
       </div>
     </div>
 
-    <div class="all_rank">
+    <div class="all_rank" @click="showMore">
       <img src="../../../../../static/images/index/more.png" alt />
       点击查看完整榜单
     </div>
@@ -273,7 +129,12 @@
             </div>
           </div>
         </div>
-        <img class="close" @click="showRule=false" src="../../../../../static/images/index/closeicon.png" alt />
+        <img
+          class="close"
+          @click="showRule=false"
+          src="../../../../../static/images/index/closeicon.png"
+          alt
+        />
       </div>
     </div>
     <openapp></openapp>
@@ -282,6 +143,7 @@
 
 <script>
 import openapp from "@/components/openapp";
+import { getActivityId, getUserId } from "@/utils/auth";
 export default {
   components: {
     openapp //轮播
@@ -289,34 +151,97 @@ export default {
 
   data() {
     return {
-      activityDetailCont:{},//活动详情容器
-      value5: "",
-      showRule: false
+      activityDetailCont: {}, //活动详情容器
+      showRule: false,
+      currenttab: "",
+      activityId: getActivityId(),
+      groupList: [],
+      listCode: "",
+      listCodeList: [],
+      activityRankCont: {},
+      worksStage: 1,
+      pageSize: 10
     };
+  },
+  watch: {
+    currenttab: function(nv, ov) {
+      if (nv) {
+        this.groupList.forEach(it => {
+          if (it.groupCode === nv) {
+            this.listCodeList = it.activityLists;
+          }
+        });
+      }
+    }
   },
   mounted() {},
   onLoad() {},
-   onShow() {
-    this.getActivityDetail(202003050007);
+  onShow() {
+    this.getActivityDetail();
   },
   methods: {
+    handleChange(e) {
+      this.currenttab = e.mp.detail.key;
+      this.getActivityRank();
+    },
     //获取活动详情
-    getActivityDetail(activityId) {
-      const userId = this.$store.getters.userId;
+    getActivityDetail() {
       const params = {
-        activityId:activityId ,
+        activityId: this.activityId,
         stage: 1,
-        userId 
+        userId: getUserId()
       };
       this.$api.tangy.activityDetail(params).then(res => {
         console.log("获取活动详情++++++++++++++++++++++++++++++++");
         // console.log(res);
-        this.activityDetailCont=res.result
+        this.worksStage = res.result.worksStage;
+        this.activityDetailCont = res.result;
+        this.currenttab = res.result.groupList[0].groupCode;
+        this.groupList = res.result.groupList;
+        this.listCodeList = res.result.groupList[0].activityLists;
+        this.listCode = res.result.groupList[0].activityLists[0].listCode;
+        this.getActivityRank();
       });
+    },
+    dateFormatUtil(timestamp) {
+      var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D = date.getDate() + " ";
+      var h = date.getHours() + ":";
+      var m = date.getMinutes() + ":";
+      var s = date.getSeconds();
+      console.log(Y + M + D + h + m + s);
+      return Y + M + D + h + m + s;
+    },
+    showListCode(code) {
+      this.listCode = code;
+      this.getActivityRank();
+    },
+    //活动榜单
+    async getActivityRank() {
+      const params = {
+        currentPage: 1,
+        pageSize: this.pageSize,
+        activityId: this.activityId,
+        userId: getUserId(),
+        worksStage: 1,
+        groupCode: this.currenttab,
+        listCode: this.listCode //1004001001热门作品  1004001002分数榜单   1004001003人气榜单  1004001004最新作品
+      };
+      await this.$api.tangy.activityRank(params).then(res => {
+        // console.log(res);
+        this.activityRankCont = res.result.pageResults;
+      });
+    },
+    showMore() {
+      this.pageSize += 10;
+      this.getActivityRank();
     }
   }
-
- 
 };
 </script>
 
@@ -522,12 +447,12 @@ export default {
   padding: 10px;
   box-sizing: border-box;
 }
-.step1 .stepline .line:first-child {
+.stepbox .step:first-child .stepline .line:first-child {
   border-top-left-radius: 2.5px;
   border-bottom-left-radius: 2.5px;
 }
 
-.step3 .stepline .line:last-child {
+.stepbox .step:first-child:last-child .stepline .line:last-child {
   border-top-right-radius: 2.5px;
   border-bottom-right-radius: 2.5px;
 }

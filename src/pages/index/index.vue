@@ -119,35 +119,48 @@
             <areaselect :areaLists="areaList" @getActCode="getActCode"></areaselect>
           </div>
         </div>
-        <div class="tab">
+        <!-- <div class="tab">
           <button class="active">朗读</button>
           <button>演讲</button>
           <button>征文</button>
-        </div>
+        </div>-->
       </div>
 
       <div class="tabCont">
-        <!-- <i-tabs current="tab1" @change="handleChange" i-class="detailTabs">
-          <i-tab key="tab1" title="小学组"></i-tab>
-          <i-tab key="tab2" title="初中组"></i-tab>
-          <i-tab key="tab3" title="高中组"></i-tab>
-          <i-tab key="tab4" title="中职组"></i-tab>
-        </i-tabs>-->
+        <i-tabs :current="currenttab" @change="handleChange" i-class="detailTabs">
+          <i-tab v-for="item in groupList" :key="item.groupCode" :title="item.groupName"></i-tab>
+        </i-tabs>
       </div>
 
       <div class="content">
-        <div class="content_item" v-for="(index,item) in activityRankCont" :key="item.reviewItemId">
-          <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
+        <div class="content_item" v-for="(item,index) in activityRankCont" :key="index">
+          <div class="header_item" :style="{backgroundImage:'url('+item.imageUrl+')'}">
             <div
+              v-if="item.ranking===1"
               class="header_bg"
               style="background-image:url(../../../../../static/images/index/first.png)"
-            >1</div>
+            >{{ item.ranking }}</div>
+            <div
+              v-else-if="item.ranking===2"
+              class="header_bg"
+              style="background-image:url(../../../../../static/images/index/second.png)"
+            >{{ item.ranking }}</div>
+            <div
+              v-else-if="item.ranking===3"
+              class="header_bg"
+              style="background-image:url(../../../../../static/images/index/third.png)"
+            >{{ item.ranking }}</div>
+            <div
+              v-else
+              class="header_bg"
+              style="background-image:url(../../../../../static/images/index/fouth.png)"
+            >{{ item.ranking }}</div>
           </div>
           <div class="user_info">
             <div class="userinfo_top">
               <div>
-                <div class="content_name">杨子轩《美丽的春天》</div>
-                <div class="content_school">杨紫璐小学</div>
+                <div class="content_name">{{item.author}}《{{item.title}}》</div>
+                <div class="content_school">{{item.schoolName}}</div>
               </div>
               <div class="operation">
                 <img src="../../../static/images/index/bofangyuying.png" alt />
@@ -157,123 +170,17 @@
               <div class="point flexbox">
                 <div class="point_left">
                   <span class="guankan">
-                    <img src="../../../static/images/index/guankan.png" alt /> 222
+                    <img src="../../../static/images/index/guankan.png" alt />
+                    {{item.listenNum}}
                   </span>
                   <span class="dianzhan">
-                    <img src="../../../static/images/index/dianzhan.png" alt /> 222
+                    <img src="../../../static/images/index/dianzhan.png" alt />
+                    {{item.likeNum}}
                   </span>
                 </div>
                 <div class="point_right">
                   专家评分：
-                  <span>198分</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="content_item">
-          <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
-            <div
-              class="header_bg"
-              style="background-image:url(../../../../../static/images/index/second.png)"
-            >2</div>
-          </div>
-          <div class="user_info">
-            <div class="userinfo_top">
-              <div>
-                <div class="content_name">杨子轩《美丽的春天》</div>
-                <div class="content_school">杨紫璐小学</div>
-              </div>
-              <div class="operation">
-                <img src="../../../static/images/index/dabofang.png" alt />
-              </div>
-            </div>
-            <div class="userinfo_b">
-              <div class="point flexbox">
-                <div class="point_left">
-                  <span class="guankan">
-                    <img src="../../../static/images/index/guankan.png" alt /> 222
-                  </span>
-                  <span class="dianzhan">
-                    <img src="../../../static/images/index/dianzhan.png" alt /> 222
-                  </span>
-                </div>
-                <div class="point_right">
-                  专家评分：
-                  <span>198分</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="content_item">
-          <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
-            <div
-              class="header_bg"
-              style="background-image:url(../../../../../static/images/index/third.png)"
-            >3</div>
-          </div>
-          <div class="user_info">
-            <div class="userinfo_top">
-              <div>
-                <div class="content_name">杨子轩《美丽的春天》</div>
-                <div class="content_school">杨紫璐小学</div>
-              </div>
-              <div class="operation">
-                <img src="../../../static/images/index/pic.png" alt />
-              </div>
-            </div>
-            <div class="userinfo_b">
-              <div class="point flexbox">
-                <div class="point_left">
-                  <span class="guankan">
-                    <img src="../../../static/images/index/guankan.png" alt /> 222
-                  </span>
-                  <span class="dianzhan">
-                    <img src="../../../static/images/index/dianzhan.png" alt /> 222
-                  </span>
-                </div>
-                <div class="point_right">
-                  专家评分：
-                  <span>198分</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="content_item">
-          <div class="header_item" style="background-image:url(https://www.dummyimage.com/60x60)">
-            <div
-              class="header_bg"
-              style="background-image:url(../../../../../static/images/index/fouth.png)"
-            >4</div>
-          </div>
-          <div class="user_info">
-            <div class="userinfo_top">
-              <div>
-                <div class="content_name">杨子轩《美丽的春天》</div>
-                <div class="content_school">杨紫璐小学</div>
-              </div>
-              <div class="operation">
-                <img src="../../../static/images/index/pic.png" alt />
-              </div>
-            </div>
-            <div class="userinfo_b">
-              <div class="point flexbox">
-                <div class="point_left">
-                  <span class="guankan">
-                    <img src="../../../static/images/index/guankan.png" alt /> 222
-                  </span>
-                  <span class="dianzhan">
-                    <img src="../../../static/images/index/dianzhan.png" alt /> 222
-                  </span>
-                </div>
-                <div class="point_right">
-                  专家评分：
-                  <span>198分</span>
+                  <span>{{item.score}}分</span>
                 </div>
               </div>
             </div>
@@ -423,7 +330,9 @@ import {
   getUserinfo,
   getUserId,
   getLevelCode,
-  getActCode
+  getActCode,
+  setActivityId,
+  getActivityId
 } from "@/utils/auth";
 export default {
   components: {
@@ -445,6 +354,9 @@ export default {
       areaList: [],
       userInfo: {},
       showlevelCode: true,
+      groupList: [], //当前活动分组列表
+      activityId: getActivityId(), //当前活动id
+      currenttab: "", //当前组
       imgUrls: [
         {
           imgUrl: "https://www.dummyimage.com/355x185",
@@ -473,7 +385,16 @@ export default {
         this.getActivityArea();
         this.getActivityRank();
         this.getMessage();
-        this.getActivityDetail();
+      }
+    },
+    actCode: function(nv, ov) {
+      if (nv) {
+        this.getActivityArea();
+      }
+    },
+    currenttab: function(nv, ov) {
+      if (nv) {
+        this.getActivityRank();
       }
     }
   },
@@ -483,9 +404,6 @@ export default {
     if (this.userInfo) {
       this.getAttribute(); //年级
     }
-    debugger;
-    console.log(this.levelCode);
-
     if (this.levelCode !== "" && this.levelCode !== "请选择") {
       this.getEveryDayRead();
       this.getActivityList();
@@ -496,7 +414,6 @@ export default {
       this.getActivityArea();
       this.getActivityRank();
       this.getMessage();
-      this.getActivityDetail();
     }
   },
   methods: {
@@ -516,14 +433,41 @@ export default {
     },
     getActivityDetail() {
       const params = {
-        activityId: this.actCode,
+        activityId: this.activityId,
         stage: 1,
         userId: getUserId()
       };
       this.$api.tangy.activityDetail(params).then(res => {
-        console.log("获取活动详情++++++++++++++++++++++++++++++++");
-        // console.log(res);
+        this.groupList = res.result.groupList;
+        this.currenttab = this.groupList[0].groupCode;
         this.activityDetailCont = res.result;
+      });
+    },
+    //改变活动分组
+    handleChange(e) {
+      this.currenttab = e.mp.detail.key;
+    },
+    //区域活动
+    async getActivityArea() {
+      const params = {
+        currentPage: 1,
+        pageSize: 10,
+        areaId: this.actCode
+      };
+      await this.$api.tangy.activityArea(params).then(res => {
+        if (res.result && res.result.pageResults.length > 0) {
+          this.activityId = res.result.pageResults[0].activityId;
+          setActivityId(this.activityId)
+          this.getActivityDetail();
+          this.getActivityRank();
+        } else {
+          wx.showToast({
+            title: "当前专区未开展活动",
+            icon: "none",
+            duration: 1000
+          });
+        }
+        console.log(res);
       });
     },
     //每日一读
@@ -572,28 +516,16 @@ export default {
       const params = {
         currentPage: 1,
         pageSize: 10,
-        activityId: 202003050007,
+        activityId: this.activityId,
         userId: getUserId(),
         worksStage: 1,
-        groupCode: 1003001002,
-        listCode: 1004001001
+        groupCode: this.currenttab,
+        listCode: 1004001001 //1004001001热门作品  1004001002分数榜单   1004001003人气榜单  1004001004最新作品
       };
       await this.$api.tangy.activityRank(params).then(res => {
         console.log("活动榜单++++++++++++++++++++++++++++++++");
         // console.log(res);
         this.activityRankCont = res.result.pageResults;
-      });
-    },
-    //区域活动
-    async getActivityArea() {
-      const params = {
-        currentPage: 1,
-        pageSize: 10,
-        areaId: "7953772"
-      };
-      await this.$api.tangy.activityArea(params).then(res => {
-        console.log("区域活动++++++++++++++++++++++++++++++++");
-        console.log(res);
       });
     },
 

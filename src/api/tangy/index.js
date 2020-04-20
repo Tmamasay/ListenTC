@@ -69,8 +69,6 @@ const reviewRecommend = (params) => {
   })
 }
 
-
-
 const activityRank = (params) => {
   return fetch({
     url: `${store.getters.baseurl}/activity/v1/activity/works/${params.activityId}/${getUserId()}`,

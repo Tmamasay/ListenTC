@@ -1,11 +1,11 @@
 {
   "pages": [
     "pages/index/main",
+    "pages/index/activity/detail/main",
     "pages/index/setUp/personalData/main",
     "pages/index/everydayread/main",
     "pages/index/setUp/changePhone/main",
     "pages/index/activity/essay/main",
-    "pages/index/activity/detail/main",
     "pages/index/voiceofchildrendetail/main",
     "pages/index/voiceofchildren/main",
     "pages/index/setUp/myCollection/main",
