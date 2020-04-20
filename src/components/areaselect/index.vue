@@ -40,14 +40,14 @@ export default {
     },
     xuanzhi(e) {
       this.xz_value = e.name;
-      setActCode(e.value);
+      setActCode(e.areaId);
       this.$emit("getActCode");
       this.isShow = false;
       console.log(e);
     },
     initData() {
       this.areaLists.forEach(e => {
-        if (e.value === getActCode()) {
+        if (e.areaId === getActCode()) {
           this.xz_value = e.name;
         }
       });

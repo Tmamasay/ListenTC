@@ -462,20 +462,20 @@ export default {
     };
   },
   watch: {
-    // levelCode: function(newval, oldval) {
-    //   if (newval) {
-    //     this.getEveryDayRead();
-    //     this.getActivityList();
-    //     this.getSysInfo();
-    //     this.courseRecommend();
-    //     this.reviewRecommend();
-    //     this.getArea();
-    //     this.getActivityArea();
-    //     this.getActivityRank();
-    //     this.getMessage();
-    //     this.getActivityDetail();
-    //   }
-    // }
+    levelCode: function(newval, oldval) {
+      if (newval) {
+        this.getEveryDayRead();
+        this.getActivityList();
+        this.getSysInfo();
+        this.courseRecommend();
+        this.reviewRecommend();
+        this.getArea();
+        this.getActivityArea();
+        this.getActivityRank();
+        this.getMessage();
+        this.getActivityDetail();
+      }
+    }
   },
   computed: {},
   onShow() {
@@ -483,7 +483,10 @@ export default {
     if (this.userInfo) {
       this.getAttribute(); //年级
     }
-    if (this.levelCode !== "") {
+    debugger;
+    console.log(this.levelCode);
+
+    if (this.levelCode !== "" && this.levelCode !== "请选择") {
       this.getEveryDayRead();
       this.getActivityList();
       this.getSysInfo();
@@ -511,9 +514,9 @@ export default {
         this.gradeList = res.result.levelList || [];
       });
     },
-    getActivityDetail(activityId) {
+    getActivityDetail() {
       const params = {
-        activityId: getActCode(),
+        activityId: this.actCode,
         stage: 1,
         userId: getUserId()
       };
