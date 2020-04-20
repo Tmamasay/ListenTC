@@ -5,6 +5,8 @@ const userPhone = 'userPhone' //手机号
 const searchKey = 'historyKey' //搜索关键字
 const levelCode = 'LevelCode' //年级等级
 const userId = 'userId' //年级等级
+const musicInfo='MusicInfo' //music信息
+const musicList='musicList' //music信息
 
 //存取token到本地--->本地缓存
 export function getToken() {
@@ -109,6 +111,40 @@ export function setUserId(id) {
 }
 
 export function removeUserId() {
-  return wx.removeStorageSync(levelCode)
+  return wx.removeStorageSync(userId)
+}
+
+//存取用户当前播放数据--->本地缓存
+export function getMusicInfo() {
+  return wx.getStorageSync(musicInfo)
+}
+
+export function setMusicInfo(music) {
+  try {
+    return wx.setStorageSync(musicInfo, music)
+  } catch (e) {
+    return this.setstorage(musicInfo, music)
+  }
+}
+
+export function removeMusicInfo() {
+  return wx.removeStorageSync(musicInfo)
+}
+
+//存取用户当前播放的list--->本地缓存
+export function getMusicList() {
+  return wx.getStorageSync(musicList)
+}
+
+export function setMusicList(list) {
+  try {
+    return wx.setStorageSync(musicList, list)
+  } catch (e) {
+    return this.setstorage(musicList, list)
+  }
+}
+
+export function removeMusicList() {
+  return wx.removeStorageSync(musicList)
 }
 

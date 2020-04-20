@@ -13,6 +13,7 @@
     <!--简介-->
     <div v-show="checkItem=='introduce'" class="introduce">
       <!-- <div class="introduceImg"> -->
+         <!-- <wxParse :content="readBookDetail.imageList[0].imageUrl"  /> -->
       <scroll-view scroll-y="true" class="introduceImg">
         <img :src="item.imageUrl" alt v-for="item in readBookDetail.imageList" :key="item.imageId" />
       </scroll-view>
@@ -29,40 +30,25 @@
     </div>
     <!--目录-->
     <div class="catalog" v-show="checkItem=='catalog'">
-      <div class="cataContLine">
+      <div class="cataContLine" >
         <div class="cataImg">
           <img src="../../../../static/images/play/incLine.png" alt srcset />
         </div>
         <p class="cataContext">播放全部</p>
-        <span>（1043 人已收听）</span>
+        <span>（{{readBookDetail.subscribeNum}} 人已收听）</span>
       </div>
-      <div class="cataContList">
+      <div class="cataContList" v-for="(item,index) in readBookDetail.contentList" :key="item.contentId">
         <div class="cataImg">
           <img src="../../../../static/images/play/incLine.png" alt srcset />
         </div>
-        <div class="cataST">
-          <p>1. 汗水</p>
+        <div class="cataST" >
+          <p>{{index+1}}. {{item.title}}</p>
           <div class="sTBtn">
-            <p class="sTBtnLine">免费试听</p>
+            <p class="sTBtnLine" @click="goPlay(item)">免费试听</p>
             <div class="sTImg">
               <img src alt srcset />
             </div>
-            <p class="sTime">2'20''</p>
-          </div>
-        </div>
-      </div>
-      <div class="cataContList">
-        <div class="cataImg">
-          <img src="../../../../static/images/play/incLine.png" alt srcset />
-        </div>
-        <div class="cataST">
-          <p>1. 汗水</p>
-          <div class="sTBtn">
-            <!-- <p class="sTBtnLine">免费试听</p> -->
-            <div class="sTImg">
-              <img src alt srcset />
-            </div>
-            <p class="sTime">2'20''</p>
+            <p class="sTime">{{item.timeLength}}'</p>
           </div>
         </div>
       </div>
@@ -75,7 +61,10 @@
 </template>
 
 <script>
-// import footbutt from '@/components/footbut.vue'
+// import footbutt from '@/components/footbut.vue' 
+
+import { getUserId,setMusicInfo,setMusicList} from '@/utils/auth'
+
 export default {
   components: {
     // footbutt
@@ -88,6 +77,13 @@ export default {
     };
   },
   methods: {
+    //跳转播放页
+     goPlay(resource){
+    setMusicInfo(resource)
+      wx.navigateTo({
+            url: `/pages/mine/about/main`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            })
+    },
     handleChange(detail) {
       console.log(detail.mp.detail.key);
       this.checkItem = detail.mp.detail.key;
@@ -96,19 +92,43 @@ export default {
     //书屋读本详情
     getReadBookDetail(readId) {
       const params = {
-        userId: this.$store.getters.userId,
+        userId: getUserId(),
         bookId: readId
       };
       this.$api.tangy.readBookDetail(params).then(res => {
         console.log("书屋读本详情++++++++++++++++++++++++++++++++");
         console.log(res);
         this.readBookDetail = res.result;
+        setMusicList(res.result.contentList)
       });
-    }
+    },
+       //书屋教材详情
+  async  getReadContentDetail(bookId){
+      const params = {
+        userId:getUserId(),
+        bookId:bookId,
+      }
+      await this.$api.tangy.readContentDetail(params).then(res=>{
+        console.log("书屋教材详情++++++++++++++++++++++++++++++++");
+        console.log(res);
+        this.readBookDetail = res.result;
+        setMusicList(res.result.contentList)  
+      })
+    },
   },
-  onShow() {
+
+  onShow() { 
     const readId = this.$root.$mp.query.readId;
-    this.getReadBookDetail(readId);
+    const bookId = this.$root.$mp.query.bookId;
+    if(readId){
+        this.getReadBookDetail(readId);
+
+    }else if(bookId){
+      this.getReadContentDetail(bookId);
+
+    }
+  
+      
   },
   created() {}
 };

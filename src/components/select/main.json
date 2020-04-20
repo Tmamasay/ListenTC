@@ -1,7 +1,5 @@
 {
   "usingComponents": {
-    "i-tabs": "/static/iView/tabs/index",
-    "i-tab": "/static/iView/tab/index",
     "i-drawer": "/static/iView/drawer/index"
 },
   "navigationBarTitleText": "阅读"

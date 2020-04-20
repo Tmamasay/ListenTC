@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div class="topDetailImg"></div>
-    <p class="playTitle">向上吧 小书包</p>
+    <div class="topDetailImg">
+      <img :src="resource.imageUrl" alt="" srcset="">
+    </div>
+    <p class="playTitle">{{resource.title}}</p>
     <div class="vp-book-adPlayer">
       <div class="adp-wrapper">
         <div class="apd-progress">
@@ -74,8 +76,9 @@
 </template>
 
 <script>
-// import moment from 'moment' // 时间日期转换
+// import moment from 'moment' // 时间日期转换 
 import { formatMusic, _changeTimeBySecond } from "@/utils/index";
+import { getMusicInfo ,getMusicList} from '@/utils/auth'
 
 export default {
   components: {
@@ -123,8 +126,11 @@ export default {
       nxtMusicMsg: {}, // 同上
       
       appMusic: {},
+      resource:{},//播放对象
+      resourceId:'',//上次播放的id
       musicUrl:
-        "https://webfs.yun.kugou.com/202003311620/24ed7eb189d547a933192d501716f13d/G192/M02/1F/17/AA4DAF6AfcOAJXQOADk7JNu4Cac793.mp3" //获取全局唯一的背景音频管理器
+        "https://webfs.yun.kugou.com/202003311620/24ed7eb189d547a933192d501716f13d/G192/M02/1F/17/AA4DAF6AfcOAJXQOADk7JNu4Cac793.mp3", //获取全局唯一的背景音频管理器
+      topImg:''//顶部img
     };
   },
   created() {
@@ -133,12 +139,31 @@ export default {
     // let key_token=this.$store.getters.user.token
   },
   onLoad() {
-    if(this.$store.getters.isPlayMusicId){
+    // this.resourceId=getMusicInfo()
+    this.resource = getMusicInfo();
+    this.musicList=getMusicList()
+    this.topImg=this.resource.imageUrl
+    if(this.resourceId){
+      if(this.resourceId!=this.resource.contentId){
+      this.resourceId=this.resource.contentId
+      this.watchAudio();
+      }
 
     }else{
-      this.watchAudio();  //初始化调用一次
+      // this.resource = getMusicInfo();
+      this.resourceId=this.resource.contentId
+      this.watchAudio();
 
     }
+  
+  console.log(this.resource)
+  console.log('-------------------')
+    // if(this.$store.getters.isPlayMusicId){
+
+    // }else{
+    //   this.watchAudio();  //初始化调用一次
+
+    // }
      
   },
   methods: {
@@ -163,7 +188,7 @@ export default {
       this.curIndex-= 1;
       this.isPlay = true;
       // this.data.media = wx.getStorageSync('catalogList')[this.data.curIndex];
-      this.media = this.musicList[this.curIndex];
+      this.resource = this.musicList[this.curIndex];
       this.curSecond = 0;
       this.currentSecond = this.format(0);
       // this.setData({
@@ -190,7 +215,7 @@ export default {
     } else {
       this.curIndex += 1;
       this.isPlay = true;
-      this.media = this.musicList[this.curIndex];
+      this.resource = this.musicList[this.curIndex];
       this.curSecond = 0;
       this.currentSecond = this.format(0);
       // this.setData({
@@ -200,6 +225,7 @@ export default {
       //   curSecond: this.data.curSecond,
       //   currentSecond: this.data.currentSecond
       // })
+      debugger
       //重新调用音频
        this.appMusic.stop();
       this.watchAudio();
@@ -231,13 +257,10 @@ export default {
     //获取全局唯一的背景音频管理器
     this.appMusic = wx.getBackgroundAudioManager();
     this.appMusic.startTime = 0;
-    this.appMusic.src =
-      "https://webfs.yun.kugou.com/202003230829/10e788be5054cb9a8f615509dbeb24cd/G209/M04/15/1B/sZQEAF5yIAGABKyMADz-g6dtNsQ387.mp3";
-    this.appMusic.title = "测试";
-    this.appMusic.coverImgUrl =
-      "https://kledu.oss-cn-beijing.aliyuncs.com/edu/courseSeriesImg/1577416324595.png";
-    this.appMusic.autoplay = false;
-    this.$store.dispatch('putMusicId','23')
+    this.appMusic.src =this.resource.resourceUrl
+    this.appMusic.title =this.resource.title;
+    this.appMusic.coverImgUrl =this.resource.thumbnail;
+    this.$store.dispatch('putMusicId',this.resource.contentId)
 },
     // 监听audio
   watchAudio: function () {
@@ -328,7 +351,11 @@ export default {
 .topDetailImg {
   width: 100%;
   height: 256px;
-  background-color: coral;
+  /* background-color: coral; */
+}
+.topDetailImg img{
+  width: 100%;
+  height: 100%;
 }
 .playTitle {
   /* width:230px;

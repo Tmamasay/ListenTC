@@ -1,6 +1,6 @@
 <template>
   <div class="readCont">
-    <div class="readBook">
+    <div class="readBook" v-if="readBookCont.length">
       <div class="bookTitle">
         <p class="leftBook"></p>
         <p class="leftBookName">读本</p>
@@ -42,7 +42,7 @@
       </div>
       <div class="bookListCont">
         <!-- <div class="showBookList"> -->
-          <div class="bookLine" v-for="item in readContent" :key="item.id">
+          <div class="bookLine" v-for="item in readContent" :key="item.bookId" @click="goKbenpages(item.bookId)" >
             <img :src="item.coverImageUrl" alt="" srcset="">
           </div>
         <!-- </div> -->
@@ -105,33 +105,21 @@ export default {
    onShow() {
     this.getReadBook(40080000);
     this.getReadBook(40090000);
-    this.getReadBookDetail();
-    this.getReadContentDetail();
+    // this.getReadBookDetail();
     // wx.hideTabBar();
   },
   methods: {
-    //书屋教材详情
-    getReadContentDetail(){
-      const params = {
-        userId:456061438071431200,
-        bookId:43689569,
-      }
-      this.$api.tangy.readContentDetail(params).then(res=>{
-        console.log("书屋教材详情++++++++++++++++++++++++++++++++");
-        console.log(res);
-        
-      })
-    },
+ 
   
     //s书屋读本
-    getReadBook(categoryId){
+    async getReadBook(categoryId){
       const params = {
         currentPage:1,
         pageSize:10,
         levelCode:1001001003,
         categoryId:categoryId,  //40080000 是读本  40090000教材
       }
-      this.$api.tangy.readBook(params).then(res=>{
+     await this.$api.tangy.readBook(params).then(res=>{
         console.log("s书屋读本++++++++++++++++++++++++++++++++");
         console.log(res);
         if(categoryId==40080000){ //读本 
@@ -146,6 +134,11 @@ export default {
     gopages(id){
       wx.navigateTo({
             url: `/pages/read/catalog/main?readId=${id}`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            })
+    },
+    goKbenpages(id){
+         wx.navigateTo({
+            url: `/pages/read/catalog/main?bookId=${id}`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
             })
     },
     //切换资讯分类
@@ -164,27 +157,6 @@ export default {
             that.zixuList = res.data.list;
           }
           console.log(res);
-        })
-        .catch(error => {
-          console.log(error);
-          wx.showToast({
-            title: "网络异常",
-            icon: "none",
-            duration: 1000
-          });
-        });
-    },
-    //查询资讯分类
-    getAllCategory() {
-      this.$api.user
-        .getAllCategory()
-        .then(res => {
-          if (+res.code === 1) {
-            this.cateZxList = res.data;
-            this.current_scroll = res.data[0].id;
-            this.getInfoListById(res.data[0].id);
-          }
-          // 
         })
         .catch(error => {
           console.log(error);
@@ -224,7 +196,6 @@ export default {
   },
   onHide() {},
   onLoad() {
-    this.getAllCategory();
   },
   onUnload() {},
  
