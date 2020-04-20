@@ -120,7 +120,8 @@ export default {
       this.genderType = false;
     },
     saveGender(e) {
-
+      console.log(e.mp.detail.value);
+      
       
     },
     getArea() {

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { setUserinfo } from "@/utils/auth";
+import { setUserinfo, setSysType } from "@/utils/auth";
 import { WXBizDataCrypt } from "@/utils/WXBizDataCrypt";
 export default {
   components: {
@@ -62,6 +62,7 @@ export default {
                     var iv = res.iv;
                     var pc = new WXBizDataCrypt(appId, sessionKey);
                     var data = pc.decryptData(encryptedData, iv);
+                    const oId = data.openId;
 
                     console.log("解密后 data: ", data);
                     const options = {
@@ -71,14 +72,20 @@ export default {
                       headImageUrl: data.avatarUrl,
                       data: JSON.stringify({})
                     };
-                    // 
-                    // const options = Object.assign(data, code);
-                    // //登录获取token
 
-                    that.$store.dispatch("LoginByWX", options).then(res => {
-                      wx.navigateBack({
-                        delta: 2
-                      });
+                    wx.getSystemInfo({
+                      success: function(res) {
+                        console.log("设备信息++++++++++++++++++++++++++++++++");
+                        console.log(res);
+                        setSysType(res.system);
+                        that.getVisitor(oId);
+                        //登录获取token
+                        // that.$store.dispatch("LoginByWX", options).then(res => {
+                        //   wx.navigateBack({
+                        //     delta: 2
+                        //   });
+                        // });
+                      }
                     });
                   }
                 });
@@ -93,6 +100,17 @@ export default {
           }
         }
       });
+    },
+
+    //游客模式
+    getVisitor(id) {
+      this.$api.tangy
+        .getVisitor({
+          equipmentNo: id
+        })
+        .then(res => {
+          console.log(res);
+        });
     }
   },
 

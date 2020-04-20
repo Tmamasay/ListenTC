@@ -65,6 +65,7 @@
  
 <script>
 
+import { getLevelCode } from "@/utils/auth";
 export default {
   components: {
   },
@@ -116,7 +117,7 @@ export default {
       const params = {
         currentPage:1,
         pageSize:10,
-        levelCode:1001001003,
+        levelCode:getLevelCode(),
         categoryId:categoryId,  //40080000 是读本  40090000教材
       }
      await this.$api.tangy.readBook(params).then(res=>{

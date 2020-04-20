@@ -1,5 +1,5 @@
 import fetch from '@/utils/fetch.js'
-import { getLevelCode } from "@/utils/auth";
+import { getLevelCode ,getUserId} from "@/utils/auth";
 import {
   ShaAccess
 } from '@/utils'
@@ -16,7 +16,7 @@ const sendmobanmes = params => {
 
 const activityList = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/general/v2/banner/activity/${getLevelCode()}?lng=${params.lng}&lat=${params.lat}&userId=${params.userId}`,
+    url: `${store.getters.baseurl}/general/v2/banner/activity/${getLevelCode()}?lng=${params.lng}&lat=${params.lat}&userId=${getUserId()}`,
     method: 'get',
     headers: {
       'access': ShaAccess(`${store.getters.baseurl}/general/v2/banner/activity/${getLevelCode()}`)
@@ -73,11 +73,11 @@ const reviewRecommend = (params) => {
 
 const activityRank = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/activity/v1/activity/works/${params.activityId}/${params.userId}`,
+    url: `${store.getters.baseurl}/activity/v1/activity/works/${params.activityId}/${getUserId()}`,
     method: 'post',
     data: qs.stringify(params),
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/activity/v1/activity/works/${params.activityId}/${params.userId}`)
+      'access': ShaAccess(`${store.getters.baseurl}/activity/v1/activity/works/${params.activityId}/${getUserId()}`)
     }
   })
 }
@@ -108,22 +108,22 @@ const area = () => {
 
 const message = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/user/v1/user/message/${params.userId}`,
+    url: `${store.getters.baseurl}/user/v1/user/message/${getUserId()}`,
     method: 'post',
     data: qs.stringify(params),
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/user/v1/user/message/${params.userId}`)
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/user/message/${getUserId()}`)
     }
   })
 }
 
 const notice = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/user/v1/user/notice/${params.userId}`,
+    url: `${store.getters.baseurl}/user/v1/user/notice/${getUserId()}`,
     method: 'post',
     data: qs.stringify(params),
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/user/v1/user/notice/${params.userId}`)
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/user/notice/${getUserId()}`)
     }
   })
 }
@@ -162,22 +162,22 @@ const readContentDetail = (params) => {
 
 const userInfo = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/user/v1/userInfo/${params.userId}`,
+    url: `${store.getters.baseurl}/user/v1/userInfo/${getUserId()}`,
     method: 'get',
     params: params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/user/v1/userInfo/${params.userId}`)
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/userInfo/${getUserId()}`)
     }
   })
 }
 // general/v1/dictionary/level
 const saveUserInfo = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/user/v1/user/info/${params.userId}`,
+    url: `${store.getters.baseurl}/user/v1/user/info/${getUserId()}`,
     method: 'post',
     data: params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/user/v1/user/info/${params.userId}`)
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/user/info/${getUserId()}`)
     }
   })
 }
@@ -209,22 +209,22 @@ const verificationCode = (params)=>{
 //保存用户手机
 const saveUserPhone = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/applet/v1/mobile/${params.userId}`,
+    url: `${store.getters.baseurl}/applet/v1/mobile/${getUserId()}`,
     method: 'post',
     data: qs.stringify(params),
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/applet/v1/mobile/${params.userId}`)
+      'access': ShaAccess(`${store.getters.baseurl}/applet/v1/mobile/${getUserId()}`)
     }
   })
 }
 
 const getHistory = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/course/v2/course/history/${params.userId}`,
+    url: `${store.getters.baseurl}/course/v2/course/history/${getUserId()}`,
     method: 'get',
     params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/course/v2/course/history/${params.userId}`)
+      'access': ShaAccess(`${store.getters.baseurl}/course/v2/course/history/${getUserId()}`)
     }
   })
 }
@@ -236,6 +236,16 @@ const  getAreaJson = ()=>{
   })
 }
 
+const getVisitor = (params)=>{
+  return fetch({
+    url: `${store.getters.baseurl}/user/v1/visitor/session`,
+    method: 'post',
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/visitor/session`)
+    }
+  })
+}
 const tangy = {
   sendmobanmes, //推送模板消息
   everydayRead, //每日一读（首页）
@@ -258,5 +268,6 @@ const tangy = {
   getAttribute, // 获取用户类型
   verificationCode, //获取手机验证码
   saveUserPhone, //用户绑定手机号
+  getVisitor,//游客模式
 }
 export default tangy

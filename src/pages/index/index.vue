@@ -5,9 +5,7 @@
       style="background-image: url(../../../../../static/images/index/bg_top.png)"
     >
       <div class="user_operation">
-        <div class="selt" v-if="gradeList&&gradeList.length>0">
-          <seletline :gradeLists="gradeList" @getLevelCode="getLevelCode"></seletline>
-        </div>
+        <div class="selt" @click="showlevelCode=true">年级</div>
 
         <div class="mine_info" @click="isWxLogin">
           <div class="user_img">
@@ -340,7 +338,7 @@
       <div
         class="bookrack"
         style="background-image:url(../../../../../static/images/index/bookrack.png)"
-       v-if="courseRecommendList&&courseRecommendList.length"
+        v-if="courseRecommendList&&courseRecommendList.length"
       >
         <img
           v-for="item in courseRecommendList"
@@ -377,7 +375,7 @@
       </div>
 
       <div class="young" v-if="reviewRecommendList&&reviewRecommendList.length">
-        <div class="yitem"  v-for="item in reviewRecommendList" :key="item.reviewItemId">
+        <div class="yitem" v-for="item in reviewRecommendList" :key="item.reviewItemId">
           <img :src="item.imageUrl" alt />
         </div>
 
@@ -394,6 +392,17 @@
         </div>-->
       </div>
     </div>
+
+    <!-- <div class="cover">
+      <div class="leftbox">
+        <ul>
+          <li>全部</li>
+          <li>重庆</li>
+          <li>四川</li>
+          <li>全部</li>
+        </ul>
+      </div>
+    </div> -->
   </div>
 </template>
 
@@ -402,7 +411,7 @@ import tangy from "@/api/tangy";
 import lunbo from "@/components/lunbo";
 import seletline from "@/components/select";
 import turb from "@/components/turb";
-import { getToken, getUserinfo, getLevelCode } from "@/utils/auth";
+import { getToken, getUserinfo, getUserId, getLevelCode } from "@/utils/auth";
 export default {
   components: {
     lunbo, //轮播
@@ -414,11 +423,12 @@ export default {
       levelCode: getLevelCode() || "", //年级
       everydayReadCont: null, //每日一读容器
       activityRankCont: [], //排行榜
-      bannerActivityList:null, //banner图容器
+      bannerActivityList: null, //banner图容器
       courseRecommendList: [], //首页推荐课程
       reviewRecommendList: [], //首页少年之声
       gradeList: [],
       userInfo: {},
+      showlevelCode: true,
       imgUrls: [
         {
           imgUrl: "https://www.dummyimage.com/355x185",
@@ -455,37 +465,39 @@ export default {
     this.userInfo = getUserinfo();
     if (this.userInfo) {
       this.getAttribute(); //年级
-      // if(getLevelCode()){
-
-      // }
     }
   },
   methods: {
-     getLevelCode() {
+    // //游客模式
+    // getVisitor() {
+    //   this.$api.tangy
+    //     .getVisitor({
+    //       equipmentNo: ""
+    //     })
+    //     .then(res => {
+    //       console.log(res);
+    //     });
+    // },
+    closelevelCode() {
+      this.showlevelCode = false;
+    },
+    getLevelCode() {
       this.levelCode = getLevelCode();
     },
-    // //所有年级api
-    // getGrade() {
-    //   this.$api.chengx.getGrade().then(res => {
-    //     this.gradeList = res.result.levelList;
-    //     console.log(this.gradeList);
-    //     console.log("年级列表++++++++++++++++++++++++++++++++");
-    //   });
-    // },
     async getAttribute() {
-        await this.$api.tangy.getAttribute().then(res => {
+      await this.$api.tangy.getAttribute().then(res => {
         this.gradeList = res.result.levelList || [];
       });
     },
 
     //每日一读
-   async getEveryDayRead() {
+    async getEveryDayRead() {
       const params = {
-        levelCode: this.$store.getters.levelCode,
-        userId: 456061438071431200,
-        limit: 1
+        levelCode: getLevelCode(),
+        userId: getUserId(),
+        limit: 10
       };
-     await this.$api.tangy.everydayRead(params).then(res => {
+      await this.$api.tangy.everydayRead(params).then(res => {
         console.log("每日一读++++++++++++++++++++++++++++++++");
         this.everydayReadCont = res.result;
       });
@@ -493,68 +505,68 @@ export default {
     //首页推荐课程 reviewRecommend
     async courseRecommend() {
       const params = {
-        levelCode: this.$store.getters.levelCode
+        levelCode: getLevelCode()
       };
-     await this.$api.tangy.courseRecommend(params).then(res => {
+      await this.$api.tangy.courseRecommend(params).then(res => {
         console.log("首页推荐课程++++++++++++++++++++++++++++++++");
         this.courseRecommendList = res.result;
       });
     },
     //首页少年之声
-  async reviewRecommend() {
+    async reviewRecommend() {
       const params = {
-        levelCode: this.$store.getters.levelCode
+        levelCode: getLevelCode()
       };
-     await this.$api.tangy.reviewRecommend(params).then(res => {
+      await this.$api.tangy.reviewRecommend(params).then(res => {
         console.log("首页少年之声++++++++++++++++++++++++++++++++");
         this.reviewRecommendList = res.result;
       });
     },
     //获取消息
-   async getMessage() {
+    async getMessage() {
       const params = {
         currentPage: 1,
         pageSize: 10,
-        userId: 456061438071431200
+        userId: getUserId()
       };
-    await this.$api.tangy.message(params).then(res => {
+      await this.$api.tangy.message(params).then(res => {
         console.log("获取消息++++++++++++++++++++++++++++++++");
         console.log(res);
       });
     },
     //活动榜单
-   async getActivityRank() {
+    async getActivityRank() {
       const params = {
         currentPage: 1,
         pageSize: 10,
         activityId: 202003050007,
-        userId: 456061438071431200,
+        userId: getUserId(),
         worksStage: 1,
         groupCode: 1003001002,
         listCode: 1004001001
       };
-    await  this.$api.tangy.activityRank(params).then(res => {
+      await this.$api.tangy.activityRank(params).then(res => {
         console.log("活动榜单++++++++++++++++++++++++++++++++");
         // console.log(res);
         this.activityRankCont = res.result.pageResults;
       });
     },
     //区域活动
-  async  getActivityArea() {
+    async getActivityArea() {
       const params = {
         currentPage: 1,
         pageSize: 10,
         areaId: "7953772"
       };
-    await this.$api.tangy.activityArea(params).then(res => {
+      await this.$api.tangy.activityArea(params).then(res => {
         console.log("区域活动++++++++++++++++++++++++++++++++");
         console.log(res);
       });
     },
 
     //获取大区
-   async getArea() {
-     await this.$api.tangy.area().then(res => {
+    async getArea() {
+      await this.$api.tangy.area().then(res => {
         console.log("获取大区++++++++++++++++++++++++++++++++");
         console.log(res);
       });
@@ -573,15 +585,15 @@ export default {
       });
     },
     //获取banner列表
-   async getActivityList() {
+    async getActivityList() {
       const params = {
-        levelCode: this.$store.getters.levelCode,
-        userId: "1",
+        levelCode: getLevelCode(),
+        userId: getUserId(),
         limit: 1,
         lng: "123",
         lat: "123"
       };
-     await this.$api.tangy.activityList(params).then(res => {
+      await this.$api.tangy.activityList(params).then(res => {
         console.log("获取banner列表+++++++++++++++++");
         this.bannerActivityList = res.result;
       });
@@ -645,6 +657,23 @@ export default {
 </script>
 
 <style scoped>
+.cover{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+.leftbox {
+  float: left;
+  height: 100%;
+  width: 100px;
+  padding: 10px;
+  background-color: #fff;
+}
 .young {
   display: flex;
   flex-wrap: wrap;
@@ -971,7 +1000,6 @@ export default {
   font-family: Microsoft YaHei;
   font-weight: bold;
   color: rgba(67, 67, 67, 1);
-  z-index: 9999;
 }
 .go_right {
   width: 5px;
