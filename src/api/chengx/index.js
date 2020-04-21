@@ -1,5 +1,5 @@
 import fetch from '@/utils/fetch.js'
-import { getLevelCode } from "@/utils/auth";
+import { getLevelCode,getUserId } from "@/utils/auth";
 import {
   ShaAccess
 } from '@/utils'
@@ -65,12 +65,40 @@ const getClazz = params => {
     }
   })
 }
+//收藏 
+const putCollection = params => {
+  return fetch({
+    url: `${store.getters.baseurl}/read/v1/record/collection/${getUserId()}`,
+    method: 'post',
+    // data:params,
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/read/v1/record/collection/${getUserId()}`)
+      // 'Authorization':store.getters.token
+    }
+  })
+}
+//点赞
+const putRecord = params => {
+  return fetch({
+    url: `${store.getters.baseurl}/read/v1/record/like/${getUserId()}`,
+    method: 'post',
+    // data:params,
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/read/v1/record/like/${getUserId()}`)
+      // 'Authorization':store.getters.token
+    }
+  })
+}
 
 const chengx = {
   getFans, //查询粉丝用户
   getToken, //获取登录凭证
   getUserOpenId, //获取openid
   getCategoryCourse,//学堂列表
-  getClazz//查询年级api
+  getClazz,//查询年级api
+  putCollection ,//收藏 
+  putRecord //点赞
 }
 export default chengx

@@ -64,12 +64,36 @@
             @tap="nextFun"
             src="../../../../static/images/play/incGo.png"/>
           <!-- 列表图标-->
-          <img
+          <picker class="picker" mode="selector" :range="musicList" range-key="title" :value="index" @change="bindPickerChange">
+      <!-- <div class="picker">
+        当前选择：{{objectArray[index].name}}
+      </div> -->
+       <img
             class="apd-btn-list"
             src="../../../../static/images/play/incList.png"
             @tap="jumpAudioList"
           />
+    </picker>
+         
         </div>
+        <div class="dinyue">立即订阅</div>
+        <div class="dinyContLin">
+          <div class="dinyCont">
+          <div class="dinyImg">
+            <img :src="resource.imageUrl" alt="" srcset="">
+          </div>
+          <div class="dinyText">
+            <p class="p1">{{resource.title}}</p>
+            <p class="p2">{{resource.author}}</p>
+          </div>  
+          </div>
+          <p class="dinyBtn">订阅</p> 
+        </div>
+   
+          <div class="picker-container">
+          
+        </div>
+      
       </div>
     </div>
   </div>
@@ -87,6 +111,7 @@ export default {
 
   data() {
     return {
+      index:0,
       idx: 0, // 当前音频（第一个-上一条按钮不能点击，最后一条，下一条按钮不能点击）
       albumCode: "", // 当前音频标识
       opusName: "", // 当前专辑名字
@@ -167,7 +192,13 @@ export default {
      
   },
   methods: {
+    bindPickerChange(event){
+      this.resource = this.musicList[+event.mp.detail.value];
+    console.log('picker发送选择改变，携带值为', event)
+
+    },
      /**
+      * 
    * !!! 解决滑动播放条时的卡顿问题 !!! --- start
    */
   // 禁止播放条随着音乐播放滚动
@@ -255,6 +286,7 @@ export default {
     // 音频对象
  audio(media) {
     //获取全局唯一的背景音频管理器
+    this.index=this.curIndex
     this.appMusic = wx.getBackgroundAudioManager();
     this.appMusic.startTime = 0;
     this.appMusic.src =this.resource.resourceUrl
@@ -421,5 +453,64 @@ height:36px; */
   height: 43px;
   /* background:rgba(255,255,255,0);
 border-radius:50%; */
+}
+.dinyue{
+  width:79%;
+height:41px;
+margin: 20px auto 50px auto;
+background:rgba(255,217,72,1);
+border-radius:41px 36px 36px 36px;
+font-size:15px;
+font-family:Microsoft YaHei;
+font-weight:bold;
+color:rgba(34,34,34,1);
+text-align: center;
+line-height: 41px;
+}
+.dinyContLin{
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+}
+.dinyCont{
+  display: flex;
+  justify-content:flex-start;
+  align-items: center;
+}
+.dinyImg{
+  width: 50px;
+  height: 46px;
+  background:rgba(119,119,119,1);
+  border-radius:10px;
+  overflow: hidden;
+ 
+}
+.dinyImg img{
+  width: 100%;
+  height: 100%;
+}
+.p1{
+  font-size:15px;
+font-family:Microsoft YaHei;
+font-weight:400;
+color:rgba(34,34,34,1);
+}
+.p2{
+  font-size:12px;
+font-family:Microsoft YaHei;
+font-weight:400;
+color:rgba(34,34,34,1);
+}
+.dinyText{
+  margin-left: 8px;
+}
+.dinyBtn{
+  font-size:12px;
+font-family:Microsoft YaHei;
+font-weight:400;
+color:rgba(67,67,67,1);
+line-height:48px;
 }
 </style>

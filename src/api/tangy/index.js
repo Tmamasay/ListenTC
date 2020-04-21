@@ -160,11 +160,11 @@ const readContentDetail = (params) => {
 
 const userInfo = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/user/v1/userInfo/${getUserId()}`,
+    url: `${store.getters.baseurl}/user/v1/userInfo/456061438071431168`,
     method: 'get',
     params: params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/user/v1/userInfo/${getUserId()}`)
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/userInfo/456061438071431168`)
     }
   })
 }

@@ -1,37 +1,31 @@
 <template>
   <!--个人资料'personalData'-->
-  <div class="personalCont">
+  <div class="personalCont" v-if="name">
     <div class="personalLine">
       <div class="personalLineA">
         <p>更改头像</p>
         <div class="avterImg">
-          <img src alt srcset />
+          <img :src="image" alt srcset />
         </div>
       </div>
     </div>
     <div class="personalLineB">
       <div class="personalLineB1">
         <p>昵称</p>
-        <div class="rightName">爱笑的眼睛</div>
+        <div class="rightName">{{name}}</div>
       </div>
       <div class="personalLineB1">
         <p>性别</p>
         <div class="rightName">
-          女
+          {{gender}}
           <i-icon type="enter" @click="openGender" size="15" color="#BBB8B9" />
         </div>
       </div>
       <div class="personalLineB2">
         <p>生日</p>
         <div class="rightName">
-          {{userInfo.birthday}}
-          <picker
-            mode="date"
-            v-model="userInfo.birthday"
-            start="2015-09-01"
-            end="2017-09-01"
-            @change="bindDateChange"
-          >
+          <picker mode="date" v-model="birthday" @change="bindDateChange">
+            {{birthday}}
             <i-icon type="enter" size="15" color="#BBB8B9" />
           </picker>
         </div>
@@ -41,40 +35,37 @@
       <div class="personalLineB1">
         <p>身份</p>
         <div class="rightName">
-          小学1~3年级
+          {{levelCode}}
           <i-icon type="enter" size="15" color="#BBB8B9" />
         </div>
       </div>
       <div class="personalLineB2">
         <p>城市</p>
         <div class="rightName">
-          重庆
-          <picker
-            mode="region"
-            @change="bindRegionChange"
-            v-model="locationId"
-            :range="areaRange"
-            :customItem="customItem"
-          >
-            <i-icon type="enter" size="15" color="#BBB8B9" />
-          </picker>
+          <picker mode="region" @change="bindRegionChange2"  >
+          <!-- <text v-if="addressCity">{{addressCity[0]}} > {{addressCity[1]}} > {{addressCity[2]}}</text>
+          <text v-else class='placeholder'>请选择地区</text> -->
+          <i-icon type="enter" size="15" color="#BBB8B9" />
+        </picker> 
+         
         </div>
       </div>
     </div>
     <p class="keepForm" @click="saveUserInfo">保存</p>
+    <p>{{birthday}}</p>
 
     <i-action-sheet
       :visible="genderType"
       :actions="actions1"
       @cancel="cancelGender"
-      @click="saveGender"
+      @iclick="saveGender"
     />
   </div>
 </template>
 
 <script>
 // import footbutt from '@/components/footbut.vue'
-import { getUserinfo,getUserId } from "@/utils/auth";
+import { getUserinfo, getUserId } from "@/utils/auth";
 export default {
   components: {
     // footbutt
@@ -87,21 +78,19 @@ export default {
       actions1: [
         {
           name: "男",
-          value:"男"
+          value: "男"
         },
         {
           name: "女",
-          value:"女"
+          value: "女"
         }
       ],
-      userInfo: {
         name: "",
-        gender: "",
+        gender: "女",
         birthday: "",
         levelCode: "",
-        locationId: [],
-        image: ""
-      },
+        locationId: "",
+        image: "",
       areaRange: [],
       region: ["广东省", "广州市", "海珠区"],
       customItem: "全部"
@@ -121,9 +110,7 @@ export default {
       this.genderType = false;
     },
     saveGender(e) {
-      console.log(e.mp.detail.value);
-      
-      
+      console.log(e);
     },
     getArea() {
       this.$api.tangy.getAreaJson().then(res => {
@@ -132,6 +119,10 @@ export default {
       });
     },
     bindRegionChange(e) {
+      console.log(e);
+    },
+    bindRegionChange2(e) {
+      this.userInfo.locationId=+e.mp.detail.code[2]
       console.log(e);
     },
     getLocation() {
@@ -146,16 +137,27 @@ export default {
       });
     },
     getUserInfo() {
+      const that=this
       this.$api.tangy
         .userInfo({
           userId: getUserId()
         })
         .then(res => {
+          if (+res.code === 200) {
+            const data = res.result;
+              that.name= data.name,
+              that.gender= data.genderName,
+              that.birthday= data.birthday,
+              that.levelCode= data.levelCode ,
+              that.locationId= data.locationId ,
+              that.image= data.headImageUrl
+        
+          }
           console.log(res);
         });
     },
-    saveUserInfo() {
-      this.$api.tangy
+    async saveUserInfo() {
+      await this.$api.tangy
         .saveUserInfo({
           userId: this.$store.getters.userId
         })
@@ -164,7 +166,10 @@ export default {
         });
     },
     bindDateChange(e) {
-      this.userInfo.birthday = e.target.value;
+      const a=e.mp.target.value
+    
+      this.birthday = a;
+        console.log(this.birthday)
     }
   }
 };
@@ -202,6 +207,7 @@ export default {
   background: rgba(255, 255, 255, 1);
   border: 2px solid rgba(255, 206, 19, 1);
   border-radius: 50%;
+  overflow: hidden;
 }
 .avterImg img {
   width: 100%;
