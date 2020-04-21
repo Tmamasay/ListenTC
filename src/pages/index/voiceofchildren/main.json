@@ -1,5 +1,6 @@
 {
   "usingComponents": {
+    "i-drawer": "/static/iView/drawer/index"
   },
   "navigationBarTitleText": ""
 }

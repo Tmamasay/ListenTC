@@ -186,13 +186,14 @@ export default {
     },
     //获取活动详情
     getActivityDetail() {
+      console.log(this.activityId);
+      
       const params = {
         activityId: this.activityId,
         stage: 1,
         userId: getUserId()
       };
       this.$api.tangy.activityDetail(params).then(res => {
-        console.log("获取活动详情++++++++++++++++++++++++++++++++");
         // console.log(res);
         this.worksStage = res.result.worksStage;
         this.activityDetailCont = res.result;
@@ -214,7 +215,6 @@ export default {
       var h = date.getHours() + ":";
       var m = date.getMinutes() + ":";
       var s = date.getSeconds();
-      console.log(Y + M + D + h + m + s);
       return Y + M + D + h + m + s;
     },
     showListCode(code) {

@@ -15,7 +15,8 @@
       <!-- <div class="introduceImg"> -->
          <!-- <wxParse :content="readBookDetail.imageList[0].imageUrl"  /> -->
       <scroll-view scroll-y="true" class="introduceImg">
-        <img :src="item.imageUrl" alt v-for="item in readBookDetail.imageList" :key="item.imageId" />
+        <div class="bgimg" :style="{backgroundImage:'url('+item.imageUrl+')'}" v-for="item in readBookDetail.imageList" :key="item.imageId" ></div>
+        <!-- <img :src="item.imageUrl" alt v-for="item in readBookDetail.imageList" :key="item.imageId" /> -->
       </scroll-view>
       <!-- </div> -->
       <div class="contextIn">
@@ -135,6 +136,12 @@ export default {
 </script>
 
 <style>
+.bgimg{
+  width: 100%;
+  height: 500px;
+  background: no-repeat top center;
+  background-size: 100%;
+}
 .readTopImg {
   width: 100%;
   height: 198px;
@@ -147,10 +154,12 @@ export default {
 .introduce {
   width: 100%;
   margin-top: 5px;
+  padding-bottom: 69px;
 }
 .catalog {
   width: 100%;
   margin-top: 5px;
+  padding-bottom: 69px;
 }
 .introduceImg {
   width: 100%;

@@ -19,8 +19,8 @@
         </div>
       </div>
 
-      <div class="lunbo_contain" v-if="bannerActivityList">
-        <lunbo :imgUrls="bannerActivityList.bannerList"></lunbo>
+      <div class="lunbo_contain" v-if="works">
+        <lunbo :imgUrls="works"></lunbo>
       </div>
 
       <div class="news">
@@ -101,8 +101,8 @@
         </div>
       </div>
 
-      <div class="act_lunbo" v-if="bannerActivityList">
-        <turb :imgUrls="bannerActivityList.works"></turb>
+      <div class="act_lunbo" v-if="bookList">
+        <turb :imgUrls="bookList"></turb>
       </div>
     </div>
     <!-- 活动排行榜 -->
@@ -289,7 +289,7 @@
       </div>
 
       <div class="young" v-if="reviewRecommendList&&reviewRecommendList.length">
-        <div class="yitem" v-for="item in reviewRecommendList" :key="item.reviewItemId">
+        <div class="yitem" v-for="item in reviewRecommendList" :key="item.reviewItemId" @click="gotoVoiceofchildrenDetail(item.reviewItemId)">
           <img :src="item.imageUrl" alt />
         </div>
 
@@ -392,7 +392,9 @@ export default {
         }
       ],
       guide: true,
-      guideStep: 1
+      guideStep: 1,
+      works:[],
+      bookList:[],
     };
   },
   watch: {
@@ -589,7 +591,17 @@ export default {
       };
       await this.$api.tangy.activityList(params).then(res => {
         console.log("获取banner列表+++++++++++++++++");
-        this.bannerActivityList = res.result;
+        this.works = res.result.works.map(res=>{
+          res.jumpUrl='/pages/index/activity/detail/main';
+          return res;
+        })
+        this.bookList = res.result.bannerList.map(res=>{
+          res.jumpUrl='/pages/index/activity/detail/main';
+          return res;
+        })
+        console.log(this.works);
+        
+        console.log(this.bookList);
       });
     },
     isWxLogin() {
@@ -644,6 +656,11 @@ export default {
     gotoMessage() {
       wx.navigateTo({
         url: `/pages/index/setUp/messageCenter/main`
+      });
+    },
+    gotoVoiceofchildrenDetail(id){
+      wx.navigateTo({
+        url: `/pages/index/voiceofchildrendetail/main?bookId=${id}`
       });
     }
   }

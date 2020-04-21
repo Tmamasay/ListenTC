@@ -1,5 +1,10 @@
 import fetch from '@/utils/fetch.js'
-import { getLevelCode ,getUserId} from "@/utils/auth";
+import {
+  getLevelCode,
+  getUserId,
+  getActivityId,
+  getActCode
+} from "@/utils/auth";
 import {
   ShaAccess
 } from '@/utils'
@@ -179,7 +184,6 @@ const userInfo = (params) => {
     }
   })
 }
-// general/v1/dictionary/level
 const saveUserInfo = (params) => {
   return fetch({
     url: `${store.getters.baseurl}/user/v1/user/info/${getUserId()}`,
@@ -192,7 +196,7 @@ const saveUserInfo = (params) => {
 }
 
 //获取用户类型
-const getAttribute = ()=>{
+const getAttribute = () => {
   return fetch({
     url: `${store.getters.baseurl}/general/v2.1/module/type/attribute`,
     method: 'get',
@@ -204,7 +208,7 @@ const getAttribute = ()=>{
 
 
 //获取短信验证码
-const verificationCode = (params)=>{
+const verificationCode = (params) => {
   return fetch({
     url: `${store.getters.baseurl}/applet/v1/verificationCode`,
     method: 'get',
@@ -238,14 +242,14 @@ const getHistory = (params) => {
   })
 }
 
-const  getAreaJson = ()=>{
+const getAreaJson = () => {
   return fetch({
     url: `http://192.168.5.205:8124/json/province.json`,
     method: 'get',
   })
 }
 
-const getVisitor = (params)=>{
+const getVisitor = (params) => {
   return fetch({
     url: `${store.getters.baseurl}/user/v1/visitor/session`,
     method: 'post',
@@ -255,6 +259,76 @@ const getVisitor = (params)=>{
     }
   })
 }
+
+//我收藏的课程 
+const myStudyCourse = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/course/v1/lesson/collection/${getUserId()}`,
+    method: 'post',
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/course/v1/lesson/collection/${getUserId()}`)
+    }
+  })
+}
+
+const peopleDetail = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/activity/v1/review/recommend/${getLevelCode()}`,
+    method: 'post',
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/activity/v1/review/recommend/${getLevelCode()}`)
+    }
+  })
+}
+
+
+const peopleActDetail = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/activity/v1/review/item/${params.itemId}`,
+    method: 'get',
+    params,
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/activity/v1/review/item/${params.itemId}`)
+    }
+  })
+}
+
+const reviewAct = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/activity/v1/review/${getActCode()}`,
+    method: 'post',
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/activity/v1/review/${getActCode()}`)
+    }
+  })
+}
+
+
+const follow = (params) =>{
+  return fetch({
+    url: `${store.getters.baseurl}/user/v1/follow/${getUserId()}`,
+    method: 'post',
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/follow/${getUserId()}`)
+    }
+  })
+}
+
+const fans = (params) =>{
+  return fetch({
+    url: `${store.getters.baseurl}/user/v1/fans/${getUserId()}`,
+    method: 'post',
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/fans/${getUserId()}`)
+    }
+  })
+}
+
 const tangy = {
   sendmobanmes, //推送模板消息
   everydayRead, //每日一读（首页）
@@ -273,11 +347,17 @@ const tangy = {
   reviewRecommend, //首页少年之声
   userInfo, //获取用户信息
   saveUserInfo, // 保存用户信息
-  getHistory,//查询历史课程
+  getHistory, //查询历史课程
   getAreaJson,
   getAttribute, // 获取用户类型
   verificationCode, //获取手机验证码
   saveUserPhone, //用户绑定手机号
-  getVisitor,//游客模式
+  getVisitor, //游客模式
+  myStudyCourse, //我收藏的课程
+  peopleDetail, //少年之声列表
+  peopleActDetail, //少年之声详情
+  reviewAct, //少年之声活动列表
+  follow,//关注的用户
+  fans,//粉丝用户
 }
 export default tangy

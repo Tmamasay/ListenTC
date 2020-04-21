@@ -1,19 +1,20 @@
 <template>
   <div class="voiceofchildren">
     <div class="videoBox">
-      <video src="http://qiniu-xpc11.vmoviercdn.com/598afd3f62e17.mp4" controls="controls"></video>
+      <video :src="detail.resourceUrl" controls="controls"></video>
     </div>
     <div class="videoInfo">
       <div class="v_content">
-        <span>段志文</span>
+        <span>{{detail.author}}</span>
         <div class="dianzhan active">
           <img class="reddz" src="../../../../static/images/index/dianzhan_red.png" alt />
-          533
+          {{detail.playNum}}
         </div>
       </div>
       <p class="v_text">
-        作品:《拥抱未来》-小学组特等奖
-        <br />学校：湖南省娄底市新化县思源实验小学
+        作品:{{detail.title}}
+        <br />
+        学校：{{detail.school}}
       </p>
     </div>
 
@@ -24,49 +25,26 @@
       >其他人的作品</div>
     </div>
     <div class="list">
-      <div class="item">
+      <div class="item" v-for="(item, index) in list" :key="index" @click="play(item.reviewItemId)">
         <div class="item_img">
-          <img class="content_img" src="https://www.dummyimage.com/170x94" alt />
+          <img class="content_img" :src="item.imageUrl" alt />
           <div
             class="left_top"
             style="background-image:url(../../../../static/images/index/memo.png)"
           >
             <img class="herji" src="../../../../static/images/index/herji.png" alt />
-            2997
+            {{item.playNum}}
           </div>
           <img class="right_bottom" src="../../../../static/images/index/bf.png" alt />
         </div>
         <div class="item_content">
-          <div class="item_title">《沉醉在黄河故道的风沉醉在黄河故道的风</div>
+          <div class="item_title">{{item.title}}</div>
           <div class="flbb">
-            <div class="item_people">朗读者：王海峰</div>
-            <div class="dianzhan active">
+            <div class="item_people">朗读者：{{item.author}}</div>
+            <!-- <div class="dianzhan active">
               <img class="reddz" src="../../../../static/images/index/dianzhan_red.png" alt />
-              533
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item_img">
-          <img class="content_img" src="https://www.dummyimage.com/170x94" alt />
-          <div
-            class="left_top"
-            style="background-image:url(../../../../static/images/index/memo.png)"
-          >
-            <img class="herji" src="../../../../static/images/index/herji.png" alt />
-            2997
-          </div>
-          <img class="right_bottom" src="../../../../static/images/index/bf.png" alt />
-        </div>
-        <div class="item_content">
-          <div class="item_title">《沉醉在黄河故道的风沉醉在黄河故道的风</div>
-          <div class="flbb">
-            <div class="item_people">朗读者：王海峰</div>
-            <div class="dianzhan">
-              <img class="reddz" src="../../../../static/images/index/dianzhan.png" alt />
-              533
-            </div>
+              {{item.timeLength}}
+            </div> -->
           </div>
         </div>
       </div>
@@ -75,17 +53,54 @@
 </template>
 
 <script>
+import { getActivityId } from "@/utils/auth";
 export default {
   components: {},
 
   data() {
-    return {};
+    return {
+      detail: {},
+      list: [],
+      itemId: ""
+    };
   },
   mounted() {},
   onLoad() {},
-  methods: {},
+  methods: {
+    peopleDetail() {
+      const params = {
+        currentPage: 1,
+        pageSize: 2
+      };
+      this.$api.tangy.peopleDetail(params).then(res => {
+        this.list = res.result.pageResults;
+        console.log(res);
+      });
+    },
+    peopleActDetail() {
+      const params = {
+        itemId: this.itemId,
+        reviewId: getActivityId()
+      };
+      this.$api.tangy.peopleActDetail(params).then(res => {
+        this.detail = res.result;
+        console.log(res);
+      });
+    },
+    play(id) {
+      this.itemId = id;
+      this.peopleActDetail();
+      this.peopleDetail();
+    }
+  },
 
-  onShow() {}
+  onShow() {
+    if (this.$root.$mp.query.bookId) {
+      this.itemId = this.$root.$mp.query.bookId;
+    }
+    this.peopleActDetail();
+    this.peopleDetail();
+  }
 };
 </script>
 

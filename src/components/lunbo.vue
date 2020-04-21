@@ -16,7 +16,7 @@
           <!-- <navigator :url="'../../'+item.jumpUrl" open-type="navigate"> -->
           <!-- <navigator url='../../pages/index/chaihb/main' open-type="navigate"> -->
           <!-- <navigator > -->
-          <image :src="item.imageUrl" :style="{height:height+'px'}" @click="navjumps(item.jumpUrl)" />
+          <image :src="item.userHeadImg" :style="{height:height+'px'}" @click="navjumps(item)" />
           <!-- </navigator> -->
         </swiper-item>
       </block>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { setActivityId } from "@/utils/auth";
 export default {
   props: ["imgUrls"],
   data() {
@@ -35,10 +36,11 @@ export default {
   mounted() {},
   onLoad() {},
   methods: {
-    navjumps(url) {
-      // wx.navigateTo({
-      //   url: url
-      // });
+    navjumps(it) {
+      setActivityId(it.activityId);
+      wx.navigateTo({
+        url: it.jumpUrl
+      });
     }
   }
 };

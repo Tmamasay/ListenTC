@@ -1,122 +1,35 @@
 <template>
   <div class="voiceofchildren">
     <div class="areaBox">
-      当前专区：
-      <span class="current_area">所有专区</span>
+      <areaselect :areaLists="areaList" @getActCode="getActCode"></areaselect>
     </div>
+
     <div class="list">
-      <div class="item" @click="gotoDetail">
+      <div
+        class="item"
+        v-for="(item, index) in list"
+        :key="index"
+        @click="gotoDetail(item.reviewItemId)"
+      >
         <div class="item_img">
-          <img class="content_img" src="https://www.dummyimage.com/170x94" alt />
+          <img class="content_img" :src="item.imageUrl" alt />
           <div
             class="left_top"
             style="background-image:url(../../../../static/images/index/memo.png)"
           >
             <img class="herji" src="../../../../static/images/index/herji.png" alt />
-            2997
+            {{item.playNum}}
           </div>
           <img class="right_bottom" src="../../../../static/images/index/bf.png" alt />
         </div>
         <div class="item_content">
-          <div class="item_title">《沉醉在黄河故道的风沉醉在黄河故道的风</div>
+          <div class="item_title">{{item.title}}</div>
           <div class="flbb">
-            <div class="item_people">朗读者：王海峰</div>
-            <div class="dianzhan active">
+            <div class="item_people">朗读者：{{item.author}}</div>
+            <!-- <div class="dianzhan active">
               <img class="reddz" src="../../../../static/images/index/dianzhan_red.png" alt />
               533
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item_img">
-          <img class="content_img" src="https://www.dummyimage.com/170x94" alt />
-          <div
-            class="left_top"
-            style="background-image:url(../../../../static/images/index/memo.png)"
-          >
-            <img class="herji" src="../../../../static/images/index/herji.png" alt />
-            2997
-          </div>
-          <img class="right_bottom" src="../../../../static/images/index/bf.png" alt />
-        </div>
-        <div class="item_content">
-          <div class="item_title">《沉醉在黄河故道的风沉醉在黄河故道的风</div>
-          <div class="flbb">
-            <div class="item_people">朗读者：王海峰</div>
-            <div class="dianzhan">
-              <img class="reddz" src="../../../../static/images/index/dianzhan.png" alt />
-              533
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item_img">
-          <img class="content_img" src="https://www.dummyimage.com/170x94" alt />
-          <div
-            class="left_top"
-            style="background-image:url(../../../../static/images/index/memo.png)"
-          >
-            <img class="herji" src="../../../../static/images/index/herji.png" alt />
-            2997
-          </div>
-          <img class="right_bottom" src="../../../../static/images/index/bf.png" alt />
-        </div>
-        <div class="item_content">
-          <div class="item_title">《沉醉在黄河故道的风沉醉在黄河故道的风</div>
-          <div class="flbb">
-            <div class="item_people">朗读者：王海峰</div>
-            <div class="dianzhan">
-              <img class="reddz" src="../../../../static/images/index/dianzhan.png" alt />
-              533
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item_img">
-          <img class="content_img" src="https://www.dummyimage.com/170x94" alt />
-          <div
-            class="left_top"
-            style="background-image:url(../../../../static/images/index/memo.png)"
-          >
-            <img class="herji" src="../../../../static/images/index/herji.png" alt />
-            2997
-          </div>
-          <img class="right_bottom" src="../../../../static/images/index/bf.png" alt />
-        </div>
-        <div class="item_content">
-          <div class="item_title">《沉醉在黄河故道的风沉醉在黄河故道的风</div>
-          <div class="flbb">
-            <div class="item_people">朗读者：王海峰</div>
-            <div class="dianzhan">
-              <img class="reddz" src="../../../../static/images/index/dianzhan.png" alt />
-              533
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item_img">
-          <img class="content_img" src="https://www.dummyimage.com/170x94" alt />
-          <div
-            class="left_top"
-            style="background-image:url(../../../../static/images/index/memo.png)"
-          >
-            <img class="herji" src="../../../../static/images/index/herji.png" alt />
-            2997
-          </div>
-          <img class="right_bottom" src="../../../../static/images/index/bf.png" alt />
-        </div>
-        <div class="item_content">
-          <div class="item_title">《沉醉在黄河故道的风沉醉在黄河故道的风</div>
-          <div class="flbb">
-            <div class="item_people">朗读者：王海峰</div>
-            <div class="dianzhan">
-              <img class="reddz" src="../../../../static/images/index/dianzhan.png" alt />
-              533
-            </div>
+            </div>-->
           </div>
         </div>
       </div>
@@ -125,24 +38,52 @@
 </template>
 
 <script>
+import areaselect from "@/components/areaselect";
+import { getActCode } from "@/utils/auth";
 export default {
-  components: {},
-
+  components: { areaselect },
   data() {
-    return {};
+    return {
+      list: [],
+      areaList: [],
+      actCode: getActCode() || "",
+    };
   },
   mounted() {},
   onLoad() {},
   methods: {
-    gotoDetail() {
-      console.log(11111);
-      
+    gotoDetail(id) {
       wx.navigateTo({
-        url: `/pages/index/voiceofchildrendetail/main`
+        url: `/pages/index/voiceofchildrendetail/main?bookId=${id}`
       });
-    }},
+    },
+    getActCode() {
+      this.actCode = getActCode();
+      this.peopleDetail();
+    },
+    peopleDetail() {
+      const params = {
+        currentPage: 1,
+        pageSize: 100
+      };
+      this.$api.tangy.reviewAct(params).then(res => {
+        this.list = res.result.pageResults;
+        console.log(res);
+      });
+    },
 
-  onShow() {}
+    //获取大区
+    async getArea() {
+      await this.$api.tangy.area().then(res => {
+        this.areaList = res.result;
+      });
+    }
+  },
+
+  onShow() {
+    this.getArea();
+    this.peopleDetail();
+  }
 };
 </script>
 
@@ -242,12 +183,13 @@ export default {
   padding: 0 10px;
   background-color: #fff;
   color: rgba(109, 109, 109, 1);
+  z-index: 100;
 }
 .current_area {
   color: #222222;
 }
-.voiceofchildren{
-  background-color: #F7F7F7;
+.voiceofchildren {
+  background-color: #f7f7f7;
   position: absolute;
   top: 0;
   right: 0;

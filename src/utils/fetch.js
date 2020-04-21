@@ -8,7 +8,6 @@ import {
 } from '@/utils/auth';
 export default function fetch(options) {
   return new Promise((resolve, reject) => {
-    console.log('入口1')
     var instance = axios.create({
       baseURL: store.getters.baseurl,
       timeout: 1000,
@@ -20,7 +19,6 @@ export default function fetch(options) {
     instance.interceptors.request.use(
 
       config => {
-        console.log('配置请求头')
         // loading = window.$util.msg.loading()
         // config.headers['appToken'] = getAppToken()
         if (store.getters.token) {
@@ -81,8 +79,6 @@ export default function fetch(options) {
     // 请求处理 
     instance(options)
       .then(res => {
-        console.log('请求成功，判断业务逻辑');
-        console.log(res);
         // 请求成功时,根据业务判断状态
         /*  if (code === port_code.success) {
          resolve({code, msg, data})
@@ -105,7 +101,5 @@ export default function fetch(options) {
         }
         reject(error)
       })
-    console.log('请求结束--------------======>')
-
   });
 }

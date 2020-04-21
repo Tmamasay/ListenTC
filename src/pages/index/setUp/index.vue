@@ -3,25 +3,25 @@
     <div class="informationContTop">
       <div class="avterCont">
         <div class="avterImg">
-          <img src alt srcset />
+          <img :src="user_info.avatarUrl" alt srcset />
         </div>
         <div class="informationCont">
-          <div class="infoname" @click="gopages(4)">WX-小阿离</div>
-          <p class="fans" @click="gopages(2)">关注 12 &nbsp;&nbsp;&nbsp; 粉丝 57</p>
+          <div class="infoname" @click="gopages(4)">{{user_info.nickName}}</div>
+          <p class="fans" @click="gopages(2)">关注 {{followNum}} &nbsp;&nbsp;&nbsp; 粉丝 {{fansNum}}</p>
         </div>
         <p class="setInfo" @click="gopages(3)">设置</p>
       </div>
       <div class="powerLine">
         <div class="leftBPow">
           <div class="leftBpImg">
-            <img src alt srcset />
+            <img src="../../../../static/images/my/book.png" alt />
           </div>
           <p class="powerLineTitle" @click="gopages(5)">书房</p>
         </div>
         <p class="lineS"></p>
         <div class="leftBPow">
           <div class="leftBpImg">
-            <img src alt srcset />
+            <img src="../../../../static/images/my/col.png" alt srcset />
           </div>
           <p class="powerLineTitle" @click="gopages(1)">收藏</p>
         </div>
@@ -31,13 +31,11 @@
         <p class="leftBookName">温故而知新</p>
       </div>
       <div class="bookListCont">
-        <div class="showBookList">
-          <div class="bookLine"></div>
-          <div class="bookLine"></div>
-          <div class="bookLine"></div>
+        <div class="showBookList" v-for="(item, index) in historyList" :key="index">
+          <img class="bookLine" :src="item.imageUrl" alt />
         </div>
-        <div class="shaowBook"></div>
-        <div class="shaowBookTai"></div>
+        <!-- <div class="shaowBook"></div>
+        <div class="shaowBookTai"></div>-->
       </div>
     </div>
   </div>
@@ -45,13 +43,16 @@
 
 <script>
 // import { formatTime } from '@/utils/index'
-
+import { getUserinfo } from "@/utils/auth";
 export default {
   components: {},
 
   data() {
     return {
-      user_info: ""
+      user_info: "",
+      historyList: [],
+      followNum:0,
+      fansNum:0,
     };
   },
   created() {
@@ -59,8 +60,9 @@ export default {
   },
   onShow() {
     this.getHistory();
+    this.followUser();
+    this.fansUser();
     if (mpvuePlatform === "wx") {
-      console.log("------------------>");
       this.user_info = mpvue.getStorageSync("user_info");
     }
   },
@@ -92,14 +94,35 @@ export default {
     getHistory() {
       this.$api.tangy
         .getHistory({
-          userId: this.$store.getters.userId,
           currentPage: 1,
           pageSize: 10
         })
         .then(res => {
+          this.historyList = res.result.pageResults;
           console.log(res);
         });
-    }
+    },
+    followUser() {
+      const params = {
+        currentPage: 1,
+        pageSize: 1000000
+      };
+      this.$api.tangy.follow(params).then(res => {
+        this.followNum = res.totalCount;
+        
+      });
+    },
+    fansUser() {
+      const params = {
+        currentPage: 1,
+        pageSize: 1000000
+      };
+      this.$api.tangy.fans(params).then(res => {
+        this.followNum = res.totalCount;
+        
+      });
+    },
+
   }
 };
 </script>
@@ -167,7 +190,6 @@ export default {
 .leftBpImg {
   width: 17px;
   height: 19px;
-  background-color: burlywood;
 }
 .leftBpImg img {
   width: 100%;
