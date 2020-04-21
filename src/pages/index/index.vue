@@ -5,7 +5,8 @@
       style="background-image: url(../../../../../static/images/index/bg_top.png)"
     >
       <div class="user_operation">
-        <div class="selt" v-if="gradeList&&gradeList.length>0">
+        <!-- <div class="selt" v-if="gradeList&&gradeList.length>0"> -->
+        <div class="selt">
           <seletline :gradeLists="gradeList" @getLevelCode="getLevelCode"></seletline>
         </div>
 
@@ -316,6 +317,25 @@
         </ul>
       </div>
     </div>-->
+    <div v-if="guideStep == 1">
+      <div class="mask-step-1" v-if="guide"></div>
+      <img class="grade-choose-arrow" src="../../../static/images/index/grade-choose-arrow.png" alt />
+      <div class="guide-text-1">
+        点击这里选择学龄段
+        <br />显示适合你的内容
+      </div>
+      <div class="guide-btn-1" @click="nextStep">我知道了</div>
+    </div>
+    <div v-if="guideStep == 2">
+      <div class="mask-step-2" v-if="guide"></div>
+      <img
+        class="personal-center-arrow"
+        src="../../../static/images/index/personal-center-arrow.png"
+        alt
+      />
+      <div class="guide-text-2">点击这里进入个人中心</div>
+      <div class="guide-btn-2" @click="complete">我知道了</div>
+    </div>
   </div>
 </template>
 
@@ -370,7 +390,9 @@ export default {
           imgUrl: "https://www.dummyimage.com/355x185",
           jumpUrl: `/pages/index/activity/detail/main`
         }
-      ]
+      ],
+      guide: true,
+      guideStep: 1
     };
   },
   watch: {
@@ -417,6 +439,12 @@ export default {
     }
   },
   methods: {
+    nextStep() {
+      this.guideStep = 2;
+    },
+    complete() {
+      this.guideStep = 0;
+    },
     closelevelCode() {
       this.showlevelCode = false;
     },
@@ -623,6 +651,88 @@ export default {
 </script>
 
 <style scoped>
+.mask-step-1 {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 5px;
+  border: 1 solid #000;
+  opacity: 0.6;
+  box-shadow: 0 0 0 9000px #000;
+  pointer-events: none;
+}
+.mask-step-2 {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 5px;
+  border: 1 solid #000;
+  opacity: 0.6;
+  box-shadow: 0 0 0 9000px #000;
+  pointer-events: none;
+}
+.grade-choose-arrow {
+  width: 56px;
+  height: 49px;
+  position: absolute;
+  top: 60px;
+  left: 85px;
+}
+.personal-center-arrow {
+  width: 56px;
+  height: 49px;
+  position: absolute;
+  top: 60px;
+  right: 85px;
+}
+.guide-text-1 {
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  position: absolute;
+  top: 110px;
+  left: 85px;
+}
+.guide-text-2 {
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  position: absolute;
+  top: 110px;
+  right: 85px;
+}
+.guide-btn-1 {
+  font-size: 12px;
+  color: rgb(34, 34, 34);
+  background-color: rgb(255, 217, 72);
+  width: 75px;
+  height: 28px;
+  position: absolute;
+  top: 159px;
+  left: 102px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.guide-btn-2 {
+  font-size: 12px;
+  color: rgb(34, 34, 34);
+  background-color: rgb(255, 217, 72);
+  width: 75px;
+  height: 28px;
+  position: absolute;
+  top: 139px;
+  right: 120px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .cover {
   position: fixed;
   top: 0;
@@ -632,6 +742,8 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
 }
 .leftbox {
   float: left;

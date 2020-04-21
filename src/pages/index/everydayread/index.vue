@@ -1,98 +1,120 @@
 <template>
-  <div class="main-container">
-    <swiper
-      class="main-swiper"
-      :duration="duration"
-      :previous-margin="previousMargin"
-      :next-margin="nextMargin"
-      :circular="circular"
-    >
-      <block v-for="(item,index) in poetry" :key="index">
-        <swiper-item>
-          <div class="prtbox" :class="{'hoverItem':hovers}">
-            <div class="swiper-item">
-              <div class="read-content">
-                <div class="share-audio">
-                  <img class="share" src="../../../../static/images/index/inc-share.png" />
-                  <img
-                    class="audio-play"
-                    src="../../../../static/images/index/inc-audio.png"
-                    @click="play"
-                    v-if="!audio"
-                  />
-                  <img
-                    class="audio-play"
-                    src="../../../../static/images/index/bofang.png"
-                    @click="play"
-                    v-else
-                  />
-                </div>
-                <div class="author">
-                  <img class="author-line" src="../../../../static/images/index/author-line.png" />
-                  {{item.author}}
-                </div>
-                <div class="poetry-box">
-                  <div class="poetry" v-html="item.content"></div>
-                </div>
-                <div class="date">{{item.date}}</div>
-              </div>
-              <div class="read-introduction">
-                <div class="introduction-btn" @click="hovers=!hovers">查看介绍</div>
-              </div>
-            </div>
-            <div class="swiper-itme-after" @click="hovers=!hovers">
-              <div class="read-content-back">
-                <div class="stars-audio">
-                  <div class="stars">
-                    <img
-                      class="stars-img"
-                      src="../../../../static/images/index/star.png"
-                      alt
-                      v-for="(star,st) in item.level"
-                      :key="st"
-                    />
-                    <img
-                      class="stars-img"
-                      src="../../../../static/images/index/star-grey.png"
-                      alt
-                      v-for="(grey,idx) in (item.maxLevel - item.level)"
-                      :key="idx"
-                    />
-                  </div>
-                  <div class="audio-container">
+  <div>
+    <div class="main-container">
+      <swiper
+        class="main-swiper"
+        :duration="duration"
+        :previous-margin="previousMargin"
+        :next-margin="nextMargin"
+        :circular="circular"
+        @change="swiperChange"
+      >
+        <block v-for="(item,index) in poetry" :key="index">
+          <swiper-item>
+            <div class="prtbox" :class="{'hoverItem':hovers}">
+              <div class="swiper-item" @click="getEveryDayReadContent(item)">
+                <div class="read-content">
+                  <div class="share-audio">
+                    <img class="share" src="../../../../static/images/index/inc-share.png" />
                     <img
                       class="audio-play"
                       src="../../../../static/images/index/inc-audio.png"
-                      @click.stop="play"
-                      v-if="!audio"
+                      @click.stop="playMusic(item)"
+                      v-if="!audioPlaying"
                     />
                     <img
                       class="audio-play"
                       src="../../../../static/images/index/bofang.png"
-                      @click.stop="play"
+                      @click.stop="playMusic(item)"
                       v-else
                     />
                   </div>
+                  <div class="author">
+                    <img class="author-line" src="../../../../static/images/index/author-line.png" />
+                    {{item.author}}
+                  </div>
+                  <div class="poetry-box">
+                    <div class="poetry" v-html="item.content"></div>
+                  </div>
+                  <div class="date">{{item.date}}</div>
                 </div>
-                <div class="detail-container">
-                  <div class="title">{{item.title}}</div>
-                  <div class="author">{{item.author}}</div>
-                  <div class="main-content" v-html="item.content"></div>
+                <div class="read-introduction">
+                  <div class="introduction-btn">查看介绍</div>
                 </div>
               </div>
-              <div class="read-introduction">
-                <div class="fun-btn" :class="{'active-btn':isFull}" @click.stop="isFull = true">全文</div>
-                <div class="fun-btn" :class="{'active-btn':!isFull}" @click.stop="isFull = false">介绍</div>
+              <div class="swiper-itme-after" @click="hovers=!hovers">
+                <div class="read-content-back">
+                  <div class="stars-audio">
+                    <div class="stars">
+                      <img
+                        class="stars-img"
+                        src="../../../../static/images/index/star.png"
+                        alt
+                        v-for="(star,st) in item.level"
+                        :key="st"
+                      />
+                      <img
+                        class="stars-img"
+                        src="../../../../static/images/index/star-grey.png"
+                        alt
+                        v-for="(grey,idx) in (item.maxLevel - item.level)"
+                        :key="idx"
+                      />
+                    </div>
+                    <div class="audio-container">
+                      <img
+                        class="audio-play"
+                        src="../../../../static/images/index/inc-audio.png"
+                        @click.stop="playMusic(item)"
+                        v-if="!audioPlaying"
+                      />
+                      <img
+                        class="audio-play"
+                        src="../../../../static/images/index/bofang.png"
+                        @click.stop="playMusic(item)"
+                        v-else
+                      />
+                      示范音
+                    </div>
+                  </div>
+                  <div class="detail-container">
+                    <div class="title">{{item.title}}</div>
+                    <div class="author">{{item.author}}</div>
+                    <div class="main-content" v-html="item.content" v-if="isFull"></div>
+                    <div class="main-content" v-html="item.intro" v-if="!isFull"></div>
+                  </div>
+                </div>
+                <div class="read-introduction">
+                  <div class="fun-btn" :class="{'active-btn':isFull}" @click.stop="fullChange">全文</div>
+                  <div class="fun-btn" :class="{'active-btn':!isFull}" @click.stop="fullChange">介绍</div>
+                </div>
               </div>
             </div>
-          </div>
-        </swiper-item>
-      </block>
-    </swiper>
+          </swiper-item>
+        </block>
+      </swiper>
+    </div>
+    <div v-if="guideStep == 1">
+      <div class="mask-step-1" v-if="guide"></div>
+      <img class="left-arrow" src="../../../../static/images/index/left-arrow.png" alt />
+      <img class="right-arrow" src="../../../../static/images/index/right-arrow.png" alt />
+      <div class="guide-text-1">左右滑动查看今日剩余句子</div>
+      <div class="guide-btn-1" @click.stop="nextStep">我知道了</div>
+    </div>
+    <div v-if="guideStep == 2">
+      <div class="mask-step-2" v-if="guide"></div>
+      <img class="top-arrow" src="../../../../static/images/index/top-arrow.png" alt />
+      <div class="guide-text-2">
+        点击按钮或者页面
+        <br />都可以查看该句子的介绍和解读哟~
+      </div>
+      <div class="guide-btn-2" @click="complete">我知道了</div>
+    </div>
   </div>
 </template>
 
 <script>
+import { getUserId, getLevelCode } from "@/utils/auth";
 export default {
   components: {},
 
@@ -104,44 +126,126 @@ export default {
       duration: 500,
       previousMargin: "10px",
       nextMargin: "10px",
-      audio: false,
+      audioPlaying: false,
       hovers: false,
-      poetry: [
-        {
-          audioUrl: "",
-          author: "卓别林",
-          content: "时间是一个伟大的作者，<br />它会给每个人写出完美的结局来。",
-          contentId: 0,
-          createTime: 0,
-          level: 3,
-          maxLevel: 6,
-          recommendDate: "三月八日",
-          recordAudioUrl: "",
-          recordId: 0,
-          resourceUrl: "",
-          title: "世说新语"
-        }
-      ],
+      poetry: [],
       back: false,
       front: true,
-      isFull: false,
-      greyStar: 0
+      isFull: true,
+      greyStar: 0,
+      guideStep: 1,
+      guide: true
     };
-  },
-  created() {
-    this.getEveryDayRead();
   },
   onLoad() {},
   methods: {
-    play() {
-      this.audio = !this.audio;
+    swiperChange() {
+      this.front = true;
+      this.back = false;
+      this.isFull = true;
+      this.audioPlaying = false;
+      this.$store.dispatch("putMusicId", "");
+    },
+    fullChange() {
+      this.isFull = !this.isFull;
+      this.$store.dispatch("putMusicId", "");
+    },
+    nextStep() {
+      this.guideStep = 2;
+    },
+    complete() {
+      this.guideStep = 0;
     },
     reversal() {
       this.back = !this.back;
       this.front = !this.front;
     },
-    getEveryDayRead() {
+    getEveryDayReadStar() {
       this.greyStar = this.poetry.maxLevel - this.poetry.level;
+    },
+    //每日一读
+    getEveryDayRead() {
+      const params = {
+        levelCode: getLevelCode(),
+        userId: getUserId(),
+        limit: 10
+      };
+      this.$api.tangy.everydayRead(params).then(res => {
+        this.poetry = res.result;
+      });
+    },
+    //每日一读完整内容
+    getEveryDayReadContent(item) {
+      this.$store.dispatch("putMusicId", "");
+      this.hovers = !this.hovers;
+      const params = {
+        contentId: item.contentId
+      };
+      this.$api.tangy.everydayReadContent(params).then(res => {
+        console.log(res);
+        item.intro = res.result.intro;
+      });
+    },
+    playMusic(item) {
+      if (this.audioPlaying) {
+        this.audioPlaying = false;
+        this.appMusic.pause();
+        return;
+      } else {
+        this.audioPlaying = true;
+        if (!this.$store.getters.isPlayMusicId) {
+          this.watchAudio(item);
+        }
+        this.appMusic.play();
+        return;
+      }
+    },
+    // 音频对象
+    audio(media) {
+      //获取全局唯一的背景音频管理器
+      this.appMusic = wx.getBackgroundAudioManager();
+      this.appMusic.startTime = 0;
+      if (!this.isFull) {
+        this.appMusic.src = media.resourceUrl;
+        this.appMusic.title = media.title;
+        this.$store.dispatch("putMusicId", media.resourceUrl);
+      } else {
+        this.appMusic.title = media.title;
+        this.appMusic.src = media.audioUrl;
+        this.$store.dispatch("putMusicId", media.audioUrl);
+      }
+    },
+    // 监听audio
+    watchAudio: function(item) {
+      const that = this;
+      that.audio(item); //重新赋值音频对象
+      //开始
+      that.appMusic.onPlay(() => {
+        that.audioPlaying = true;
+        // that.setData({
+        //   playing: true
+        // })
+      });
+      //暂停
+      that.appMusic.onPause(() => {
+        that.audioPlaying = false;
+        // that.setData({
+        //   playing: false
+        // })
+      });
+
+      //播放结束
+      that.appMusic.onEnded(() => {
+        that.audioPlaying = false;
+        that.$store.dispatch("putMusicId", "");
+      });
+      //播放错误
+      that.appMusic.onError(res => {
+        wx.showToast({
+          title: "错误:" + res.errMsg,
+          icon: "none"
+        });
+      });
     }
   },
   onReachBottom() {
@@ -151,11 +255,103 @@ export default {
   onPullDownRefresh() {
     console.log("下拉刷新");
   },
-  onShow() {}
+  onShow() {
+    this.getEveryDayRead();
+  }
 };
 </script>
 
 <style>
+.mask-step-1 {
+  height: 0;
+  width: 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 5px;
+  border: 1 solid #000;
+  opacity: 0.6;
+  box-shadow: 0 0 0 9000px #000;
+  pointer-events: none;
+}
+.mask-step-2 {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  position: absolute;
+  top: 95px;
+  left: calc(50% - 43px);
+  border: 1 solid #000;
+  opacity: 0.6;
+  box-shadow: 0 0 0 9000px #000;
+  pointer-events: none;
+}
+.left-arrow,
+.right-arrow {
+  width: 49px;
+  height: 25px;
+}
+.left-arrow {
+  position: absolute;
+  top: 40%;
+  left: 77px;
+}
+.right-arrow {
+  position: absolute;
+  top: 40%;
+  right: 77px;
+}
+.top-arrow {
+  width: 25px;
+  height: 49px;
+  position: absolute;
+  top: 180px;
+  left: calc(50% - 18px);
+}
+.guide-text-1 {
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 90px);
+}
+.guide-text-2 {
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  position: absolute;
+  top: 266px;
+  left: calc(50% - 108px);
+}
+.guide-btn-1 {
+  font-size: 12px;
+  color: rgb(34, 34, 34);
+  background-color: rgb(255, 217, 72);
+  width: 75px;
+  height: 28px;
+  position: absolute;
+  top: 58%;
+  left: calc(50% - 38px);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.guide-btn-2 {
+  font-size: 12px;
+  color: rgb(34, 34, 34);
+  background-color: rgb(255, 217, 72);
+  width: 75px;
+  height: 28px;
+  position: absolute;
+  top: 338px;
+  left: calc(50% - 38px);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .prtbox {
   width: 100%;
   height: 100%;
@@ -335,6 +531,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  font-size: 12px;
+  color: rgb(90, 90, 90);
+}
+.audio-container .audio-play {
+  margin-right: 5px;
 }
 .detail-container {
   padding-top: 71px;

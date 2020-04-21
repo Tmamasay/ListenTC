@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="topDetailImg">
-      <img :src="resource.imageUrl" alt="" srcset="">
+      <img :src="resource.imageUrl" alt srcset />
     </div>
     <p class="playTitle">{{resource.title}}</p>
     <div class="vp-book-adPlayer">
@@ -62,47 +62,61 @@
           <img
             :class="{'apd-btn-right':hasNxt , 'apd-btn-no':!hasNxt}"
             @tap="nextFun"
-            src="../../../../static/images/play/incGo.png"/>
-          <!-- 列表图标-->
-          <picker class="picker" mode="selector" :range="musicList" range-key="title" :value="index" @change="bindPickerChange">
-      <!-- <div class="picker">
-        当前选择：{{objectArray[index].name}}
-      </div> -->
-       <img
-            class="apd-btn-list"
-            src="../../../../static/images/play/incList.png"
-            @tap="jumpAudioList"
+            src="../../../../static/images/play/incGo.png"
           />
-    </picker>
-         
+          <!-- 列表图标-->
+          <picker
+            class="picker"
+            mode="selector"
+            :range="musicList"
+            range-key="title"
+            :value="index"
+            @change="bindPickerChange"
+          >
+            <!-- <div class="picker">
+        当前选择：{{objectArray[index].name}}
+            </div>-->
+            <img
+              class="apd-btn-list"
+              src="../../../../static/images/play/incList.png"
+              @tap="jumpAudioList"
+            />
+          </picker>
         </div>
         <div class="dinyue">立即订阅</div>
         <div class="dinyContLin">
           <div class="dinyCont">
-          <div class="dinyImg">
-            <img :src="resource.imageUrl" alt="" srcset="">
+            <div class="dinyImg">
+              <img :src="resource.imageUrl" alt srcset />
+            </div>
+            <div class="dinyText">
+              <p class="p1">{{resource.title}}</p>
+              <p class="p2">{{resource.author}}</p>
+            </div>
           </div>
-          <div class="dinyText">
-            <p class="p1">{{resource.title}}</p>
-            <p class="p2">{{resource.author}}</p>
-          </div>  
-          </div>
-          <p class="dinyBtn">订阅</p> 
+          <p class="dinyBtn">订阅</p>
         </div>
-   
-          <div class="picker-container">
-          
-        </div>
-      
+
+        <div class="picker-container"></div>
       </div>
+    </div>
+    <div v-if="guide">
+      <div class="mask-step" v-if="guide"></div>
+      <img
+        class="grade-choose-arrow"
+        src="../../../../static/images/index/play-guide-arrow.png"
+        alt
+      />
+      <div class="guide-text">点击这里可以播放音频哟~</div>
+      <div class="guide-btn" @click="complete">我知道了</div>
     </div>
   </div>
 </template>
 
 <script>
-// import moment from 'moment' // 时间日期转换 
+// import moment from 'moment' // 时间日期转换
 import { formatMusic, _changeTimeBySecond } from "@/utils/index";
-import { getMusicInfo ,getMusicList} from '@/utils/auth'
+import { getMusicInfo, getMusicList } from "@/utils/auth";
 
 export default {
   components: {
@@ -111,7 +125,7 @@ export default {
 
   data() {
     return {
-      index:0,
+      index: 0,
       idx: 0, // 当前音频（第一个-上一条按钮不能点击，最后一条，下一条按钮不能点击）
       albumCode: "", // 当前音频标识
       opusName: "", // 当前专辑名字
@@ -121,7 +135,7 @@ export default {
       opusSalt: "", // 当前音频id
       isEnd: false, // 最后一条音频结束时控制
       endVideoTime: "", // 最后一条音频时长
-      
+
       isStop: false, // 是否停止音乐
       slideLen: 0, // 进度条初始值
       changeTime: 0, //变化时间
@@ -132,30 +146,31 @@ export default {
         long: "",
         length: 4
       },
-       rId: null, //课程的id--添加记录时需要
+      rId: null, //课程的id--添加记录时需要
       curIndex: null, //音频当前下标
       media: null, //音频信息对象
-      poster: '',  //音频海报
-      imgUrl: '',  //多媒体公共路径
-      currentSecond: '00:00', //页面所需当前播放的时间
-      currentLeave: '', //页面所需当前播放的时间
+      poster: "", //音频海报
+      imgUrl: "", //多媒体公共路径
+      currentSecond: "00:00", //页面所需当前播放的时间
+      currentLeave: "", //页面所需当前播放的时间
       curSecond: 0, // 当前播放的秒数
       isPlay: false, // 是否暂停音乐
-      duration: null,  //音频总时长
-       musicList: [], // 用来存储音频列表，存储到本地，点击上一条、下一条音频时，不调用接口
+      duration: null, //音频总时长
+      musicList: [], // 用来存储音频列表，存储到本地，点击上一条、下一条音频时，不调用接口
       hasPre: true, // 是否有上一条音频
       hasNxt: true, // 是否有下一条音频
       isStopSlider: false, // 是否停止滚动条随着音频播放改变长度  -- 防止拖动滚动条时发生回退现象！！！
 
       perMusicMsg: {}, // 进入页面之后，就将上一条音频，下一条音频信息提取出来，方便直接点击按钮
       nxtMusicMsg: {}, // 同上
-      
+
       appMusic: {},
-      resource:{},//播放对象
-      resourceId:'',//上次播放的id
+      resource: {}, //播放对象
+      resourceId: "", //上次播放的id
       musicUrl:
         "https://webfs.yun.kugou.com/202003311620/24ed7eb189d547a933192d501716f13d/G192/M02/1F/17/AA4DAF6AfcOAJXQOADk7JNu4Cac793.mp3", //获取全局唯一的背景音频管理器
-      topImg:''//顶部img
+      topImg: "", //顶部img
+      guide: true
     };
   },
   created() {
@@ -166,200 +181,199 @@ export default {
   onLoad() {
     // this.resourceId=getMusicInfo()
     this.resource = getMusicInfo();
-    this.musicList=getMusicList()
-    this.topImg=this.resource.imageUrl
-    if(this.resourceId){
-      if(this.resourceId!=this.resource.contentId){
-      this.resourceId=this.resource.contentId
-      this.watchAudio();
+    this.musicList = getMusicList();
+    this.topImg = this.resource.imageUrl;
+    if (this.resourceId) {
+      if (this.resourceId != this.resource.contentId) {
+        this.resourceId = this.resource.contentId;
+        this.watchAudio();
       }
-
-    }else{
+    } else {
       // this.resource = getMusicInfo();
-      this.resourceId=this.resource.contentId
+      this.resourceId = this.resource.contentId;
       this.watchAudio();
-
     }
-  
-  console.log(this.resource)
-  console.log('-------------------')
+
+    console.log(this.resource);
+    console.log("-------------------");
     // if(this.$store.getters.isPlayMusicId){
 
     // }else{
     //   this.watchAudio();  //初始化调用一次
 
     // }
-     
   },
   methods: {
-    bindPickerChange(event){
+    bindPickerChange(event) {
       this.resource = this.musicList[+event.mp.detail.value];
-    console.log('picker发送选择改变，携带值为', event)
-
+      console.log("picker发送选择改变，携带值为", event);
     },
-     /**
-      * 
-   * !!! 解决滑动播放条时的卡顿问题 !!! --- start
-   */
-  // 禁止播放条随着音乐播放滚动
-  stopSlider() {
-    // 
-     this.isStopSlider= true
-
-  },
-      // 上一首
-  previousFun(){
-    if (this.curIndex == 0) {
-      wx.showToast({
-        title: '这就是第一课哟~',
-        icon: "none"
-      })
-      return;
-    } else {
-      this.curIndex-= 1;
-      this.isPlay = true;
-      // this.data.media = wx.getStorageSync('catalogList')[this.data.curIndex];
-      this.resource = this.musicList[this.curIndex];
-      this.curSecond = 0;
-      this.currentSecond = this.format(0);
-      // this.setData({
-      //   media: this.data.media,
-      //   playing: this.data.playing,
-      //   curIndex: this.data.curIndex,
-      //   curSecond: this.data.curSecond,
-      //   currentSecond: this.data.currentSecond
-      // })
-      //重新调用音频
-      this.appMusic.stop();
-      this.watchAudio();
-    }
-  },
-
-  // 下一首
-  nextFun() {
-    if (this.curIndex == this.musicList.length - 1) {
-      wx.showToast({
-        title: '这就是最后一课哟~',
-        icon: "none"
-      })
-      return;
-    } else {
-      this.curIndex += 1;
-      this.isPlay = true;
-      this.resource = this.musicList[this.curIndex];
-      this.curSecond = 0;
-      this.currentSecond = this.format(0);
-      // this.setData({
-      //   media: this.data.media,
-      //   playing: this.data.playing,
-      //   curIndex: this.data.curIndex,
-      //   curSecond: this.data.curSecond,
-      //   currentSecond: this.data.currentSecond
-      // })
-      debugger
-      //重新调用音频
-       this.appMusic.stop();
-      this.watchAudio();
-    }
-  },
-      // 点击控件中间按键---播放/暂停
-  playMusic () {
-    if (!this.isPlay) {
-      this.isPlay = true;
-      this.appMusic.pause();
-      return;
-    } else {
-      this.isPlay = false;
-       if(!this.$store.getters.isPlayMusicId){
-          this.watchAudio();  
-        }
-      this.appMusic.play();
-      return;
-    }
-  },
-    // 时间格式化
- format(t) {
-  let time = Math.floor(t / 60) >= 10 ? Math.floor(t / 60) : '0' + Math.floor(t / 60)
-  t = time + ':' + ((t % 60) / 100).toFixed(2).slice(-2)
-  return t
-},
-    // 音频对象
- audio(media) {
-    //获取全局唯一的背景音频管理器
-    this.index=this.curIndex
-    this.appMusic = wx.getBackgroundAudioManager();
-    this.appMusic.startTime = 0;
-    this.appMusic.src =this.resource.resourceUrl
-    this.appMusic.title =this.resource.title;
-    this.appMusic.coverImgUrl =this.resource.thumbnail;
-    this.$store.dispatch('putMusicId',this.resource.contentId)
-},
-    // 监听audio
-  watchAudio: function () {
-    const that = this;
-    that.audio(that.media);  //重新赋值音频对象
-    //开始
-    that.appMusic.onPlay(() => {
-      that.isPlay=false
-      // that.setData({
-      //   playing: true
-      // })
-    })
-    //停止
-    that.appMusic.onStop(() => {
-      that.isPlay=true
-      that.$store.dispatch('putMusicId','')
-      that.curSecond=0
-     that.currentSecond='00:00'
-      // that.setData({
-      //   playing: false
-      // })
-    })
-    //暂停
-    that.appMusic.onPause(() => {
-      that.isPlay=true
-      // that.setData({
-      //   playing: false
-      // })
-    })
-    //播放进度
-    that.appMusic.onTimeUpdate(() => {
-
-      if(!that.isStopSlider) {
-         that.duration = Math.ceil(that.appMusic.duration);
-      that.currentSecond = that.format(that.appMusic.currentTime);
-      that.currentLeave = that.format(that.appMusic.duration);
-       that.curSecond = Math.ceil(that.appMusic.currentTime);
-     
+    complete() {
+      this.guide = false;
+    },
+    /**
+     *
+     * !!! 解决滑动播放条时的卡顿问题 !!! --- start
+     */
+    // 禁止播放条随着音乐播放滚动
+    stopSlider() {
+      //
+      this.isStopSlider = true;
+    },
+    // 上一首
+    previousFun() {
+      if (this.curIndex == 0) {
+        wx.showToast({
+          title: "这就是第一课哟~",
+          icon: "none"
+        });
+        return;
+      } else {
+        this.curIndex -= 1;
+        this.isPlay = true;
+        // this.data.media = wx.getStorageSync('catalogList')[this.data.curIndex];
+        this.resource = this.musicList[this.curIndex];
+        this.curSecond = 0;
+        this.currentSecond = this.format(0);
+        // this.setData({
+        //   media: this.data.media,
+        //   playing: this.data.playing,
+        //   curIndex: this.data.curIndex,
+        //   curSecond: this.data.curSecond,
+        //   currentSecond: this.data.currentSecond
+        // })
+        //重新调用音频
+        this.appMusic.stop();
+        this.watchAudio();
       }
-    })
-    //播放结束
-    that.appMusic.onEnded(() => {
-       that.isPlay=true
-      // that.setData({
-      //     playing: false
-      // })
-      that.nextFun();  //调用下一首
-    })
-    //播放错误
-    that.appMusic.onError((res) => {
-      wx.showToast({
-        title: '错误:' + res.errMsg,
-        icon: "none"
-      })
-    })
-  },
-    
+    },
+
+    // 下一首
+    nextFun() {
+      if (this.curIndex == this.musicList.length - 1) {
+        wx.showToast({
+          title: "这就是最后一课哟~",
+          icon: "none"
+        });
+        return;
+      } else {
+        this.curIndex += 1;
+        this.isPlay = true;
+        this.resource = this.musicList[this.curIndex];
+        this.curSecond = 0;
+        this.currentSecond = this.format(0);
+        // this.setData({
+        //   media: this.data.media,
+        //   playing: this.data.playing,
+        //   curIndex: this.data.curIndex,
+        //   curSecond: this.data.curSecond,
+        //   currentSecond: this.data.currentSecond
+        // })
+        debugger;
+        //重新调用音频
+        this.appMusic.stop();
+        this.watchAudio();
+      }
+    },
+    // 点击控件中间按键---播放/暂停
+    playMusic() {
+      if (!this.isPlay) {
+        this.isPlay = true;
+        this.appMusic.pause();
+        return;
+      } else {
+        this.isPlay = false;
+        if (!this.$store.getters.isPlayMusicId) {
+          this.watchAudio();
+        }
+        this.appMusic.play();
+        return;
+      }
+    },
+    // 时间格式化
+    format(t) {
+      let time =
+        Math.floor(t / 60) >= 10
+          ? Math.floor(t / 60)
+          : "0" + Math.floor(t / 60);
+      t = time + ":" + ((t % 60) / 100).toFixed(2).slice(-2);
+      return t;
+    },
+    // 音频对象
+    audio(media) {
+      //获取全局唯一的背景音频管理器
+      this.index = this.curIndex;
+      this.appMusic = wx.getBackgroundAudioManager();
+      this.appMusic.startTime = 0;
+      this.appMusic.src = this.resource.resourceUrl;
+      this.appMusic.title = this.resource.title;
+      this.appMusic.coverImgUrl = this.resource.thumbnail;
+      this.$store.dispatch("putMusicId", this.resource.contentId);
+    },
+    // 监听audio
+    watchAudio: function() {
+      const that = this;
+      that.audio(that.media); //重新赋值音频对象
+      //开始
+      that.appMusic.onPlay(() => {
+        that.isPlay = false;
+        // that.setData({
+        //   playing: true
+        // })
+      });
+      //停止
+      that.appMusic.onStop(() => {
+        that.isPlay = true;
+        that.$store.dispatch("putMusicId", "");
+        that.curSecond = 0;
+        that.currentSecond = "00:00";
+        // that.setData({
+        //   playing: false
+        // })
+      });
+      //暂停
+      that.appMusic.onPause(() => {
+        that.isPlay = true;
+        // that.setData({
+        //   playing: false
+        // })
+      });
+      //播放进度
+      that.appMusic.onTimeUpdate(() => {
+        if (!that.isStopSlider) {
+          that.duration = Math.ceil(that.appMusic.duration);
+          that.currentSecond = that.format(that.appMusic.currentTime);
+          that.currentLeave = that.format(that.appMusic.duration);
+          that.curSecond = Math.ceil(that.appMusic.currentTime);
+        }
+      });
+      //播放结束
+      that.appMusic.onEnded(() => {
+        that.isPlay = true;
+        // that.setData({
+        //     playing: false
+        // })
+        that.nextFun(); //调用下一首
+      });
+      //播放错误
+      that.appMusic.onError(res => {
+        wx.showToast({
+          title: "错误:" + res.errMsg,
+          icon: "none"
+        });
+      });
+    },
+
     // 音频播放条改变 - 手动滑动滚动条停止
     timeSliderChanged: function(e) {
-      this.isStopSlider= false
-      
-      var time=e.mp.detail.value
-      // 
+      this.isStopSlider = false;
+
+      var time = e.mp.detail.value;
+      //
       // 音频跳转到指定位置
       this.appMusic.seek(time);
     },
-  
+
     _getRegisterInfo() {
       let pageNum = this.pageNum;
       let pageSize = this.pageSize;
@@ -380,12 +394,53 @@ export default {
 </script>
 
 <style>
+.mask-step {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  position: absolute;
+  top: 382px;
+  left: 172px;
+  border: 1 solid #000;
+  opacity: 0.6;
+  box-shadow: 0 0 0 9000px #000;
+  pointer-events: none;
+}
+.grade-choose-arrow {
+  width: 56px;
+  height: 49px;
+  position: absolute;
+  top: 307px;
+  left: calc(50% - 28px);
+}
+.guide-text {
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  position: absolute;
+  top: 205px;
+  left: calc(50% - 75px);
+}
+.guide-btn {
+  font-size: 12px;
+  color: rgb(34, 34, 34);
+  background-color: rgb(255, 217, 72);
+  width: 75px;
+  height: 28px;
+  position: absolute;
+  top: 246px;
+  left: calc(50% - 38px);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .topDetailImg {
   width: 100%;
   height: 256px;
   /* background-color: coral; */
 }
-.topDetailImg img{
+.topDetailImg img {
   width: 100%;
   height: 100%;
 }
@@ -454,63 +509,62 @@ height:36px; */
   /* background:rgba(255,255,255,0);
 border-radius:50%; */
 }
-.dinyue{
-  width:79%;
-height:41px;
-margin: 20px auto 50px auto;
-background:rgba(255,217,72,1);
-border-radius:41px 36px 36px 36px;
-font-size:15px;
-font-family:Microsoft YaHei;
-font-weight:bold;
-color:rgba(34,34,34,1);
-text-align: center;
-line-height: 41px;
+.dinyue {
+  width: 79%;
+  height: 41px;
+  margin: 20px auto 50px auto;
+  background: rgba(255, 217, 72, 1);
+  border-radius: 41px 36px 36px 36px;
+  font-size: 15px;
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  color: rgba(34, 34, 34, 1);
+  text-align: center;
+  line-height: 41px;
 }
-.dinyContLin{
+.dinyContLin {
   width: 90%;
   margin: 0 auto;
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
 }
-.dinyCont{
+.dinyCont {
   display: flex;
-  justify-content:flex-start;
+  justify-content: flex-start;
   align-items: center;
 }
-.dinyImg{
+.dinyImg {
   width: 50px;
   height: 46px;
-  background:rgba(119,119,119,1);
-  border-radius:10px;
+  background: rgba(119, 119, 119, 1);
+  border-radius: 10px;
   overflow: hidden;
- 
 }
-.dinyImg img{
+.dinyImg img {
   width: 100%;
   height: 100%;
 }
-.p1{
-  font-size:15px;
-font-family:Microsoft YaHei;
-font-weight:400;
-color:rgba(34,34,34,1);
+.p1 {
+  font-size: 15px;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: rgba(34, 34, 34, 1);
 }
-.p2{
-  font-size:12px;
-font-family:Microsoft YaHei;
-font-weight:400;
-color:rgba(34,34,34,1);
+.p2 {
+  font-size: 12px;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: rgba(34, 34, 34, 1);
 }
-.dinyText{
+.dinyText {
   margin-left: 8px;
 }
-.dinyBtn{
-  font-size:12px;
-font-family:Microsoft YaHei;
-font-weight:400;
-color:rgba(67,67,67,1);
-line-height:48px;
+.dinyBtn {
+  font-size: 12px;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: rgba(67, 67, 67, 1);
+  line-height: 48px;
 }
 </style>

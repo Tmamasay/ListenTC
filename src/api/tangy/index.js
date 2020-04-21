@@ -34,6 +34,17 @@ const everydayRead = (params) => {
     }
   })
 }
+// 每日一读完整内容
+const everydayReadContent = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/read/v2/material/content/${params.contentId}`,
+    method: 'get',
+    params,
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/read/v2/material/everyday`)
+    }
+  })
+}
 
 
 const activityDetail = (params) => {
@@ -247,6 +258,7 @@ const getVisitor = (params)=>{
 const tangy = {
   sendmobanmes, //推送模板消息
   everydayRead, //每日一读（首页）
+  everydayReadContent,// 每日一读完整内容
   activityList, //活动列表（首页）
   activityDetail, //活动详情推荐（首页）
   area, //获取大区
