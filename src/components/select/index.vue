@@ -27,17 +27,11 @@ export default {
   data() {
     return {
       isShow: false,
-      list: [
-        { name: "列表1" },
-        { name: "列表2" },
-        { name: "列表3" },
-        { name: "列表4" }
-      ],
       xz_value: "请选择"
     };
   },
-
-  created() {
+  onShow() {},
+  onLoad() {
     this.initData();
   },
   methods: {
@@ -49,13 +43,14 @@ export default {
       setLevelCode(e.value);
       this.$emit("getLevelCode");
       this.isShow = false;
-      console.log(e);
     },
     initData() {
-      this.gradeLists.forEach(e => {
-        if (e.value === getLevelCode()) {
-          this.xz_value = e.name;
-        }
+      this.$nextTick(() => {
+        this.gradeLists.forEach(e => {
+          if (e.value === getLevelCode()) {
+            this.xz_value = e.name;
+          }
+        });
       });
     }
   }

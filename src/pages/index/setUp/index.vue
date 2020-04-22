@@ -60,8 +60,6 @@ export default {
   onShow() {
     this.getHistory();
     this.getIndexUserInfo();
-    this.followUser();
-    this.fansUser();
     if (mpvuePlatform === "wx") {
       this.user_info = mpvue.getStorageSync("user_info");
     }

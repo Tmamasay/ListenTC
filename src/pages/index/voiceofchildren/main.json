@@ -2,5 +2,5 @@
   "usingComponents": {
     "i-drawer": "/static/iView/drawer/index"
   },
-  "navigationBarTitleText": ""
+  "navigationBarTitleText": "少年之声列表"
 }

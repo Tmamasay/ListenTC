@@ -5,10 +5,10 @@
       style="background-image: url(../../../../../static/images/index/bg_top.png)"
     >
       <div class="user_operation">
-        <!-- <div class="selt" v-if="gradeList&&gradeList.length>0"> -->
-        <div class="selt" @click="powerDrawer" data-statu="open">
-          111
-          <!-- <seletline :gradeLists="gradeList" @getLevelCode="getLevelCode"></seletline> -->
+        <div class="selt" v-if="gradeList&&gradeList.length>0">
+        <!-- <div class="selt" @click="powerDrawer" data-statu="open">
+          111 -->
+          <seletline :gradeLists="gradeList" @getLevelCode="getLevelCode"></seletline>
         </div>
 
         <div class="mine_info" @click="isWxLogin">

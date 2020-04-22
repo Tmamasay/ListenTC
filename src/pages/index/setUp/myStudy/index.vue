@@ -8,28 +8,13 @@
       </i-tabs>
     </div>
     <div v-show="checkItem=='course'" class="course">
-
-      <!-- <div class="courseLine" v-for="(item, index) in list" :key="index">
+      <div class="courseLine" v-for="(item, index) in list" :key="index">
         <div class="courseIn">
-            <img class="courseImg" :src="item.imageUrl" alt="" srcset="">
+          <div class="courseImg" :style="{backgroundImage:'url('+item.imageUrl+')'}">
+            <img class="ej" src="../../../../../static/images/my/ej.png" />
+          </div>
           <div class="courseLineCont">
             <p class="C1">{{itme.courseTitle}}</p>
-            <p class="C2">
-              共6课
-              <span>￥0.00</span>
-            </span>
-          </div>
-        </div>
-        <i-icon type="enter" size="17" color="#BBB8B9" />
-      </div> -->
-
-      <div class="courseLine">
-        <div class="courseIn">
-          <div class="courseImg">
-            <!-- <img src="" alt="" srcset=""> -->
-          </div>
-          <div class="courseLineCont">
-            <p class="C1">豆苗阅读小课堂02</p>
             <p class="C2">
               共6课
               <span>￥0.00</span>
@@ -38,8 +23,26 @@
         </div>
         <i-icon type="enter" size="17" color="#BBB8B9" />
       </div>
+
     </div>
-    <div class="readings" v-show="checkItem=='readings'"></div>
+
+    <div class="readings" v-show="checkItem=='readings'">
+      <div class="courseLine" v-for="(item, index) in list2" :key="index">
+        <div class="courseIn">
+          <div class="courseImg" :style="{backgroundImage:'url('+item.imageUrl+')'}">
+            <img class="ej" src="../../../../../static/images/my/ej.png" />
+          </div>
+          <div class="courseLineCont">
+            <p class="C1">{{itme.title}}</p>
+            <!-- <p class="C2">
+              共6
+              <span>￥0.00</span>
+            </p> -->
+          </div>
+        </div>
+        <i-icon type="enter" size="17" color="#BBB8B9" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,11 +57,14 @@ export default {
     return {
       checkItem: "course",
       pageSize: 10,
-      list:[],
+      pageSize2: 10,
+      list: [],
+      list2: []
     };
   },
   onShow() {
     this.getCourseList();
+    this.myReadCollect();
   },
   created() {},
   methods: {
@@ -72,8 +78,18 @@ export default {
         currentPage: 1,
         pageSize: this.pageSize
       };
-      this.$api.tangy.myStudyCourse(params).then(res => {
+      this.$api.tangy.myCourse(params).then(res => {
         this.list = res.result.pageResults;
+        console.log(res);
+      });
+    },
+    myReadCollect() {
+      const params = {
+        currentPage: 1,
+        pageSize: this.pageSize2
+      };
+      this.$api.tangy.myRead(params).then(res => {
+        this.list2 = res.result.pageResults;
         console.log(res);
       });
     }
@@ -106,7 +122,17 @@ export default {
   width: 109px;
   height: 64px;
   border-radius: 10px;
-  background-color: cadetblue;
+  background: no-repeat center center;
+  background-size: cover;
+  position: relative;
+}
+.ej {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  z-index: 10;
+  width: 21px;
+  height: 21px;
 }
 .courseLineCont {
   display: flex;

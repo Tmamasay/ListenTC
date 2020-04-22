@@ -271,6 +271,41 @@ const getVisitor = (params) => {
   })
 }
 
+//我的课程 
+const myCourse = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/course/v1/course/user/${getUserId()}`,
+    method: 'post',
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/course/v1/course/user/${getUserId()}`)
+    }
+  })
+}
+//我的读本
+const myRead=(params)=>{
+  return fetch({
+    url: `${store.getters.baseurl}/read/v1.5/book/user/${getUserId()}`,
+    method: 'get',
+    params,
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/read/v1.5/book/user/${getUserId()}`)
+    }
+  })
+}
+
+//我的课程详情
+const courseDetail = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/course/v1/course/user/${getUserId()}`,
+    method: 'get',
+    params,
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/course/v1/course/user/${getUserId()}`)
+    }
+  })
+}
+
 //我收藏的课程 
 const myStudyCourse = (params) => {
   return fetch({
@@ -282,6 +317,20 @@ const myStudyCourse = (params) => {
     }
   })
 }
+
+
+//我收藏的范文
+const myReadCollect=(params)=>{
+  return fetch({
+    url: `${store.getters.baseurl}/read/v1/content/collection/${getUserId()}`,
+    method: 'post',
+    data: qs.stringify(params),
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/read/v1/content/collection/${getUserId()}`)
+    }
+  })
+}
+
 
 const peopleDetail = (params) => {
   return fetch({
@@ -375,7 +424,6 @@ const tangy = {
   verificationCode, //获取手机验证码
   saveUserPhone, //用户绑定手机号
   getVisitor, //游客模式
-  myStudyCourse, //我收藏的课程
   peopleDetail, //少年之声列表
   peopleActDetail, //少年之声详情
   reviewAct, //少年之声活动列表
@@ -383,5 +431,10 @@ const tangy = {
   fans,//粉丝用户
   messageDetail,//消息详情
   getIndexUserInfo,//获取首页用户信息
+  myStudyCourse, //我收藏的课程
+  myReadCollect,//我的收藏范文
+  myRead,//我的范文
+  myCourse,//我的课程
+  courseDetail,//课程详情
 }
 export default tangy
