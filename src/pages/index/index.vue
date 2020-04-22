@@ -13,7 +13,7 @@
         <div class="mine_info" @click="isWxLogin">
           <div class="user_img">
             <div class="message_num">8</div>
-            <img :src="userInfo.avatarUrl" style="width:100%;height:100%" alt srcset />
+            <img :src="userInfo.headImageUrl" style="width:100%;height:100%" alt srcset />
           </div>
           <div class="my">我的</div>
         </div>
@@ -289,7 +289,12 @@
       </div>
 
       <div class="young" v-if="reviewRecommendList&&reviewRecommendList.length">
-        <div class="yitem" v-for="item in reviewRecommendList" :key="item.reviewItemId" @click="gotoVoiceofchildrenDetail(item.reviewItemId)">
+        <div
+          class="yitem"
+          v-for="item in reviewRecommendList"
+          :key="item.reviewItemId"
+          @click="gotoVoiceofchildrenDetail(item.reviewItemId)"
+        >
           <img :src="item.imageUrl" alt />
         </div>
 
@@ -377,24 +382,11 @@ export default {
       groupList: [], //当前活动分组列表
       activityId: getActivityId(), //当前活动id
       currenttab: "", //当前组
-      imgUrls: [
-        {
-          imgUrl: "https://www.dummyimage.com/355x185",
-          jumpUrl: `/pages/index/activity/detail/main`
-        },
-        {
-          imgUrl: "https://www.dummyimage.com/355x185",
-          jumpUrl: `/pages/index/activity/detail/main`
-        },
-        {
-          imgUrl: "https://www.dummyimage.com/355x185",
-          jumpUrl: `/pages/index/activity/detail/main`
-        }
-      ],
       guide: true,
       guideStep: 1,
-      works:[],
-      bookList:[],
+      works: [],
+      bookList: [],
+      userId: getUserId()
     };
   },
   watch: {
@@ -424,23 +416,35 @@ export default {
   },
   computed: {},
   onShow() {
-    this.userInfo = getUserinfo();
-    if (this.userInfo) {
+    this.userId = getUserId();
+    if (this.userId) {
       this.getAttribute(); //年级
-    }
-    if (this.levelCode !== "" && this.levelCode !== "请选择") {
-      this.getEveryDayRead();
-      this.getActivityList();
-      this.getSysInfo();
-      this.courseRecommend();
-      this.reviewRecommend();
-      this.getArea();
-      this.getActivityArea();
-      this.getActivityRank();
-      this.getMessage();
+      this.getCurrentUserInfo();
+      if (this.levelCode !== "" && this.levelCode !== "请选择") {
+        this.getEveryDayRead();
+        this.getActivityList();
+        this.getSysInfo();
+        this.courseRecommend();
+        this.reviewRecommend();
+        this.getArea();
+        this.getActivityArea();
+        this.getActivityRank();
+        this.getMessage();
+      }
+    } else {
+      wx.navigateTo({
+        url: `/pages/shouquan/main`
+      });
     }
   },
   methods: {
+    getCurrentUserInfo() {
+      this.$api.tangy.userInfo().then(res => {
+        this.userInfo = res.result;
+        this.levelCode = res.result.levelCode;
+        console.log(res);
+      });
+    },
     nextStep() {
       this.guideStep = 2;
     },
@@ -487,7 +491,7 @@ export default {
       await this.$api.tangy.activityArea(params).then(res => {
         if (res.result && res.result.pageResults.length > 0) {
           this.activityId = res.result.pageResults[0].activityId;
-          setActivityId(this.activityId)
+          setActivityId(this.activityId);
           this.getActivityDetail();
           this.getActivityRank();
         } else {
@@ -591,16 +595,16 @@ export default {
       };
       await this.$api.tangy.activityList(params).then(res => {
         console.log("获取banner列表+++++++++++++++++");
-        this.works = res.result.works.map(res=>{
-          res.jumpUrl='/pages/index/activity/detail/main';
+        this.works = res.result.works.map(res => {
+          res.jumpUrl = "/pages/index/activity/detail/main";
           return res;
-        })
-        this.bookList = res.result.bannerList.map(res=>{
-          res.jumpUrl='/pages/index/activity/detail/main';
+        });
+        this.bookList = res.result.bannerList.map(res => {
+          res.jumpUrl = "/pages/index/activity/detail/main";
           return res;
-        })
+        });
         console.log(this.works);
-        
+
         console.log(this.bookList);
       });
     },
@@ -658,7 +662,7 @@ export default {
         url: `/pages/index/setUp/messageCenter/main`
       });
     },
-    gotoVoiceofchildrenDetail(id){
+    gotoVoiceofchildrenDetail(id) {
       wx.navigateTo({
         url: `/pages/index/voiceofchildrendetail/main?bookId=${id}`
       });

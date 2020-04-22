@@ -2,36 +2,19 @@
   <!--消息中心-->
   <div class="mesCont">
     <div style="width:100%;height:10px;background:#F7F7F7;"></div>
-    <div class="mesContent">
+
+    <div class="mesContent" v-for="(item, index) in messageList" :key="index" @click="gotoDetail(item)">
+      <div class="dian"></div>
       <div class="T1">
-        <p class="C1">关于在青少年中开展“新时代好少年”的主题教育读书活动</p>
-        <p class="C2">注重宣传发动。要进一步学习贯彻教育部关工委《关于在青少年中开展“新时代好少年”主题教育读书...</p>
+        <p class="C1">{{item.title}}</p>
+        <p class="C2">{{item.content}}</p>
         <div class="C3">
-          <p class="D1">11月22日 14:27</p>
+          <p class="D1">{{item.createTime}}</p>
           <p class="D2">查看详情</p>
         </div>
       </div>
     </div>
-    <div class="mesContent" style="margin-top:10px">
-      <div class="T1">
-        <p class="C1">关于在青少年中开展“新时代好少年”的主题教育读书活动</p>
-        <p class="C2">注重宣传发动。要进一步学习贯彻教育部关工委《关于在青少年中开展“新时代好少年”主题教育读书...</p>
-        <div class="C3">
-          <p class="D1">11月22日 14:27</p>
-          <p class="D2">查看详情</p>
-        </div>
-      </div>
-    </div>
-    <div class="mesContent" style="margin-top:10px">
-      <div class="T1">
-        <p class="C1">关于在青少年中开展“新时代好少年”的主题教育读书活动</p>
-        <p class="C2">注重宣传发动。要进一步学习贯彻教育部关工委《关于在青少年中开展“新时代好少年”主题教育读书...</p>
-        <div class="C3">
-          <p class="D1">11月22日 14:27</p>
-          <p class="D2">查看详情</p>
-        </div>
-      </div>
-    </div>
+
   </div>
 </template>
 
@@ -43,7 +26,9 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      messageList: []
+    };
   },
   onShow() {
     this.getMessage();
@@ -51,15 +36,17 @@ export default {
   created() {},
   methods: {
     getMessage() {
-      const userId = this.$store.getters.userId;
       const params = {
         currentPage: 1,
-        pageSize: 10,
-        userId
+        pageSize: 10000
       };
       this.$api.tangy.message(params).then(res => {
-        console.log("获取消息++++++++++++++++++++++++++++++++");
-        console.log(res);
+        this.messageList = res.result.pageResults;
+      });
+    },
+    gotoDetail(it){
+      wx.navigateTo({
+        url: `/pages/index/setUp/messageDetail/main?messageId=${it.messageId}`
       });
     }
   }
@@ -67,6 +54,15 @@ export default {
 </script>
 
 <style scoped>
+.dian {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: red;
+  left: 10px;
+  top: 10px;
+}
 .mesCont {
   width: 100%;
   height: 100vh;
@@ -79,12 +75,16 @@ export default {
   background: rgba(255, 255, 255, 1);
   box-shadow: 0px 0px 9px 2px rgba(33, 22, 19, 0.06);
   border-radius: 10px;
+  position: relative;
+  margin-bottom: 10px;
 }
+
 .T1 {
-  width: 89%;
+  width: 100%;
   margin: 0 auto;
 }
 .C1 {
+  padding: 0 20px;
   font-size: 15px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -93,6 +93,7 @@ export default {
   padding-top: 19px;
 }
 .C2 {
+  padding: 0 20px;
   font-size: 12px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -103,6 +104,7 @@ export default {
   border-bottom: 1px solid #eeeeee;
 }
 .C3 {
+  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -131,6 +131,17 @@ const message = (params) => {
   })
 }
 
+const messageDetail = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/user/v1/user/message/${params.messageId}`,
+    method: 'get',
+    params,
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/user/message/${params.messageId}`)
+    }
+  })
+}
+
 const notice = (params) => {
   return fetch({
     url: `${store.getters.baseurl}/user/v1/user/notice/${getUserId()}`,
@@ -176,11 +187,11 @@ const readContentDetail = (params) => {
 
 const userInfo = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/user/v1/userInfo/456061438071431168`,
+    url: `${store.getters.baseurl}/user/v1/userInfo/${getUserId()}`,
     method: 'get',
     params: params,
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/user/v1/userInfo/456061438071431168`)
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/userInfo/${getUserId()}`)
     }
   })
 }
@@ -329,6 +340,17 @@ const fans = (params) =>{
   })
 }
 
+
+const getIndexUserInfo = ()=>{
+  return fetch({
+    url: `${store.getters.baseurl}/user/v1/userInfo/home/${getUserId()}`,
+    method: 'get',
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/user/v1/userInfo/home/${getUserId()}`)
+    }
+  })
+}
+
 const tangy = {
   sendmobanmes, //推送模板消息
   everydayRead, //每日一读（首页）
@@ -359,5 +381,7 @@ const tangy = {
   reviewAct, //少年之声活动列表
   follow,//关注的用户
   fans,//粉丝用户
+  messageDetail,//消息详情
+  getIndexUserInfo,//获取首页用户信息
 }
 export default tangy

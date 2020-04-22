@@ -3,11 +3,11 @@
     <div class="informationContTop">
       <div class="avterCont">
         <div class="avterImg">
-          <img :src="user_info.avatarUrl" alt srcset />
+          <img :src="uinfo.headImageUrl" alt srcset />
         </div>
         <div class="informationCont">
-          <div class="infoname" @click="gopages(4)">{{user_info.nickName}}</div>
-          <p class="fans" @click="gopages(2)">关注 {{followNum}} &nbsp;&nbsp;&nbsp; 粉丝 {{fansNum}}</p>
+          <div class="infoname" @click="gopages(4)">{{uinfo.name}}</div>
+          <p class="fans" @click="gopages(2)">关注 {{uinfo.followNum}} &nbsp;&nbsp;&nbsp; 粉丝 {{uinfo.fansNum}}</p>
         </div>
         <p class="setInfo" @click="gopages(3)">设置</p>
       </div>
@@ -51,8 +51,7 @@ export default {
     return {
       user_info: "",
       historyList: [],
-      followNum:0,
-      fansNum:0,
+      uinfo:{},
     };
   },
   created() {
@@ -60,6 +59,7 @@ export default {
   },
   onShow() {
     this.getHistory();
+    this.getIndexUserInfo();
     this.followUser();
     this.fansUser();
     if (mpvuePlatform === "wx") {
@@ -102,26 +102,32 @@ export default {
           console.log(res);
         });
     },
-    followUser() {
-      const params = {
-        currentPage: 1,
-        pageSize: 1000000
-      };
-      this.$api.tangy.follow(params).then(res => {
-        this.followNum = res.totalCount;
-        
+    getIndexUserInfo() {
+      this.$api.tangy.getIndexUserInfo().then(res => {
+        this.uinfo = res.result
+        console.log(res);
       });
     },
-    fansUser() {
-      const params = {
-        currentPage: 1,
-        pageSize: 1000000
-      };
-      this.$api.tangy.fans(params).then(res => {
-        this.followNum = res.totalCount;
+    // followUser() {
+    //   const params = {
+    //     currentPage: 1,
+    //     pageSize: 1000000
+    //   };
+    //   this.$api.tangy.follow(params).then(res => {
+    //     this.followNum = res.totalCount;
         
-      });
-    },
+    //   });
+    // },
+    // fansUser() {
+    //   const params = {
+    //     currentPage: 1,
+    //     pageSize: 1000000
+    //   };
+    //   this.$api.tangy.fans(params).then(res => {
+    //     this.followNum = res.totalCount;
+        
+    //   });
+    // },
 
   }
 };
