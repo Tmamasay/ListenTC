@@ -4,7 +4,7 @@
       {{xz_value}}
       <span class="sjx"></span>
     </div>
-    <i-drawer mode="left" i-class="motai" :visible="isShow" :mask-closable="true">
+    <i-drawer mode="left" i-class="motai" :visible="isShow" :mask-closable="false">
       <view class="demo-container">
         <!-- 禁止单击遮罩关闭
         <i-button bind:click="toggleLeft2" type="primary">关闭</i-button>-->

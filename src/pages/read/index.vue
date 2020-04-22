@@ -269,6 +269,7 @@ export default {
   width: 100%;
   height: 40px;
   width: 376px;
+  padding: 0 10px;
   font-size: 15px;
   font-family: Microsoft YaHei;
   font-weight: 400;

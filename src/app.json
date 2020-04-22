@@ -1,23 +1,29 @@
 {
   "pages": [
     "pages/index/main",
+    "pages/index/activity/main",
     "pages/index/activity/detail/main",
-    "pages/index/setUp/personalData/main",
+    "pages/index/activity/essay/main",
+    "pages/index/activity/reading/main",
+    "pages/index/activity/speech/main",
     "pages/index/everydayread/main",
     "pages/index/setUp/changePhone/main",
-    "pages/index/activity/essay/main",
-    "pages/index/voiceofchildrendetail/main",
-    "pages/index/voiceofchildren/main",
+    "pages/index/setUp/follow/main",
+    "pages/index/setUp/messageCenter/main",
+    "pages/index/setUp/personalData/main",
     "pages/index/setUp/myCollection/main",
     "pages/index/setUp/myStudy/main",
-    "pages/index/setUp/messageCenter/main",
     "pages/index/setUp/settings/main",
-    "pages/index/setUp/follow/main",
-    "pages/index/activity/main",
-    "pages/read/main",
+    "pages/index/setUp/main",
+    "pages/index/voiceofchildren/main",
+    "pages/index/voiceofchildrendetail/main",
     "pages/mine/main",
     "pages/mine/about/main",
-    "pages/mine/phone/main"
+    "pages/mine/phone/main",
+    "pages/read/main",
+    "pages/read/catalog/main",
+    "pages/read/introduce/main",
+    "pages/shouquan/main"
   ],
   "permission": {
     "scope.userLocation": {
