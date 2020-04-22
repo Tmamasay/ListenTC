@@ -15,7 +15,9 @@
               <div class="swiper-item" @click="getEveryDayReadContent(item)">
                 <div class="read-content">
                   <div class="share-audio">
-                    <img class="share" src="../../../../static/images/index/inc-share.png" />
+                    <button open-type="share" class="shareBtn" @click.stop>
+                      <img class="share" src="../../../../static/images/index/inc-share.png" />
+                    </button>
                     <img
                       class="audio-play"
                       src="../../../../static/images/index/inc-audio.png"
@@ -138,6 +140,28 @@ export default {
     };
   },
   onLoad() {},
+  onShareAppMessage() {
+    var that = this;
+    return {
+      title: `每日一读`,
+      desc: `test`, // imageUrl:this.shareimg3,
+      path: `pages/index/main`, // 路径，传递参数到指定页面。
+      success: function(res) {
+        // 转发成功之后的回调
+        // that.sharekey = mpvue.getStorageSync('OtherToken')
+        //   ? mpvue.getStorageSync('OtherToken')
+        //   : mpvue.getStorageSync('Admin-Token')
+        //  debugger
+
+        wx.showToast({
+          title: "转发成功",
+          icon: "none",
+          duration: 1000
+        });
+        console.log("转发成功，触发回调");
+      }
+    };
+  },
   methods: {
     swiperChange() {
       this.front = true;
@@ -420,6 +444,15 @@ export default {
   width: 28px;
   display: flex;
   flex-direction: column;
+}
+.shareBtn {
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+button.shareBtn:after {
+  border: none;
 }
 .share {
   width: 16px;

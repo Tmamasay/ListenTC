@@ -6,8 +6,9 @@
     >
       <div class="user_operation">
         <!-- <div class="selt" v-if="gradeList&&gradeList.length>0"> -->
-        <div class="selt">
-          <seletline :gradeLists="gradeList" @getLevelCode="getLevelCode"></seletline>
+        <div class="selt" @click="powerDrawer" data-statu="open">
+          111
+          <!-- <seletline :gradeLists="gradeList" @getLevelCode="getLevelCode"></seletline> -->
         </div>
 
         <div class="mine_info" @click="isWxLogin">
@@ -322,7 +323,7 @@
         </ul>
       </div>
     </div>-->
-    <div v-if="guideStep == 1">
+    <div v-if="guideStep == 1 && guide">
       <div class="mask-step-1" v-if="guide"></div>
       <img class="grade-choose-arrow" src="../../../static/images/index/grade-choose-arrow.png" alt />
       <div class="guide-text-1">
@@ -341,6 +342,8 @@
       <div class="guide-text-2">点击这里进入个人中心</div>
       <div class="guide-btn-2" @click="complete">我知道了</div>
     </div>
+    <!-- <view class="btn" @click="powerDrawer" data-statu="open">button</view> -->
+    <animation-draw ref="animationDrawer" :showModalStatus="showModalStatus"></animation-draw>
   </div>
 </template>
 
@@ -349,6 +352,7 @@ import tangy from "@/api/tangy";
 import lunbo from "@/components/lunbo";
 import seletline from "@/components/select";
 import areaselect from "@/components/areaselect";
+import animationDraw from "@/components/animationDraw";
 import turb from "@/components/turb";
 import {
   getToken,
@@ -364,7 +368,8 @@ export default {
     lunbo, //轮播
     turb,
     seletline,
-    areaselect
+    areaselect,
+    animationDraw
   },
   data() {
     return {
@@ -382,11 +387,14 @@ export default {
       groupList: [], //当前活动分组列表
       activityId: getActivityId(), //当前活动id
       currenttab: "", //当前组
-      guide: true,
+      guide: false,
       guideStep: 1,
       works: [],
       bookList: [],
-      userId: getUserId()
+      userId: getUserId(),
+      showModalStatus: false,
+      animation:{},
+      animationData:{}
     };
   },
   watch: {
@@ -438,6 +446,10 @@ export default {
     }
   },
   methods: {
+    powerDrawer(e) {
+      console.log(11);
+      this.$refs.animationDrawer.powerDrawer(e);
+    },
     getCurrentUserInfo() {
       this.$api.tangy.userInfo().then(res => {
         this.userInfo = res.result;
@@ -672,6 +684,17 @@ export default {
 </script>
 
 <style scoped>
+/*button*/
+.btn {
+  width: 80%;
+  padding: 20rpx 0;
+  border-radius: 10rpx;
+  text-align: center;
+  margin: 40rpx 10%;
+  background: #0c1939;
+  color: #fff;
+}
+
 .mask-step-1 {
   height: 70px;
   width: 70px;
