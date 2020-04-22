@@ -2,7 +2,7 @@
   <!--个人资料'personalData'-->
   <div class="personalCont" v-if="name">
     <div class="personalLine">
-      <div class="personalLineA">
+      <div class="personalLineA" @click="chooseImage">
         <p>更改头像</p>
         <div class="avterImg">
           <img :src="image" alt srcset />
@@ -45,6 +45,7 @@
           <picker mode="region" @change="bindRegionChange2"  >
           <!-- <text v-if="addressCity">{{addressCity[0]}} > {{addressCity[1]}} > {{addressCity[2]}}</text>
           <text v-else class='placeholder'>请选择地区</text> -->
+          {{locationName}}
           <i-icon type="enter" size="15" color="#BBB8B9" />
         </picker> 
          
@@ -52,7 +53,6 @@
       </div>
     </div>
     <p class="keepForm" @click="saveUserInfo">保存</p>
-    <p>{{birthday}}</p>
 
     <i-action-sheet
       :visible="genderType"
@@ -65,7 +65,7 @@
 
 <script>
 // import footbutt from '@/components/footbut.vue'
-import { getUserinfo, getUserId } from "@/utils/auth";
+import { getUserinfo, getUserId ,getLevelCode} from "@/utils/auth";
 export default {
   components: {
     // footbutt
@@ -73,6 +73,7 @@ export default {
 
   data() {
     return {
+      upLoad:{},
       date: "",
       genderType: false,
       actions1: [
@@ -90,6 +91,7 @@ export default {
         birthday: "",
         levelCode: "",
         locationId: "",
+        locationName: "",
         image: "",
       areaRange: [],
       region: ["广东省", "广州市", "海珠区"],
@@ -100,9 +102,31 @@ export default {
     // this.getLocation()
     this.getUserInfo();
     this.getArea();
+    this.levelCode=getLevelCode()
   },
   created() {},
   methods: {
+    //099999999=========
+    chooseImage() {
+var that = this;
+wx.chooseImage({
+count: 1, // 默认9
+sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+success: function (res) {
+
+// 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+
+var tempFilePaths = res.tempFilePaths;
+
+console.log(tempFilePaths[0]);
+this.image=tempFilePaths[0]
+}
+
+})
+
+},
+    ///---------------------
     openGender() {
       this.genderType = true;
     },
@@ -110,7 +134,13 @@ export default {
       this.genderType = false;
     },
     saveGender(e) {
-      console.log(e);
+      console.log(e.mp.detail.index);
+      if(e.mp.detail.index){
+        this.gender="女"
+      }else{
+        this.gender="男"
+      }
+      this.genderType=false
     },
     getArea() {
       this.$api.tangy.getAreaJson().then(res => {
@@ -122,8 +152,10 @@ export default {
       console.log(e);
     },
     bindRegionChange2(e) {
-      this.userInfo.locationId=+e.mp.detail.code[2]
+      this.locationId=+e.mp.detail.code[2]
+      this.locationName=`${e.mp.detail.value[0]}-${e.mp.detail.value[1]}-${e.mp.detail.value[2]}`
       console.log(e);
+      console.log(this.locationId);
     },
     getLocation() {
       wx.getLocation({
@@ -157,19 +189,27 @@ export default {
         });
     },
     async saveUserInfo() {
+      const options={
+        name: this.name,
+        gender: this.gender,
+        birthday: this.birthday,
+        levelCode: getLevelCode(),
+        locationId: this.locationId,
+        image: this.image
+      }
       await this.$api.tangy
-        .saveUserInfo({
-          userId: this.$store.getters.userId
-        })
+        .saveUserInfo(options)
         .then(res => {
           console.log(res);
         });
     },
     bindDateChange(e) {
-      const a=e.mp.target.value
-    
-      this.birthday = a;
-        console.log(this.birthday)
+      const a=Object.assign({},e.mp.detail)  
+        console.log(e)
+        console.log(e.mp.detail.value)
+        console.log(a)
+      this.birthday = a.value;
+       
     }
   }
 };
