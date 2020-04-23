@@ -1,22 +1,30 @@
-import  chengx from '@/api/chengx'
-import { getToken,setUserId, setToken, removeToken,setUserinfo,setAppToken } from '@/utils/auth'
+import chengx from '@/api/chengx'
+import tangy from '@/api/tangy'
+import {
+  getToken,
+  setUserId,
+  setToken,
+  setLevelCode,
+  setUserinfo,
+  setLevelName
+} from '@/utils/auth'
 // import {transformRequest} from '@/utils'
 import qs from 'qs';
 
 const user = {
   state: {
-    userinfo:'',
+    userinfo: '',
     status: '',
-    userId:'',
+    userId: '',
     code: '',
-    levelCode:'',
+    levelCode: '',
     token: getToken(),
-    power:'',//判断是否有权限进入名片 0未绑定员工 1绑定员工	
-    card_id:0,//临时存取客户关联的名片id 
-    baseurl:'http://test.sdb.new-class.cn',//调试地址
+    power: '', //判断是否有权限进入名片 0未绑定员工 1绑定员工	
+    card_id: 0, //临时存取客户关联的名片id 
+    baseurl: 'http://test.sdb.new-class.cn', //调试地址
     // baseurl:'http://192.168.5.205:8123',//线上地址
-    mblists:[],//存放模板id
-    isPlayMusicId:''//是否有正在播放的歌曲
+    mblists: [], //存放模板id
+    isPlayMusicId: '' //是否有正在播放的歌曲
     // baseurl:'http://bqa2nc.natappfree.cc/',
     // token:'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsInN1YiI6IjI2MTQ4IiwiYXVkIjoidXNlciIsImV4cCI6MTU1MjI3MjQ4MCwibmJmIjoxNTUxNjY3NjgwLCJpYXQiOjE1NTE2Njc2ODAsImp0aSI6IjEzMWM0MzgyLTM4ZTItNDI3Zi04OGFjLWQ1OTU1ODY5MjFjNCJ9.xe4mmHs34GLC3CCUjegk_kZL29egq4xj5hwn5iHEhLw',
     // name: '',
@@ -33,11 +41,11 @@ const user = {
     SET_MUSICID: (state, isPlayMusicId) => { //保存当前播放id
       state.isPlayMusicId = isPlayMusicId
     },
-    SET_POWER: (state, type) => {//用户是否绑定员工
+    SET_POWER: (state, type) => { //用户是否绑定员工
       state.power = type
     },
-    SET_FORMID:(state, data) => {//存放模板id
-      state.mblists.push(data) 
+    SET_FORMID: (state, data) => { //存放模板id
+      state.mblists.push(data)
     },
     SET_INTRODUCTION: (state, introduction) => {
       state.introduction = introduction
@@ -71,69 +79,88 @@ const user = {
 
   actions: {
     //存起播放id
-    putMusicId({commit},id){
+    putMusicId({
+      commit
+    }, id) {
       commit('SET_MUSICID', id);
     },
     //存取临时的id
-    putCardId({commit},id){
+    putCardId({
+      commit
+    }, id) {
       commit('SET_ID', id);
     },
     //存放模板id
-    putMoBanId({commit},data){
+    putMoBanId({
+      commit
+    }, data) {
       commit('SET_FORMID', data);
     },
 
     // 用户名登录，获取token
-    LoginByWX({ commit },options) {
+    LoginByWX({
+      commit
+    }, options) {
       // 
       return new Promise((resolve, reject) => {
-              chengx.getToken(options).then((res) => {
-                console.log(res);
-								if(+res.code === 200) {
-                  //保存token
-                  const data = res.result
-									console.log('新用户保存token和用户类型')
-                  commit('SET_TOKEN', data.accessToken);//保存token
-                  commit('SET_USER_ID', data.userId);//保存用户id
-                  setToken(data.accessToken)//保存token到本地缓存
-                  setUserId(data.userId) //保存用户id到本地缓存
-                  resolve()
-								}
-							}).catch((error)=>{
-                reject(error)
-              });		
+        chengx.getToken(options).then((res) => {
+          console.log(res);
+          if (+res.code === 200) {
+            const data = res.result
+            //保存token
+            console.log('新用户保存token和用户类型')
+            commit('SET_TOKEN', data.accessToken); //保存toke
+            commit('SET_USER_ID', data.userId); //保存用户id
+            setToken(data.accessToken) //保存token到本地缓存
+            setUserId(data.userId) //保存用户id到本地缓存
+            tangy.userInfo({
+                userId: data.userId
+              })
+              .then((rit) => {
+                if (+res.code === 200) {
+                  setLevelCode(rit.result.levelCode);
+                  setLevelName(rit.result.levelName);
+                }
+              });
+            resolve()
+          }
+        }).catch((error) => {
+          reject(error)
+        });
       })
     },
 
     // 获取用户信息
-    SetUserMes({ commit },e) {
-      return new Promise((resolve, reject) => { 
+    SetUserMes({
+      commit
+    }, e) {
+      return new Promise((resolve, reject) => {
         //提交用户信息到服务器
         // 
         user_api.upUserInfo(e.target.userInfo).then(res => {
-          console.log(res);
-          if (+res.code === 1) {
-            console.log('存取用户信息====>到本地缓存')
-            setUserinfo(e);
-            resolve()
-          } else {
+            console.log(res);
+            if (+res.code === 1) {
+              console.log('存取用户信息====>到本地缓存')
+              setUserinfo(e);
+              resolve()
+            } else {
+              wx.showToast({
+                title: res.message,
+                icon: "none",
+                duration: 1000
+              });
+            }
+          })
+          .catch(error => {
             wx.showToast({
-              title: res.message,
+              title: "网络异常",
               icon: "none",
               duration: 1000
             });
-          }
-        })
-        .catch(error => {
-          wx.showToast({
-            title: "网络异常",
-            icon: "none",
-            duration: 1000
+            reject(error)
           });
-          reject(error)
-        });
       })
-      
+
     },
   }
 }

@@ -5,7 +5,7 @@
         <p class="leftBook"></p>
         <p class="leftBookName">读本</p>
       </div>
-      <div class="bookCont" @click="gopages(readBookCont[0].bookId)" >
+      <div class="bookCont" @click="gopages(readBookCont[0].bookId)">
         <div class="bookImg">
           <img :src="readBookCont[0].coverImageUrl" alt srcset />
         </div>
@@ -34,20 +34,30 @@
       </div>
       <div class="tabCont">
         <i-tabs :current="tabKey" @change="handleChange" i-class="detailTabs" :scroll="true">
-          <i-tab :key="item.gradeId" :title="item.name" v-for="item in classList" ></i-tab>
+          <i-tab
+            i-class="detailtab"
+            :key="item.categoryId"
+            :title="item.name"
+            v-for="item in classList"
+          ></i-tab>
           <!-- <i-tab key="tab2" title="3~4年级"></i-tab>
           <i-tab key="tab3" title="4~6年级"></i-tab>
-          <i-tab key="tab4" title="7~9年级"></i-tab> -->
+          <i-tab key="tab4" title="7~9年级"></i-tab>-->
         </i-tabs>
       </div>
       <div class="bookListCont">
         <!-- <div class="showBookList"> -->
-          <div class="bookLine" v-for="item in readContent" :key="item.bookId" @click="goKbenpages(item.bookId)" >
-            <img :src="item.coverImageUrl" alt="" srcset="">
-          </div>
+        <div
+          class="bookLine"
+          v-for="item in readContent"
+          :key="item.bookId"
+          @click="goKbenpages(item.bookId)"
+        >
+          <img :src="item.coverImageUrl" alt srcset />
+        </div>
         <!-- </div> -->
         <!-- <div class="shaowBook"></div>
-        <div class="shaowBookTai"></div> -->
+        <div class="shaowBookTai"></div>-->
       </div>
     </div>
     <!-- <search></search>
@@ -64,11 +74,9 @@
 </template>
  
 <script>
-
 import { getLevelCode } from "@/utils/auth";
 export default {
-  components: {
-  },
+  components: {},
 
   data() {
     return {
@@ -76,8 +84,8 @@ export default {
       readContent: [], //教材容器
       zixuList: [], //资讯列表
       current_scroll: "",
-      classList:[],//年级列表
-      tabKey:'7953946'
+      classList: [], //年级列表
+      tabKey: ""
     };
   },
   watch: {
@@ -105,7 +113,7 @@ export default {
     //   console.log(oldval);
     // }
   },
-   onShow() {
+  onShow() {
     this.getReadBook(40080000);
     this.getReadBook(40090000);
     this.getClazz(); //年级
@@ -113,46 +121,47 @@ export default {
     // wx.hideTabBar();
   },
   methods: {
-    handleChange(detail){
-      console.log(detail.mp.detail.key)
-      this.tabKey=detail.mp.detail.key
-      // 
+    handleChange(detail) {
+      console.log(detail.mp.detail.key);
+      this.tabKey = detail.mp.detail.key;
+      this.getReadBook(40090000);
+      //
     },
-  
+
     //s书屋读本
-    async getReadBook(categoryId){
+    async getReadBook(categoryId) {
       const params = {
-        currentPage:1,
-        pageSize:10,
-        levelCode:getLevelCode(),
-        categoryId:categoryId,  //40080000 是读本  40090000教材
-      }
-     await this.$api.tangy.readBook(params).then(res=>{
+        currentPage: 1,
+        pageSize: 10,
+        levelCode: getLevelCode(),
+        categoryId: categoryId //40080000 是读本  40090000教材
+      };
+      await this.$api.tangy.readBook(params).then(res => {
         console.log("s书屋读本++++++++++++++++++++++++++++++++");
         console.log(res);
-        if(categoryId==40080000){ //读本 
-          this.readBookCont=res.result.pageResults
-        }else if(categoryId==40090000){
-          this.readContent=res.result.pageResults
+        if (categoryId == 40080000) {
+          //读本
+          this.readBookCont = res.result.pageResults;
+        } else if (categoryId == 40090000) {
+          this.readContent = res.result.pageResults;
         }
-        
-        
-      })
+      });
     },
-    gopages(id){
+    gopages(id) {
       wx.navigateTo({
-            url: `/pages/read/catalog/main?readId=${id}`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
-            })
+        url: `/pages/read/catalog/main?readId=${id}` //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+      });
     },
-    goKbenpages(id){
-         wx.navigateTo({
-            url: `/pages/read/catalog/main?bookId=${id}`,   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
-            })
+    goKbenpages(id) {
+      wx.navigateTo({
+        url: `/pages/read/catalog/main?bookId=${id}` //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+      });
     },
     //年级
-     async getClazz() {
-      await this.$api.chengx.getClazz().then(res => {
+    async getClazz() {
+      await this.$api.tangy.readBookType().then(res => {
         this.classList = res.result || [];
+        this.tabKey = this.classList[0].categoryId;
       });
     },
     //切换资讯分类
@@ -189,7 +198,7 @@ export default {
         showCount: 5,
         id: id
       };
-      // 
+      //
       that.$api.user
         .getAllInfoListById(_params)
         .then(res => {
@@ -209,10 +218,9 @@ export default {
     }
   },
   onHide() {},
-  onLoad() {
-  },
+  onLoad() {},
   onUnload() {},
- 
+
   created() {}
 };
 </script>
@@ -310,7 +318,7 @@ export default {
   width: 100%;
   height: 39px;
   line-height: 39px;
-  width: 219px;
+  padding: 0 10px;
   font-size: 15px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -322,7 +330,7 @@ export default {
   margin: 0 auto;
   background: rgba(255, 255, 255, 1);
 }
-.bookListCont{
+.bookListCont {
   width: 95%;
   margin: 0 auto;
   display: flex;
@@ -334,7 +342,6 @@ export default {
   margin: 0 auto;
   display: flex;
   justify-content: space-around;
-  
 }
 .bookLine {
   width: 44%;
@@ -345,7 +352,7 @@ export default {
   margin-bottom: -4px;
   z-index: 900;
 }
-.bookLine  img{
+.bookLine img {
   width: 100%;
   height: 100%;
 }
@@ -365,7 +372,13 @@ export default {
   background: rgba(254, 254, 254, 1);
   box-shadow: 0px 0px 6px 0px rgba(33, 22, 19, 0.15);
 }
+.detailTabs {
+  margin: 0 10px;
+}
 
+.detailtab {
+  width: 80px !important;
+}
 /* .read_contain{
    width:92%;
    margin: 35px auto 0px auto;

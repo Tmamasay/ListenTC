@@ -8,13 +8,13 @@
       <!--drawer content-->
       <div class="drawer_content">
         <div class="current-area">
-          当前专区:
+          当前{{showName}}:
           <span class="selected-area">{{activeArea}}</span>
         </div>
-        <div class="area-tags">
+        <div :class="['area-tags',{'allline':aLineWidth}]">
           <div
-            v-for="(item,idx) in areaList"
-            :key="idx"
+            v-for="item in list"
+            :key="item.value"
             class="tags-btn"
             :class="{'active-area': activeArea == item.name}"
             @click="changeArea(item)"
@@ -27,20 +27,12 @@
 
 <script>
 export default {
-  props: ["showModalStatus"],
+  props: ["showModalStatus", "list", "showName", "aLineWidth"],
   data() {
     return {
       animation: {},
       animationData: {},
-      areaList: [
-        { name: "全部" },
-        { name: "重庆" },
-        { name: "四川" },
-        { name: "北京" },
-        { name: "天津" },
-        { name: "上海" }
-      ],
-      activeArea: "所有专区"
+      activeArea: `请选择`
     };
   },
   mounted() {},
@@ -48,6 +40,7 @@ export default {
   methods: {
     changeArea(item) {
       this.activeArea = item.name;
+      this.$emit("getValue", item);
     },
     powerDrawer(e) {
       var currentStatu = e.currentTarget.dataset.statu;
@@ -125,9 +118,9 @@ export default {
   background: #fff;
 }
 .drawer_content {
-  padding: 10px 20px;
-  height: 184px;
+  padding: 20px 10px;
   overflow-y: scroll;
+  box-sizing: border-box;
 }
 .current-area {
   height: 40px;
@@ -140,7 +133,12 @@ export default {
 }
 .area-tags {
   display: grid;
-  grid-template-columns: repeat(4, 81px);
+  grid-template-columns: repeat(4, 22.5%);
+  grid-gap: 10px;
+}
+.area-tags.allline{
+  display: grid;
+  grid-template-columns: repeat(1, 100%);
   grid-gap: 10px;
 }
 .tags-btn {

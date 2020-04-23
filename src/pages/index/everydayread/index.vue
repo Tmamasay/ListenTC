@@ -195,7 +195,10 @@ export default {
         limit: 10
       };
       this.$api.tangy.everydayRead(params).then(res => {
-        this.poetry = res.result;
+        this.poetry = res.result.map(m => {
+          m.content = m.content.replace(/\n/g, "<br>");
+          return m;
+        });
       });
     },
     //每日一读完整内容
@@ -490,6 +493,8 @@ button.shareBtn:after {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-right: 20px;
+  box-sizing: border-box;
 }
 .poetry {
   writing-mode: vertical-rl;

@@ -16,7 +16,7 @@
           <!-- <navigator :url="'../../'+item.jumpUrl" open-type="navigate"> -->
           <!-- <navigator url='../../pages/index/chaihb/main' open-type="navigate"> -->
           <!-- <navigator > -->
-          <image :src="item.userHeadImg" :style="{height:height+'px'}" @click="navjumps(item)" />
+          <image :src="item.imageUrl" :style="{height:height+'px'}" @click="navjumps(item)" />
           <!-- </navigator> -->
         </swiper-item>
       </block>
@@ -37,10 +37,15 @@ export default {
   onLoad() {},
   methods: {
     navjumps(it) {
-      setActivityId(it.activityId);
-      wx.navigateTo({
-        url: it.jumpUrl
-      });
+      if (it.type === 205) {
+        wx.navigateTo({
+          url: `/pages/read/catalog/main?bookId=${it.params}`
+        });
+      } else {
+        wx.navigateTo({
+          url: `/pages/index/goOut/main?outUrl=${it.params}&title=${it.title}`
+        });
+      }
     }
   }
 };

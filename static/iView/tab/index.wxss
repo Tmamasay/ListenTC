@@ -37,5 +37,5 @@
 
 .i-tabs-tab-scroll {
     display: inline-block;
-    width: 70px
+    width: 80px
 }

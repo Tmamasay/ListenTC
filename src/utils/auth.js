@@ -10,6 +10,7 @@ const musicList = 'musicList' //music信息
 const sysType = 'sysType' //手机类型
 const actCode = 'actCode' //活动code
 const activityId = 'activityId' //当前活动id
+const levelName = 'levelName' //身份名称
 
 //存取token到本地--->本地缓存
 export function getToken() {
@@ -96,7 +97,17 @@ export function setLevelCode(code) {
     return this.setstorage(levelCode, code)
   }
 }
+export function getLevelName() {
+  return wx.getStorageSync(levelName)
+}
 
+export function setLevelName(name) {
+  try {
+    return wx.setStorageSync(levelName, name)
+  } catch (e) {
+    return this.setstorage(levelName, name)
+  }
+}
 export function removeLevelCode() {
   return wx.removeStorageSync(levelCode)
 }

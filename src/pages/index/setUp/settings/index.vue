@@ -5,7 +5,7 @@
       <div class="setLine" @click="gopages(2)">
         <p class="setL">绑定手机</p>
         <div class="setRGo">
-          <p class="setR">18883630318</p>
+          <p class="setR"></p>
           <i-icon type="enter" size="17" color="#BBB8B9" />
         </div>
       </div>

@@ -10,13 +10,6 @@ import {
 } from '@/utils'
 import store from '@/store/index';
 import qs from 'qs';
-const sendmobanmes = params => {
-  return fetch({
-    url: `${store.getters.baseurl}/api/v1/form/sendFormIds`,
-    method: 'post',
-    data: params,
-  })
-}
 
 
 const activityList = (params) => {
@@ -103,7 +96,7 @@ const activityArea = (params) => {
   return fetch({
     url: `${store.getters.baseurl}/activity/v1/activity/area`,
     method: 'post',
-    params: params,
+    params: qs.stringify(params),
     headers: {
       'access': ShaAccess(`${store.getters.baseurl}/activity/v1/activity/area`)
     }
@@ -163,6 +156,19 @@ const readBook = (params) => {
     }
   })
 }
+
+const readBookType = (params) => {
+  return fetch({
+    url: `${store.getters.baseurl}/read/v2/book/category/${getLevelCode()}`,
+    method: 'get',
+    params,
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/read/v2/book/category/${getLevelCode()}`)
+    }
+  })
+}
+
+
 const readBookDetail = (params) => {
   return fetch({
     url: `${store.getters.baseurl}/read/v2/book/detail/${params.bookId}`,
@@ -189,7 +195,7 @@ const userInfo = (params) => {
   return fetch({
     url: `${store.getters.baseurl}/user/v1/userInfo/${getUserId()}`,
     method: 'get',
-    params: params,
+    params,
     headers: {
       'access': ShaAccess(`${store.getters.baseurl}/user/v1/userInfo/${getUserId()}`)
     }
@@ -199,7 +205,7 @@ const saveUserInfo = (params) => {
   return fetch({
     url: `${store.getters.baseurl}/user/v1/user/info/${getUserId()}`,
     method: 'post',
-    data: params,
+    data: qs.stringify(params),
     headers: {
       'access': ShaAccess(`${store.getters.baseurl}/user/v1/user/info/${getUserId()}`)
     }
@@ -255,7 +261,7 @@ const getHistory = (params) => {
 
 const getAreaJson = () => {
   return fetch({
-    url: `http://192.168.5.205:8124/json/province.json`,
+    url: `http://px.sdb.new-class.cn/location/province.json`,
     method: 'get',
   })
 }
@@ -357,11 +363,21 @@ const peopleActDetail = (params) => {
 
 const reviewAct = (params) => {
   return fetch({
-    url: `${store.getters.baseurl}/activity/v1/review/${getActCode()}`,
+    url: `${store.getters.baseurl}/activity/v1/review/${params.reviewId}`,
     method: 'post',
     data: qs.stringify(params),
     headers: {
-      'access': ShaAccess(`${store.getters.baseurl}/activity/v1/review/${getActCode()}`)
+      'access': ShaAccess(`${store.getters.baseurl}/activity/v1/review/${params.reviewId}`)
+    }
+  })
+}
+
+const actList = () => {
+  return fetch({
+    url: `${store.getters.baseurl}/activity/v1/review`,
+    method: 'get',
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/activity/v1/review`)
     }
   })
 }
@@ -399,9 +415,17 @@ const getIndexUserInfo = ()=>{
     }
   })
 }
+const getIndexBanner = (params)=>{
+  return fetch({
+    url: `${store.getters.baseurl}/general/v1/banner/index/${getLevelCode()}`,
+    method: 'get',
+    headers: {
+      'access': ShaAccess(`${store.getters.baseurl}/general/v1/banner/index/${getLevelCode()}`)
+    }
+  })
+}
 
 const tangy = {
-  sendmobanmes, //推送模板消息
   everydayRead, //每日一读（首页）
   everydayReadContent,// 每日一读完整内容
   activityList, //活动列表（首页）
@@ -412,6 +436,7 @@ const tangy = {
   message, //消息接口
   notice,
   readBook, //书屋读本
+  readBookType,//读本分类
   readBookDetail, //读本详情
   readContentDetail, //书屋教材详情
   courseRecommend, //首页推荐课程
@@ -436,5 +461,7 @@ const tangy = {
   myRead,//我的范文
   myCourse,//我的课程
   courseDetail,//课程详情
+  actList,//活动列表
+  getIndexBanner,//首页banner
 }
 export default tangy

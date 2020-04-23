@@ -5,10 +5,11 @@
       style="background-image: url(../../../../../static/images/index/bg_top.png)"
     >
       <div class="user_operation">
-        <div class="selt" v-if="gradeList&&gradeList.length>0">
-        <!-- <div class="selt" @click="powerDrawer" data-statu="open">
-          111 -->
-          <seletline :gradeLists="gradeList" @getLevelCode="getLevelCode"></seletline>
+        <!-- <div class="selt" v-if="gradeList&&gradeList.length>0"> -->
+        <div class="selt" @click="powerDrawer" data-statu="open">
+          {{levelCodeName}}
+          <span class="sjx"></span>
+          <!-- <seletline :gradeLists="gradeList" @getLevelCode="getLevelCode"></seletline> -->
         </div>
 
         <div class="mine_info" @click="isWxLogin">
@@ -117,8 +118,9 @@
 
       <div class="flexbox">
         <div class="area">
-          <div class="selt" v-if="areaList&&areaList.length>0">
-            <areaselect :areaLists="areaList" @getActCode="getActCode"></areaselect>
+          <div class="selt" @click="powerDrawer2" data-statu="open">
+            {{areaName}}
+            <span class="sjx"></span>
           </div>
         </div>
         <!-- <div class="tab">
@@ -313,16 +315,6 @@
       </div>
     </div>
 
-    <!-- <div class="cover">
-      <div class="leftbox">
-        <ul>
-          <li>全部</li>
-          <li>重庆</li>
-          <li>四川</li>
-          <li>全部</li>
-        </ul>
-      </div>
-    </div>-->
     <div v-if="guideStep == 1 && guide">
       <div class="mask-step-1" v-if="guide"></div>
       <img class="grade-choose-arrow" src="../../../static/images/index/grade-choose-arrow.png" alt />
@@ -342,8 +334,20 @@
       <div class="guide-text-2">点击这里进入个人中心</div>
       <div class="guide-btn-2" @click="complete">我知道了</div>
     </div>
-    <!-- <view class="btn" @click="powerDrawer" data-statu="open">button</view> -->
-    <animation-draw ref="animationDrawer" :showModalStatus="showModalStatus"></animation-draw>
+    <animation-draw
+      ref="animationDrawer"
+      :showName="'年级'"
+      @getValue="getLevelCodeValue"
+      :list="gradeList"
+      :showModalStatus="showModalStatus"
+    ></animation-draw>
+    <animation-draw
+      ref="animationDrawer2"
+      :showName="'专区'"
+      @getValue="getRankValue"
+      :list="areaList"
+      :showModalStatus="showRankModal"
+    ></animation-draw>
   </div>
 </template>
 
@@ -360,8 +364,11 @@ import {
   getUserId,
   getLevelCode,
   getActCode,
+  setActCode,
   setActivityId,
-  getActivityId
+  getActivityId,
+  setLevelCode,
+  getLevelName
 } from "@/utils/auth";
 export default {
   components: {
@@ -374,6 +381,7 @@ export default {
   data() {
     return {
       levelCode: getLevelCode() || "", //年级
+      levelCodeName: getLevelName() || "请选择",
       everydayReadCont: null, //每日一读容器
       activityRankCont: [], //排行榜
       bannerActivityList: null, //banner图容器
@@ -393,8 +401,10 @@ export default {
       bookList: [],
       userId: getUserId(),
       showModalStatus: false,
-      animation:{},
-      animationData:{}
+      showRankModal: false,
+      animation: {},
+      animationData: {},
+      areaName: "请选择"
     };
   },
   watch: {
@@ -409,6 +419,7 @@ export default {
         this.getActivityArea();
         this.getActivityRank();
         this.getMessage();
+        this.getIndexBanner();
       }
     },
     actCode: function(nv, ov) {
@@ -424,6 +435,10 @@ export default {
   },
   computed: {},
   onShow() {
+    this.levelCodeName = getLevelName();
+    debugger;
+    console.log(this.levelCodeName);
+
     this.userId = getUserId();
     if (this.userId) {
       this.getAttribute(); //年级
@@ -438,6 +453,7 @@ export default {
         this.getActivityArea();
         this.getActivityRank();
         this.getMessage();
+        this.getIndexBanner();
       }
     } else {
       wx.navigateTo({
@@ -446,9 +462,22 @@ export default {
     }
   },
   methods: {
+    getIndexBanner() {
+      this.$api.tangy.getIndexBanner().then(res => {
+        this.works = res.result;
+      });
+    },
+    getRankValue(e) {
+      this.areaName = e.name;
+      this.actCode = e.areaId;
+      setActCode(e.areaId);
+      this.getActivityArea();
+    },
     powerDrawer(e) {
-      console.log(11);
       this.$refs.animationDrawer.powerDrawer(e);
+    },
+    powerDrawer2(e) {
+      this.$refs.animationDrawer2.powerDrawer(e);
     },
     getCurrentUserInfo() {
       this.$api.tangy.userInfo().then(res => {
@@ -466,11 +495,10 @@ export default {
     closelevelCode() {
       this.showlevelCode = false;
     },
-    getLevelCode() {
-      this.levelCode = getLevelCode();
-    },
-    getActCode() {
-      this.actCode = getActCode();
+    getLevelCodeValue(e) {
+      this.levelCode = e.value;
+      this.levelCodeName = e.name;
+      setLevelCode(e.value);
     },
     async getAttribute() {
       await this.$api.tangy.getAttribute().then(res => {
@@ -606,18 +634,10 @@ export default {
         lat: "123"
       };
       await this.$api.tangy.activityList(params).then(res => {
-        console.log("获取banner列表+++++++++++++++++");
-        this.works = res.result.works.map(res => {
-          res.jumpUrl = "/pages/index/activity/detail/main";
-          return res;
-        });
         this.bookList = res.result.bannerList.map(res => {
           res.jumpUrl = "/pages/index/activity/detail/main";
           return res;
         });
-        console.log(this.works);
-
-        console.log(this.bookList);
       });
     },
     isWxLogin() {
@@ -971,6 +991,16 @@ export default {
   line-height: 20px;
   font-weight: 400;
   color: rgba(34, 34, 34, 1);
+}
+.sjx {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 10rpx solid transparent;
+  border-right: 10rpx solid transparent;
+  border-top: 10rpx solid #000;
+  margin-left: 10rpx;
+  vertical-align: middle;
 }
 .user_info {
   padding-left: 14px;
